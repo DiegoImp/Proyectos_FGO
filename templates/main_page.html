@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang = "es">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <title>F/GO Servants Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <header>
+        <h1>Servants</h1>
+
+    </header>
+    <main>
+        <h2>Servants</h2>
+        <div class="servants_grid">
+            {% for servant in servants_main_page %}
+                    <div class="servant_card">
+                        <img
+                            src="{{ servant.face }}"
+                            alt=" Icono de {{ servant.name }}"
+                            class="face_main">
+                        <div class="see_details_servant">
+                            <h3>{{ servant.name }}</h3>
+                            <a href="/servant/{{ servant.collectionNo }}" class="details_link">
+                                <button id="see-servant-details-button" class="details_button">Ver Detalles</button>
+                            </a>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>
