@@ -1,5 +1,3 @@
-
-
 body {
     background-color: #1a1a2e;
     color: #eaeaea;
@@ -28,7 +26,30 @@ h2{
     margin-top: 20px;
     margin-bottom: 20px;
 }
-
+#sidebar{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 95%;
+    background-color: #36332c88;
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    transform: translateX(100%);
+    transition: transform 0.5s ease-in-out;
+}
+#sidebar.sidebar-visible {
+    transform: translateX(0); /* La regresa a su lugar original */
+}
+h4{
+    font-size: large;
+    font-weight: bold;
+    color: #f7b731;
+    align-items: center;
+}
 .search_bar {
     display: flex; /* ¡La clave! Pone los elementos en línea */
     flex-direction: row; /* Alinea los elementos en fila */
@@ -52,6 +73,28 @@ h2{
     outline: none; /* Quitamos el borde feo por defecto */
     border-color: #f7b731; /* Borde dorado al seleccionar */
     box-shadow: 0 0 8px #f7b731; /* Sombra dorada para que brille */ 
+}
+#button-filter{
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Espacio entre el icono y el texto */
+    padding: 12px 20px; /* Ajustado para el nuevo layout */
+    background-color: #f7b731; /* El dorado que usamos */
+    color: #1a1a2e;           /* El azul oscuro del fondo */
+    font-size: medium;
+    font-weight: 550;       /* Letra en negrita */
+    border-radius: 20px;      /* Bordes redondeados */
+    border: none; /* No necesitamos borde con flex */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+#button-filter:hover {
+    transform: (1.1);
+    background-color: #ffde8a; /* Un dorado más claro */
+    color: #1a1a2e;
+    /* ¡Bonus! Hacemos que se mueva un poquito */
+    transform: translateY(-3px); 
 }
 .servants_grid{
     display: grid;
