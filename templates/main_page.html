@@ -13,16 +13,22 @@
 </head>
 <body>
     <header>
-        <h1>Servants</h1>
+        <h1>FGO Dashboard</h1>
 
     </header>
     <main>
         <h2>Servants</h2>
+        <div class="search_bar">
+            <input type="text" id="search-bar" placeholder="Buscar por nombre...">
+        </div>
 
         <div class="servants_grid">
             {% for servant in servants_main_page %}
                 <a href="/servant/{{ servant.collectionNo }}" class="details_link">
-                    <div class="servant_card">
+                    <div class="servant_card"
+                        data-class="{{ servant.className | lower }}"
+                        data-rarity="{{ servant.rarity }}"
+                        data-name="{{ servant.name | lower }}">
                         <img
                             src="{{ servant.face }}"
                             alt=" Icono de {{ servant.name }}"
@@ -35,5 +41,6 @@
             {% endfor %}
         </div>
     </main>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

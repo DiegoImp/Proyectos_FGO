@@ -22,6 +22,37 @@ main {
     padding: 20px;
     border-radius: 8px; /* ¡Bordes redondeados! */
 }
+h2{
+    color: #f7b731;  /* Un color dorado F/GO */
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.search_bar {
+    display: flex; /* ¡La clave! Pone los elementos en línea */
+    flex-direction: row; /* Alinea los elementos en fila */
+    justify-content: center; /* Centra horizontalmente */
+    gap: 10px; /* Espacio entre el input y el botón */
+    margin-bottom: 30px; 
+    margin-top: 10px;
+}
+#search-bar{
+    flex-grow: 1; /* Hace que el input ocupe todo el espacio disponible */
+    padding: 12px 15px;
+    font-size: 1em;
+
+    background-color: #1a1a2e; /* Fondo oscuro */
+    color: #eaeaea; /* Texto claro */
+    border: 2px solid #5a5a9e; /* Borde sutil */
+    border-radius: 20px; /* Bordes redondeados, igual que el botón */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+#search-bar:focus {
+    outline: none; /* Quitamos el borde feo por defecto */
+    border-color: #f7b731; /* Borde dorado al seleccionar */
+    box-shadow: 0 0 8px #f7b731; /* Sombra dorada para que brille */ 
+}
 .servants_grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(162px, 1fr));
