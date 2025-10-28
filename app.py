@@ -7,28 +7,6 @@ app = Flask(__name__)
 
 # --- Cargar datos una sola vez al iniciar la app ---
 
-# 1 (saber)
-# 2 (archer)
-# 3 (lancer)
-# 4 (rider)
-# 5 (caster)
-# 6 (assassin)
-# 7 (berserker)
-# 8 (shielder)
-# 9 (ruler)
-# 10 (alterEgo)
-# 11 (avenger)
-# 17 (loreGrandCaster)
-# 20 (beastII)
-# 22 (beastI)
-# 23 (moonCancer)
-# 24 (beastIIIR)
-# 25 (foreigner)
-# 26 (beastIIIL)
-# 28 (pretender)
-# 29 (beastIV)
-# 33 (beast)
-
 
 def cargar_datos_servants():
     """Descarga los datos de los servants desde la API de Atlas Academy."""

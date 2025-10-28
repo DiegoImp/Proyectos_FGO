@@ -14,8 +14,10 @@
     </header>
     <main>
         <h2>Servants</h2>
+
         <div class="servants_grid">
             {% for servant in servants_main_page %}
+                <a href="/servant/{{ servant.collectionNo }}" class="details_link">
                     <div class="servant_card">
                         <img
                             src="{{ servant.face }}"
@@ -23,11 +25,9 @@
                             class="face_main">
                         <div class="see_details_servant">
                             <h3>{{ servant.name }}</h3>
-                            <a href="/servant/{{ servant.collectionNo }}" class="details_link">
-                                <button id="see-servant-details-button" class="details_button">Ver Detalles</button>
-                            </a>
                         </div>
                     </div>
+                </a>
             {% endfor %}
         </div>
     </main>

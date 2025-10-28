@@ -25,9 +25,20 @@ main {
 .servants_grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 5px; /* Aumentamos el espacio para que no se vea tan apretado */
+    gap: 8px; /* Aumentamos el espacio para que no se vea tan apretado */
     
 
+}
+.details_link {
+    text-decoration: none;
+    color: inherit; /* Hereda el color del texto normal */
+    display: inline-block;
+    align-items: center;
+    gap: 40px;
+}
+.details_link:hover.servant_card {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #f7b731;
 }
 .servant_card{
     display: flex;
@@ -37,18 +48,19 @@ main {
     margin-bottom: 5px;
     border: 3px solid black;
     background-color: #36332c88;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.servant_card:hover {
+    transform: scale(1.1);
+    background-color: #635e5088; /* Un dorado más claro */
+    color: #1a1a2e;
+    
+     
 }
 
 .face_main {
     margin-top: 10px;
     object-fit: cover;
-    
-    
-    
-}
-.face_main:hover {
-    
-    box-shadow: 0 0 10px #f7b731;
 }
 .see_details_servant{
     display: flex;
@@ -71,40 +83,5 @@ h3 {
     width: 80%;
     box-sizing: border-box; 
 }
-.details_link {
-    text-decoration: none;
-    color: inherit; /* Hereda el color del texto normal */
-    display: block; 
-    width: 80%;
-    
-    align-items: center;
-    gap: 15px;
-     /* Espacio entre la imagen y el nombre */
-}
-.details_link:hover.details-button {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px #f7b731;
-}
-.details_button {
-    display: inline-block; /* Para que respete el padding y margin */
-    margin-top: 5px; /* Espacio arriba del botón */
-    margin-bottom: 5px;
-    width: 100%;
 
-    background-color: #36332c88; 
-    color: #bec5c7;            
 
-    text-decoration: none;   /* Le saca el subrayado feo al link */
-    font-weight: bold;       /* Letra en negrita */
-      /* Bordes redondeados */
-    border: 2px solid black; /*  Borde invisible para alinear */
-    box-shadow: 10px 10px 6px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
-    /* Hace que el cambio sea suave (0.3 segundos) */
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-.details_button:hover {
-    background-color: #ffde8a; /* Un dorado más claro */
-    color: #1a1a2e;
-    /* Hacemos que se mueva un poquito */
-    transform: translateY(-3px); 
-}
