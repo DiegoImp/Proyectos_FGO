@@ -1,64 +1,98 @@
 <!DOCTYPE html>
-<html lang = "es">
-<head>
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
     <title>F/GO Servants Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
 
-    <link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" sizes="any">
-    <link rel="icon" href="{{ url_for('static', filename='icons/favicon.svg') }}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}">
-</head>
-<body>
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='icons/favicon.ico') }}"
+      sizes="any"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='icons/favicon.svg') }}"
+      type="image/svg+xml"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='icons/site.webmanifest') }}"
+    />
+  </head>
+  <body>
     <header>
-        <h1>FGO Dashboard</h1>
-
+      <h1>FGO Dashboard</h1>
     </header>
     <aside id="sidebar">
-            <h4>Filtros</h4>
+      <h4>Filtros</h4>
     </aside>
     <main>
-        <h2>Servants</h2>
-        
-        <div class="search_bar">
-            <input type="text" id="search-bar" placeholder="Buscar Servant por nombre...">
-                        <button id="button-filter">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sliders-horizontal">
-                    <line x1="21" y1="4" x2="14" y2="4"></line>
-                    <line x1="10" y1="4" x2="3" y2="4"></line>
-                    <line x1="21" y1="12" x2="12" y2="12"></line>
-                    <line x1="8" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="20" x2="16" y2="20"></line>
-                    <line x1="12" y1="20" x2="3" y2="20"></line>
-                    <line x1="14" y1="2" x2="14" y2="6"></line>
-                    <line x1="8" y1="10" x2="8" y2="14"></line>
-                    <line x1="16" y1="18" x2="16" y2="22"></line>
-                </svg>
-                <span>Filtrar</span>
-            </button>
-        </div>
+      <h2>Servants</h2>
 
-        <div class="servants_grid">
-            {% for servant in servants_main_page %}
-                <a href="/servant/{{ servant.collectionNo }}" class="details_link">
-                    <div class="servant_card"
-                        data-class="{{ servant.className | lower }}"
-                        data-rarity="{{ servant.rarity }}"
-                        data-name="{{ servant.name | lower }}">
-                        <img
-                            src="{{ servant.face }}"
-                            alt=" Icono de {{ servant.name }}"
-                            class="face_main">
-                        <div class="see_details_servant">
-                            <h3>{{ servant.name }}</h3>
-                        </div>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
+      <div class="search_bar">
+        <input
+          type="text"
+          id="search-bar"
+          placeholder="Buscar Servant por nombre..."
+        />
+        <button id="button-filter">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-sliders-horizontal"
+          >
+            <line x1="21" y1="4" x2="14" y2="4"></line>
+            <line x1="10" y1="4" x2="3" y2="4"></line>
+            <line x1="21" y1="12" x2="12" y2="12"></line>
+            <line x1="8" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="20" x2="16" y2="20"></line>
+            <line x1="12" y1="20" x2="3" y2="20"></line>
+            <line x1="14" y1="2" x2="14" y2="6"></line>
+            <line x1="8" y1="10" x2="8" y2="14"></line>
+            <line x1="16" y1="18" x2="16" y2="22"></line>
+          </svg>
+          <span>Filtrar</span>
+        </button>
+      </div>
+
+      <div class="servants_grid">
+        {% for servant in servants_main_page %}
+        <a href="/servant/{{ servant.collectionNo }}" class="details_link">
+          <div
+            class="servant_card"
+            data-class="{{ servant.className | lower }}"
+            data-rarity="{{ servant.rarity }}"
+            data-name="{{ servant.name | lower }}"
+          >
+            <img
+              src="{{ servant.face }}"
+              alt=" Icono de {{ servant.name }}"
+              class="face_main"
+            />
+            <div class="see_details_servant">
+              <h3>{{ servant.name }}</h3>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
     </main>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
-</body>
+  </body>
 </html>

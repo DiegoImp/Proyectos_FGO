@@ -1,162 +1,159 @@
 body {
-    background-color: #1a1a2e;
-    color: #eaeaea;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 200vh;
+  background-color: #1a1a2e;
+  color: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200vh;
 
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 h1 {
-    color: #f7b731;  /* Un color dorado F/GO */
-    margin-top: 20px;
-    margin-bottom: 20px;
+  color: #f7b731; /* Un color dorado F/GO */
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-main {
-    width: 100%;
-    max-width: 1000px;
-    background-color: #2a2a4e; /* Un azul un poco más claro */
-    padding: 20px;
-    border-radius: 8px; /* ¡Bordes redondeados! */
-}
-h2{
-    color: #f7b731;  /* Un color dorado F/GO */
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-#sidebar{
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 250px;
-    height: 95%;
-    background-color: #36332c88;
-    border: 3px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    transform: translateX(100%);
-    transition: transform 0.5s ease-in-out;
+#sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 95%;
+  background-color: #36332c88;
+  border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
 }
 #sidebar.sidebar-visible {
-    transform: translateX(0); /* La regresa a su lugar original */
+  transform: translateX(0); /* La regresa a su lugar original */
 }
-h4{
-    font-size: large;
-    font-weight: bold;
-    color: #f7b731;
-    align-items: center;
+main {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #2a2a4e; /* Un azul un poco más claro */
+  padding: 20px;
+  border-radius: 8px; /* ¡Bordes redondeados! */
+}
+h2 {
+  color: #f7b731; /* Un color dorado F/GO */
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+h4 {
+  font-size: large;
+  font-weight: bold;
+  color: #f7b731;
+  align-items: center;
 }
 .search_bar {
-    display: flex; /* ¡La clave! Pone los elementos en línea */
-    flex-direction: row; /* Alinea los elementos en fila */
-    justify-content: center; /* Centra horizontalmente */
-    gap: 10px; /* Espacio entre el input y el botón */
-    margin-bottom: 30px; 
-    margin-top: 10px;
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+  display: flex; /* ¡La clave! Pone los elementos en línea */
+  flex-direction: row; /* Alinea los elementos en fila */
+  justify-content: center; /* Centra horizontalmente */
+  gap: 10px; /* Espacio entre el input y el botón */
+  margin-bottom: 30px;
+  margin-top: 10px;
 }
-#search-bar{
-    flex-grow: 1; /* Hace que el input ocupe todo el espacio disponible */
-    padding: 12px 15px;
-    font-size: 1em;
-
-    background-color: #1a1a2e; /* Fondo oscuro */
-    color: #eaeaea; /* Texto claro */
-    border: 2px solid #5a5a9e; /* Borde sutil */
-    border-radius: 20px; /* Bordes redondeados, igual que el botón */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+#search-bar {
+  flex-grow: 1; /* Hace que el input ocupe todo el espacio disponible */
+  padding: 12px 15px;
+  font-size: 1em;
+  background-color: rgba(26, 26, 46, 0.8); /* Fondo oscuro */
+  color: #eaeaea; /* Texto claro */
+  border: 2px solid #5a5a9e; /* Borde sutil */
+  border-radius: 20px; /* Bordes redondeados, igual que el botón */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 #search-bar:focus {
-    outline: none; /* Quitamos el borde feo por defecto */
-    border-color: #f7b731; /* Borde dorado al seleccionar */
-    box-shadow: 0 0 8px #f7b731; /* Sombra dorada para que brille */ 
+  outline: none; /* Quitamos el borde feo por defecto */
+  border-color: #f7b731; /* Borde dorado al seleccionar */
+  box-shadow: 0 0 8px #f7b731; /* Sombra dorada para que brille */
 }
-#button-filter{
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espacio entre el icono y el texto */
-    padding: 12px 20px; /* Ajustado para el nuevo layout */
-    background-color: #f7b731; /* El dorado que usamos */
-    color: #1a1a2e;           /* El azul oscuro del fondo */
-    font-size: medium;
-    font-weight: 550;       /* Letra en negrita */
-    border-radius: 20px;      /* Bordes redondeados */
-    border: none; /* No necesitamos borde con flex */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
-    transition: background-color 0.3s ease, transform 0.3s ease;
+#button-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el icono y el texto */
+  padding: 12px 20px; /* Ajustado para el nuevo layout */
+  background-color: #f7b731; /* El dorado que usamos */
+  color: #1a1a2e; /* El azul oscuro del fondo */
+  font-size: medium;
+  font-weight: 550; /* Letra en negrita */
+  border-radius: 20px; /* Bordes redondeados */
+  border: none; /* No necesitamos borde con flex */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 #button-filter:hover {
-    transform: (1.1);
-    background-color: #ffde8a; /* Un dorado más claro */
-    color: #1a1a2e;
-    /* ¡Bonus! Hacemos que se mueva un poquito */
-    transform: translateY(-3px); 
+  transform: (1.1);
+  background-color: #ffde8a; /* Un dorado más claro */
+  color: #1a1a2e;
+  /* ¡Bonus! Hacemos que se mueva un poquito */
+  transform: translateY(-3px);
 }
-.servants_grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(162px, 1fr));
-    gap: 8px; /* Aumentamos el espacio para que no se vea tan apretado */
-    
-
+.servants_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(162px, 1fr));
+  gap: 8px; /* Aumentamos el espacio para que no se vea tan apretado */
 }
 .details_link {
-    text-decoration: none;
-    color: inherit; /* Hereda el color del texto normal */
-    display: inline-block;
-    align-items: center;
-    gap: 50px;
-    
+  text-decoration: none;
+  color: inherit; /* Hereda el color del texto normal */
+  display: inline-block;
+  align-items: center;
+  gap: 50px;
 }
 .details_link:hover.servant_card {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px #f7b731;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #f7b731;
 }
-.servant_card{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 95%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 3px solid black;
-    background-color: #36332c88;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.servant_card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 95%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 3px solid black;
+  background-color: #36332c88;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 .servant_card:hover {
-    transform: scale(1.1);
-    background-color: #635e5088; /* Un dorado más claro */
-    color: #1a1a2e;
+  transform: scale(1.1);
+  background-color: #635e5088; /* Un dorado más claro */
+  color: #1a1a2e;
 }
 
 .face_main {
-    margin-top: 10px;
-    object-fit: cover;
-    border: 3px solid black;
+  margin-top: 10px;
+  object-fit: cover;
+  border: 3px solid black;
 }
-.see_details_servant{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 10px;
+.see_details_servant {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
 }
 h3 {
-    color: #f7b731;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    font-size: small;
-    background-color: #36332c88;
-    text-align: center;
-    padding: 8px 10px; 
-    border: 2px solid black;
-    border-radius: 5px; 
-    width: 80%;
-    box-sizing: border-box; 
+  color: #f7b731;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: small;
+  background-color: #36332c88;
+  text-align: center;
+  padding: 8px 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 80%;
+  box-sizing: border-box;
 }
-
-
