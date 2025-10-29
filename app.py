@@ -29,7 +29,7 @@ TODOS_LOS_SERVANTS = cargar_datos_servants()
 def pagina_principal():
     # ¡Y listo! Le pasamos la lista COMPLETA directamente.
     # El HTML se encargará de buscar las llaves que necesita.
-    return render_template('main_page.html', servants_main_page=TODOS_LOS_SERVANTS)
+    return render_template('index.html', servants_main_page=TODOS_LOS_SERVANTS)
 
 
 if __name__ == '__main__':
