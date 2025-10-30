@@ -1,10 +1,10 @@
 import json
 import requests
 from flask import Flask, render_template, jsonify
-
+from whitenoise import WhiteNoise
 
 app = Flask(__name__)
-
+app.wsgi_app = WhiteNoise(app.wsgi_app)
 # --- Cargar datos una sola vez al iniciar la app ---
 
 
