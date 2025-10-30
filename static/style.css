@@ -21,15 +21,151 @@ h1 {
   height: 95%;
   background-color: #36332c88;
   border: 3px solid black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  
   padding: 20px;
+  gap: 20px;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
 }
 #sidebar.sidebar-visible {
   transform: translateX(0); /* La regresa a su lugar original */
+}
+
+h4 {
+  font-size: large;
+  font-weight: bold;
+  color: #f7b731;
+  align-self: center;
+}
+hr {
+  width: 99%;
+  border: none; /* Quita el borde 3D feo */
+  height: 1px; /* La hace súper fina */
+  background-color: black; /* Un color sutil de tu paleta */
+  margin: 20px 0; /* Le da un poco de espacio arriba y abajo */
+}
+.filtro_class,.filtro_rarity,.filtro_NP{
+  display: grid;
+  grid-template-columns:  repeat(auto-fill, minmax(80px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+.filtro_class button {
+  background-color: #36332c;
+  border: 3px solid #1a1a2e;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: medium;
+  font-weight: bold;
+  color: #f7b731;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.filtro_class button.active {
+  background-color: #ffde8a; /* Un dorado más claro */
+  color: #1a1a2e;
+  /* ¡Bonus! Hacemos que se mueva un poquito */
+  transform: translateY(-3px) scale(1.05);
+}
+.filtro_rarity button {
+  border-radius: 5px;
+  padding: 8px;
+  font-size: medium;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  background-color: #36332c;
+  border: 3px solid #1a1a2e;
+  color: #f7b731;
+}
+.filtro_rarity button.active,.filtro_NP button.active{
+  transform: translateY(-3px) scale(1.1);
+}
+#rarity-0{
+  background-color: #36332c;
+  border: 3px solid #606068;
+  color: black;
+}
+#rarity-0.active{
+  background: linear-gradient(to bottom, #4a4a4e 0%, #7b7b81 100%);
+  border: 3px solid black}
+#rarity-1,#rarity-2{
+  background-color: #693e13;
+  border: 3px solid #CD7F32;
+  color: #CD7F32;
+}
+#rarity-1.active,#rarity-2.active{
+  border: 3px solid #f7b731;
+}
+#rarity-3{
+  background-color: gray;
+  border: 3px solid silver;
+  color: silver;
+}
+#rarity-3.active{
+  border: 3px solid #e3e4e5;
+  color: #e3e4e5;
+}
+#rarity-4,#rarity-5{
+  border: 3px solid #f7b731;
+}
+#rarity-4.active,
+#rarity-5.active{
+  background: #181717;
+  background: linear-gradient(to bottom, #444444, #222222);
+  color: gold;
+}
+.filtro_NP button {
+  background-color: #36332c;
+  border: 3px solid #1a1a2e;
+  border-radius: 5px;
+  padding: 8px;
+  font-size: medium;
+  font-weight: bold;
+  color: #f7b731;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+#NP_Arts.active{
+  color: black;
+  background: linear-gradient(to bottom, rgb(16, 16, 199) 0%,rgb(13, 80, 180) 100%);
+  
+}
+#NP_Quick.active{
+  color: rgb(17, 16, 16);
+  background: linear-gradient(to bottom,rgb(5, 112, 5) 0%,rgb(14, 185, 14) 100%);
+  
+}
+#NP_Buster.active{
+  color: rgb(17, 16, 16);
+  background: linear-gradient(to bottom, rgb(177, 4, 4) 0%,red 100%);
+}
+.reset_filter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.reset_filter button {
+  background-color: black;
+  border: 3px solid white;
+  border-radius: 5px;
+  width: 100%;
+  height: 30px;
+  font-size: medium;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.reset_filter button:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: black 0px 0px 10px;
 }
 main {
   width: 100%;
@@ -43,12 +179,6 @@ h2 {
   font-weight: bold;
   margin-top: 20px;
   margin-bottom: 20px;
-}
-h4 {
-  font-size: large;
-  font-weight: bold;
-  color: #f7b731;
-  align-items: center;
 }
 .search_bar {
     position: sticky;

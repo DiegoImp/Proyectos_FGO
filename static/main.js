@@ -23,4 +23,20 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+  // --- LÓGICA PARA BOTONES DE FILTRO ---
+  // 1. Seleccionamos TODOS los botones que están dentro de los contenedores de filtros
+  const botonesDeFiltro = document.querySelectorAll(
+    ".filtro_class button, .filtro_rarity button, .filtro_NP button"
+  );
+
+  // 2. Recorremos cada uno de los botones encontrados
+  botonesDeFiltro.forEach((boton) => {
+    // 3. A cada botón, le añadimos un "escuchador" de clics
+    boton.addEventListener("click", () => {
+      // 4. classList.toggle('active') hace la magia:
+      //    - Si el botón NO tiene la clase 'active', se la añade.
+      //    - Si el botón SÍ tiene la clase 'active', se la quita.
+      boton.classList.toggle("active");
+    });
+  });
 });
