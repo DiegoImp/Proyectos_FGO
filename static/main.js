@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ".filtro_class button, .filtro_rarity button, .filtro_NP button"
   );
   const servantLinks = document.querySelectorAll(".details_link");
+  const resetButton = document.getElementById("reset-filter");
   // Definimos esta variable aquí para que esté disponible para todas las funciones
   let textoBusqueda = "";
 
@@ -63,5 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
       boton.classList.toggle("active");
       aplicarFiltrosCombinados();
     });
+  });
+  resetButton.addEventListener("click", () => {
+    searchbar.value = "";
+    textoBusqueda = "";
+    botonesDeFiltro.forEach((boton) => {
+      boton.classList.remove("active");
+    });
+    aplicarFiltrosCombinados();
   });
 });
