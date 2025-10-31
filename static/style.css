@@ -30,7 +30,6 @@ h1 {
 #sidebar.sidebar-visible {
   transform: translateX(0); /* La regresa a su lugar original */
 }
-
 h4 {
   font-size: large;
   font-weight: bold;

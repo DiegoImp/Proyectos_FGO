@@ -11,11 +11,9 @@ app.wsgi_app = WhiteNoise(app.wsgi_app)
 def cargar_datos_servants():
     """Descarga los datos de los servants desde la API de Atlas Academy."""
     url_basic = "https://api.atlasacademy.io/export/NA/basic_servant.json"
-    print(f"Descargando datos desde: {url_basic}")
     try:
         respuesta = requests.get(url_basic)
         respuesta.raise_for_status()  # Esto generará un error si el código no es 200
-        print("¡Descarga exitosa!")
         return respuesta.json()
     except requests.exceptions.RequestException as e:
         print(f"ERROR: No se pudo conectar a la API. {e}")
