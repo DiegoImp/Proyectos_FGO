@@ -18,11 +18,12 @@ h1 {
   top: 0;
   right: 0;
   width: 300px;
-  height: 95%;
+  height: 96%;
+  margin-bottom: 10px;
   background-color: #36332c88;
   border: 3px solid black;
-  
-  padding: 20px;
+  text-align: center;
+  padding: 15px;
   gap: 20px;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
@@ -31,10 +32,10 @@ h1 {
   transform: translateX(0); /* La regresa a su lugar original */
 }
 h4 {
+  margin-top: 10px;
   font-size: large;
   font-weight: bold;
   color: #f7b731;
-  align-self: center;
 }
 hr {
   width: 99%;
@@ -166,7 +167,6 @@ hr {
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  margin-top: 10px;
   margin-bottom: 10px;
 }
 .reset_filter button {
