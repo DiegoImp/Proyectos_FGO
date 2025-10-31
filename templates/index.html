@@ -45,50 +45,125 @@
       <hr />
       <div class="filtro_class">
         <button id="class-saber" data-value="saber">
+          <img
+            src="{{ url_for('static', filename='classes/saber.png') }}"
+            alt="Icono Saber"
+            class="filter-icon"
+          />
           <span>Saber</span>
         </button>
         <button id="class-archer" data-value="archer">
+          <img
+            src="{{ url_for('static', filename='classes/archer.png') }}"
+            alt="Icono Archer"
+            class="filter-icon"
+          />
           <span>Archer</span>
         </button>
         <button id="class-lancer" data-value="lancer">
+          <img
+            src="{{ url_for('static', filename='classes/lancer.png') }}"
+            alt="Icono Lancer"
+            class="filter-icon"
+          />
           <span>Lancer</span>
         </button>
         <button id="class-rider" data-value="rider">
+          <img
+            src="{{ url_for('static', filename='classes/rider.png') }}"
+            alt="Icono Rider"
+            class="filter-icon"
+          />
           <span>Rider</span>
         </button>
         <button id="class-caster" data-value="caster">
+          <img
+            src="{{ url_for('static', filename='classes/caster.png') }}"
+            alt="Icono Caster"
+            class="filter-icon"
+          />
           <span>Caster</span>
         </button>
         <button id="class-assassin" data-value="assassin">
+          <img
+            src="{{ url_for('static', filename='classes/assassin.png') }}"
+            alt="Icono Assassin"
+            class="filter-icon"
+          />
           <span>Assassin</span>
         </button>
         <button id="class-berserker" data-value="berserker">
+          <img
+            src="{{ url_for('static', filename='classes/berserker.png') }}"
+            alt="Icono Berserker"
+            class="filter-icon"
+          />
           <span>Berserker</span>
         </button>
         <button id="class-shielder" data-value="shielder">
+          <img
+            src="{{ url_for('static', filename='classes/shielder.png') }}"
+            alt="Icono Shielder"
+            class="filter-icon"
+          />
           <span>Shielder</span>
         </button>
         <button id="class-ruler" data-value="ruler">
+          <img
+            src="{{ url_for('static', filename='classes/ruler.png') }}"
+            alt="Icono Ruler"
+            class="filter-icon"
+          />
           <span>Ruler</span>
         </button>
         <button id="class-alterEgo" data-value="alterEgo">
+          <img
+            src="{{ url_for('static', filename='classes/alterego.png') }}"
+            alt="Icono Alter Ego"
+            class="filter-icon"
+          />
           <span>Alter Ego</span>
         </button>
         <button id="class-avenger" data-value="avenger">
+          <img
+            src="{{ url_for('static', filename='classes/avenger.png') }}"
+            alt="Icono Avenger"
+            class="filter-icon"
+          />
           <span>Avenger</span>
         </button>
-        <button id="class-moonCancer" data-value="moonCancer">
-          <span>Moon Cancer</span>
         </button>
         <button id="class-foreigner" data-value="foreigner">
+          <img
+            src="{{ url_for('static', filename='classes/foreigner.png') }}"
+            alt="Icono Foreigner"
+            class="filter-icon"
+          />
           <span>Foreigner</span>
         </button>
         <button id="class-beast" data-value="beast">
+          <img
+            src="{{ url_for('static', filename='classes/beast.png') }}"
+            alt="Icono Beast"
+            class="filter-icon"
+          />
           <span>Beast</span>
         </button>
         <button id="class-pretender" data-value="pretender">
+          <img
+            src="{{ url_for('static', filename='classes/pretender.png') }}"
+            alt="Icono Pretender"
+            class="filter-icon"
+          />
           <span>Pretender</span>
         </button>
+        <button id="class-moonCancer" data-value="moonCancer">
+          <img
+            src="{{ url_for('static', filename='classes/mooncancer.png') }}"
+            alt="Icono Moon Cancer"
+            class="filter-icon"
+          />
+          <span>Moon Cancer</span>
       </div>
       <hr />
       <div class="filtro_NP" data-value="">
@@ -101,6 +176,7 @@
         <button id="NP_Buster" data-value="">
           <span>Buster</span>
         </button>
+
       </div>
       <hr />
       <div class="reset_filter">
@@ -157,6 +233,11 @@
               class="face_main"
             />
             <div class="see_details_servant">
+              <div class="rarity_card">
+                {% for i in range(servant.rarity | int) %}
+                <span>★</span>
+                {% endfor %}
+              </div>
               <h3>{{ servant.name }}</h3>
             </div>
           </div>

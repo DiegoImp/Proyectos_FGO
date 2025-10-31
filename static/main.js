@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const botonesRarezaActivos = document.querySelectorAll(
       ".filtro_rarity button.active"
     );
-    const clasesActivas = Array.from(botonesClaseActivos).map(
-      (boton) => boton.dataset.value
+    const clasesActivas = Array.from(botonesClaseActivos).map((boton) =>
+      boton.dataset.value.toLowerCase()
     );
     const rarezasActivas = Array.from(botonesRarezaActivos).map(
       (boton) => boton.dataset.value

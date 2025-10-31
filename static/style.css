@@ -17,7 +17,7 @@ h1 {
   position: fixed;
   top: 0;
   right: 0;
-  width: 250px;
+  width: 300px;
   height: 95%;
   background-color: #36332c88;
   border: 3px solid black;
@@ -45,26 +45,44 @@ hr {
 }
 .filtro_class,.filtro_rarity,.filtro_NP{
   display: grid;
-  grid-template-columns:  repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns:  repeat(2,1fr);
   gap: 15px;
   margin-top: 20px;
   margin-bottom: 20px;
   align-items: center;
+}
+.filtro_class button:last-child {
+  /* Le dice al botón que se expanda para ocupar 2 columnas */
+  grid-column: span 2;
 }
 .filtro_class button {
   background-color: #36332c;
   border: 3px solid #1a1a2e;
   border-radius: 5px;
   padding: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-size: medium;
   font-weight: bold;
   color: #f7b731;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
+.filter-icon {
+  margin-left: 5px;
+  width: 20px; 
+  height: 20px;
+  object-fit: contain; 
+}
+.filtro_class button span{
+  flex-grow: 1;      
+  text-align: center;
+}
 .filtro_class button.active {
   background-color: #ffde8a; /* Un dorado más claro */
   color: #1a1a2e;
+  font-weight: bold;
   /* ¡Bonus! Hacemos que se mueva un poquito */
   transform: translateY(-3px) scale(1.05);
 }
@@ -81,6 +99,7 @@ hr {
 }
 .filtro_rarity button.active,.filtro_NP button.active{
   transform: translateY(-3px) scale(1.1);
+  font-weight: bold;
 }
 #rarity-0{
   background-color: #36332c;
@@ -285,4 +304,9 @@ h3 {
   border-radius: 5px;
   width: 80%;
   box-sizing: border-box;
+}
+.rarity_card{
+  font-size: medium;
+  font-weight: bold;
+  color:#f7b731
 }
