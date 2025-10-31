@@ -17,10 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const botonesRarezaActivos = document.querySelectorAll(
       ".filtro_rarity button.active"
     );
+    const botonesNPActivos = document.querySelectorAll(
+      ".filtro_NP button.active"
+    );
     const clasesActivas = Array.from(botonesClaseActivos).map((boton) =>
       boton.dataset.value.toLowerCase()
     );
     const rarezasActivas = Array.from(botonesRarezaActivos).map(
+      (boton) => boton.dataset.value
+    );
+    const NPActivos = Array.from(botonesNPActivos).map(
       (boton) => boton.dataset.value
     );
     // tomamos los link
@@ -29,13 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const nombre = servantCard.dataset.name;
       const rareza = servantCard.dataset.rarity;
       const clase = servantCard.dataset.class;
+      const np = servantCard.dataset.np;
+
       const pasaNombre = nombre.includes(textoBusqueda);
       const pasaRareza =
         rarezasActivas.length === 0 || rarezasActivas.includes(rareza);
       const pasaClase =
         clasesActivas.length === 0 || clasesActivas.includes(clase);
-
-      if (pasaNombre && pasaRareza && pasaClase) {
+      const pasaNp = NPActivos.length === 0 || NPActivos.includes(np);
+      if (pasaNombre && pasaRareza && pasaClase && pasaNp) {
         link.style.display = "block";
       } else {
         link.style.display = "none";

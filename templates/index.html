@@ -167,14 +167,14 @@
           <span>Moon Cancer</span>
       </div>
       <hr />
-      <div class="filtro_NP" data-value="">
-        <button id="NP_Arts">
+      <div class="filtro_NP">
+        <button id="NP_Arts" data-value="1">
           <span>Arts</span>
         </button>
-        <button id="NP_Quick" data-value="">
+        <button id="NP_Quick" data-value="3">
           <span>Quick</span>
         </button>
-        <button id="NP_Buster" data-value="">
+        <button id="NP_Buster" data-value="2">
           <span>Buster</span>
         </button>
 
@@ -227,6 +227,7 @@
             data-class="{{ servant.className | lower }}"
             data-rarity="{{ servant.rarity }}"
             data-name="{{ servant.name | lower }}"
+            data-np="{{ servant.npType }}"
           >
             <img
               src="{{ servant.face }}"
