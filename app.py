@@ -13,7 +13,7 @@ from whitenoise import WhiteNoise
 
 # --- Constantes del Módulo ---
 # Es una buena práctica definir URLs y nombres de archivo como constantes.
-API_URL = "https://api.atlasacademy.io/export/NA/nice_servant_lang_en.json"
+API_URL = "https://api.atlasacademy.io/export/JP/nice_servant_lang_en.json"
 CACHE_FILENAME = "datos_servants_completos.json"
 REQUEST_TIMEOUT = 1200  # Segundos
 
