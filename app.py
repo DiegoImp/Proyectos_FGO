@@ -41,10 +41,15 @@ def _procesar_lista_servants(lista_completa):
         # Intenta obtener la cara de la ascensión 1, si no existe, intenta con la 0.
         face_url = ascension_faces.get("1") or ascension_faces.get("0")
 
+        norm_class = servant.get("className", "unknown").lower()
+        # 4. Comprueba si empieza con "beast"
+        if norm_class.startswith(("beast", "uolga", "unbeast")):
+            norm_class = "beast"
+
         servant_data = {
             "collectionNo": servant.get("collectionNo"),
             "name": servant.get("name"),
-            "className": servant.get("className"),
+            "className": norm_class,
             "rarity": servant.get("rarity"),
             "face": face_url,
             "npType": np_type

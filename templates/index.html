@@ -234,6 +234,11 @@
               alt=" Icono de {{ servant.name }}"
               class="face_main"
             />
+            <img 
+                src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}" 
+                alt="{{ servant.className }} class icon"
+                class="class_icon_overlay"
+              >
             <div class="see_details_servant">
               <div class="rarity_card">
                 {% for i in range(servant.rarity | int) %}

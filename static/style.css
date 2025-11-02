@@ -258,10 +258,7 @@ h2 {
   align-items: center;
   gap: 50px;
 }
-.details_link:hover.servant_card {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #f7b731;
-}
+
 .servant_card {
   display: flex;
   flex-direction: column;
@@ -273,16 +270,49 @@ h2 {
   background-color: #36332c88;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
+/* --- Efecto Hover por Tipo de NP --- */
+
 .servant_card:hover {
-  transform: scale(1.1);
-  background-color: #635e5088; /* Un dorado más claro */
-  color: #1a1a2e;
+  transform: (1.1);
+  transform: translateY(-3px);
+}
+/* 1. ARTS (data-np="1") -> Azul */
+.servant_card[data-np="1"]:hover {
+  /* Fondo azul suave */
+  background: linear-gradient(to bottom, #4e8cff, #3a7bd5);
+   /* Opcional: brillo azul */
+}
+
+/* 2. BUSTER (data-np="2") -> Rojo */
+.servant_card[data-np="2"]:hover {
+  /* Fondo rojo suave */
+  background: linear-gradient(to bottom, #e53935, #d32f2f);
+  /* Opcional: brillo rojo */
+}
+
+/* 3. QUICK (data-np="3") -> Verde */
+.servant_card[data-np="3"]:hover {
+  /* Fondo verde suave */
+  background: linear-gradient(to bottom, #66bb6a, #43a047);
+   /* Opcional: brillo verde */
 }
 
 .face_main {
   margin-top: 10px;
   object-fit: cover;
   border: 3px solid black;
+}
+.class_icon_overlay{
+  width: 40px; 
+  height: 40px;
+
+  /* Un margen negativo lo "tira" 20px hacia arriba, 
+     solapando al elemento anterior (la imagen face_main) */
+  margin-top: -20px;
+  
+  /* Pone el icono en una capa superior (z-index) para 
+     que esté POR ENCIMA de la imagen de la cara */
+  z-index: 10;
 }
 .see_details_servant {
   display: flex;
@@ -291,6 +321,8 @@ h2 {
   justify-content: center;
   width: 100%;
   margin-top: 10px;
+  position: relative; /* Necesario para que class_icon_overlay funcione */
+  z-index: 5;
 }
 h3 {
   color: #f7b731;
