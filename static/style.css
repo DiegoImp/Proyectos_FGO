@@ -1,19 +1,78 @@
 body {
-  background-color: #1a1a2e;
-  color: #eaeaea;
+  background-image: radial-gradient(ellipse at center, #2a2a4e 0%, #1a1a2e 100%);
+  background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 200vh;
-
+  height: 150vh;
   font-family: Arial, sans-serif;
 }
-h1 {
+header{
   color: #f7b731; /* Un color dorado F/GO */
   margin-top: 20px;
   margin-bottom: 20px;
 }
-#sidebar {
+.sidebar_index{
+  position: fixed;
+  top: 13%;
+  left: 0;
+  width: 70px;
+  height: max-content;
+  padding: 2rem 1.5rem;
+  
+  background-color: #f8f8f8;
+  color: #1a1a2e;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border: 3px solid black;
+  border-radius: 8px;
+  transition: transform 0.5s, width 0.5s;
+}
+.sidebar_index:hover{
+  width: 250px;
+}
+.sidebar_index:hover .index_element {
+  grid-template-columns: 40px 1fr;
+  
+}
+.index_list{
+  list-style: none;
+  padding: 0;
+  min-height: 600px;
+  gap: .4rem;
+}
+.index_element{
+  padding: .8rem 1rem;
+  display: grid;
+  gap: .5rem;
+  grid-template-columns: 40px 0fr;
+
+  transition: grid-template-columns 0.5s, transform 0.3s;
+}
+.index_element:hover{
+  background-color: #b6b6b6;
+  border: 3px solid #181717;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: scale(1.05) translateY(-6px);
+  font-weight: bold;
+}
+
+.sidebar_icon{
+  max-width: 100%;
+  overflow: hidden;
+  justify-self: center;
+}
+.sidebar_hide{
+  overflow: hidden;
+}
+
+.index_header{
+  font-size: large;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+}
+#sidebar-filtro {
   position: fixed;
   top: 0;
   right: 0;
@@ -28,7 +87,7 @@ h1 {
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
 }
-#sidebar.sidebar-visible {
+#sidebar-filtro.sidebar-filtro-visible {
   transform: translateX(0); /* La regresa a su lugar original */
 }
 h4 {
@@ -270,31 +329,31 @@ h2 {
   background-color: #36332c88;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
-/* --- Efecto Hover por Tipo de NP --- */
 
+/* --- Efecto Hover por Tipo de NP --- */
 .servant_card:hover {
   transform: (1.1);
   transform: translateY(-3px);
 }
 /* 1. ARTS (data-np="1") -> Azul */
 .servant_card[data-np="1"]:hover {
-  /* Fondo azul suave */
+ 
   background: linear-gradient(to bottom, #4e8cff, #3a7bd5);
-   /* Opcional: brillo azul */
+
 }
 
 /* 2. BUSTER (data-np="2") -> Rojo */
 .servant_card[data-np="2"]:hover {
-  /* Fondo rojo suave */
+
   background: linear-gradient(to bottom, #e53935, #d32f2f);
-  /* Opcional: brillo rojo */
+  
 }
 
 /* 3. QUICK (data-np="3") -> Verde */
 .servant_card[data-np="3"]:hover {
-  /* Fondo verde suave */
+  
   background: linear-gradient(to bottom, #66bb6a, #43a047);
-   /* Opcional: brillo verde */
+   
 }
 
 .face_main {

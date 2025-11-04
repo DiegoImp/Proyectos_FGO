@@ -32,7 +32,7 @@
     <header>
       <h1>FGO Dashboard</h1>
     </header>
-    <aside id="sidebar">
+    <aside id="sidebar-filtro">
       <h4>Filtros</h4>
       <hr/>
       <div class="filtro_rarity">
@@ -183,6 +183,32 @@
       <div class="reset_filter">
         <button id="reset-filter"><span>Reiniciar Filtros</span></button>
       </div>
+    </aside>
+    <aside class="sidebar_index">
+      <header class="index_header">Menu</header>
+      <ul class="index_list">
+        <li class="index_element">
+          <img
+          src="{{ url_for('static', filename='icons/search-icon.svg') }}"
+          class="sidebar_icon sidebar_icon"
+          >
+          <div class="sidebar_hide">
+            <p class="index_text">Buscador</p>
+          </div>
+        </li>
+        <li class="index_element">
+          <img
+          src="{{url_for('static', filename='icons/calculator-icon.svg') }}"
+          class="sidebar_icon"
+          >
+          <div class="sidebar_hide">
+            <p class="index_text">Calculadora</p>
+          </div>
+        </li>
+
+
+
+      </ul>
     </aside>
     <main>
       <h2>Servants</h2>

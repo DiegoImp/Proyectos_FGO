@@ -45,7 +45,8 @@ def _procesar_lista_servants(lista_completa):
         # 4. Comprueba si empieza con "beast"
         if norm_class.startswith(("beast", "uolga", "unbeast")):
             norm_class = "beast"
-
+        if norm_class.startswith("lore"):
+            norm_class = "caster"
         servant_data = {
             "collectionNo": servant.get("collectionNo"),
             "name": servant.get("name"),

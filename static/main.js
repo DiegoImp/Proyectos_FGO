@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const searchbar = document.getElementById("search-bar"); // tomamos la barra de busqueda
   const filterbutton = document.getElementById("button-filter"); //tomamos el boton de filtros
-  const sidebar = document.getElementById("sidebar"); //tomamos el sidebar
+  const sidebar = document.getElementById("sidebar-filtro"); //tomamos el sidebar
   const botonesDeFiltro = document.querySelectorAll(
     ".filtro_class button, .filtro_rarity button, .filtro_NP button"
   );
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   filterbutton.addEventListener("click", () => {
-    sidebar.classList.toggle("sidebar-visible");
+    sidebar.classList.toggle("sidebar-filtro-visible");
   });
 
   // --- LÓGICA PARA BOTONES DE FILTRO ---
