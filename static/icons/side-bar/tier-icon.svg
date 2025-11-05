@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  
+  <symbol id="icono-cajas" viewBox="0 0 300 300">
+    <path fill="none" stroke-width="15" stroke-linecap="square"
+          d="M 100 0 L 200 0 M 50 100 L 250 100 M 0 200 L 300 200
+             M 0 300 L 300 300 M 100 0 L 100 100 M 200 0 L 200 100
+             M 50 100 L 50 200 M 150 100 L 150 200 M 250 100 L 250 200
+             M 0 200 L 0 300 M 100 200 L 100 300 M 200 200 L 200 300
+             M 300 200 L 300 300" />
+  </symbol>
+
+  <symbol id="icono-usuario" viewBox="0 0 24 24">
+    </symbol>
+
+</svg>

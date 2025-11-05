@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const servantLinks = document.querySelectorAll(".details_link");
   const resetButton = document.getElementById("reset-filter");
+
+  const audioPlayer = document.getElementById("ost-player");
+  const volumeSlider = document.getElementById("volume-slider");
+
+  const soundControl = document.querySelector(".index_element--music");
+
+  const volumeDisplay = document.getElementById("volume-display");
   // Definimos esta variable aquí para que esté disponible para todas las funciones
   let textoBusqueda = "";
 
@@ -81,4 +88,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     aplicarFiltrosCombinados();
   });
+
+  function updateVolume() {
+    audioPlayer.volume = volumeSlider.value / 100;
+  }
+  function updateVolumeDisplay() {
+    volumeDisplay.textContent = volumeSlider.value;
+  }
+  soundControl.addEventListener("click", (e) => {
+    if (e.target.id === "volume-slider") {
+      return; // Evita que el clic en el slider pause la música
+    }
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+    } else {
+      audioPlayer.pause();
+    }
+  });
+  // 5. Evento principal: cuando mueves el slider
+  volumeSlider.addEventListener("input", () => {
+    updateVolume(); // Actualiza el audio
+    updateVolumeDisplay(); // Actualiza el número
+  });
+
+  // 6. Carga inicial: Pone todo en su sitio
+  updateVolume();
+  updateVolumeDisplay();
 });

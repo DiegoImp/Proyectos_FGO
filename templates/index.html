@@ -186,10 +186,11 @@
     </aside>
     <aside class="sidebar_index">
       <header class="index_header">Menu</header>
+      <hr />
       <ul class="index_list">
         <li class="index_element">
           <img
-          src="{{ url_for('static', filename='icons/search-icon.svg') }}"
+          src="{{ url_for('static', filename='icons/side-bar/search-icon.svg') }}"
           class="sidebar_icon sidebar_icon"
           >
           <div class="sidebar_hide">
@@ -198,14 +199,65 @@
         </li>
         <li class="index_element">
           <img
-          src="{{url_for('static', filename='icons/calculator-icon.svg') }}"
+          src="{{url_for('static', filename='icons/side-bar/calculator-icon.svg') }}"
           class="sidebar_icon"
           >
           <div class="sidebar_hide">
             <p class="index_text">Calculadora</p>
           </div>
         </li>
-
+        <li class="index_element">
+          <img
+          src="{{url_for('static', filename='icons/side-bar/servants-icon.svg') }}"
+          class="sidebar_icon sidebar_icon--servant"
+          >
+          <div class="sidebar_hide">
+            <p class="index_text index_text--servants">Mis Servants</p>
+          </div>
+        </li>
+        <li class="index_element">
+          <svg class="sidebar_icon sidebar_icon--tier">
+            <use href="{{ url_for('static', filename='icons/side-bar/tier-icon.svg') }}"
+          </svg>
+          <div class="sidebar_hide">
+            <p class="index_text">Tier Lists</p>
+          </div>
+        </li>
+        <li class="index_element">
+          <img
+          src="{{url_for('static', filename='icons/side-bar/game-icon.svg') }}"
+          class="sidebar_icon sidebar_icon--game"
+          >
+          <div class="sidebar_hide">
+            <p class="index_text">FGOdle</p>
+          </div>
+        </li>
+        <li class="index_element">
+          <img
+          src="{{url_for('static', filename='icons/side-bar/calendar-icon.svg') }}"
+          class="sidebar_icon"
+          >
+          <div class="sidebar_hide">
+            <p class="index_text">Weekly Missions</p>
+          </div>
+        </li>
+        <li class="index_element index_element--music">
+          <div class="sound-column-icon">   
+            <img
+            src="{{url_for('static', filename='icons/side-bar/sound-icon.svg') }}"
+            class="sidebar_icon sidebar_icon--sound"
+            >
+            <span id="volume-display">30</span>
+          </div>
+          <div class="sidebar_hide sidebar_hide--music">
+            <span class="index_text index_text--music">ON/OFF</span>
+            <span class="index_text index_text--music">Music</span>
+            <div class="range-wrap"> 
+              <input type="range" id="volume-slider" class="range" min="0" max="100" value="30">
+              
+            </div>
+          </div>
+        </li>
 
 
       </ul>
@@ -278,6 +330,9 @@
         {% endfor %}
       </div>
     </main>
+    <audio id="ost-player" loop>
+      <source src="static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg">
+    </audio>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
   </body>
 </html>
