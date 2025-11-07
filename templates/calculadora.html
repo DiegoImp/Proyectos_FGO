@@ -1,0 +1,31 @@
+<!-- 
+  Paso 1: Heredamos de nuestro esqueleto base
+-->
+{% extends "base.html" %}
+
+<!-- 
+  Paso 2: Definimos un título para esta página
+-->
+{% block title %}Calculadora de Daño{% endblock %}
+
+<!-- 
+  Paso 3: Este es el contenido único de la página
+-->
+{% block content %}
+
+<!-- 
+    Usamos <main> para mantener la consistencia con index.html,
+    así heredará los estilos de 'main' del CSS.
+  -->
+<main>
+    <h2>Calculadora de Daño</h2>
+    <p style="color: white; font-size: 1.2rem;">
+        ¡Aquí irá la futura calculadora!
+    </p>
+    <p style="color: #aaa;">
+        Como puedes ver, la barra lateral izquierda y el fondo
+        son los mismos que en la página principal.
+    </p>
+</main>
+
+{% endblock %}

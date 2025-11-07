@@ -1,127 +1,200 @@
+/* --- 1. ESTILOS GLOBALES Y RESET --- */
+/* Un buen "reset" para que el padding y borde no afecten el tamaño */
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-image: radial-gradient(ellipse at center, #2a2a4e 0%, #1a1a2e 100%);
   background-size: cover;
+  background-attachment: fixed; /* Fija el fondo durante el scroll */
+  background-repeat: no-repeat;
+  
+  /* Centra el contenido principal */
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 150vh;
+  
+  /* Asegura que el padding-left no mueva el contenido */
+  padding-left: 70px; /* Coincide con el ancho colapsado de .sidebar_index */
+  min-height: 150vh; /* Cambiado de height a min-height */
   font-family: Arial, sans-serif;
 }
+
 header{
-  color: #f7b731; /* Un color dorado F/GO */
+  color: #f7b731;
+  text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+/* Tipografía global */
+h2 {
+  color: #f7b731;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  color: #f7b731;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: small;
+  background-color: #36332c88;
+  text-align: center;
+  padding: 8px 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 80%;
+}
+
+h4 {
+  margin-top: 10px;
+  font-size: large;
+  font-weight: bold;
+  color: #f7b731;
+  text-align: center; /* Movido de #sidebar-filtro a h4 global */
+}
+
+hr {
+  width: 99%;
+  border: none;
+  height: 1px;
+  background-color: black;
+  margin: 20px 0;
+}
+
+/* --- 2. LAYOUT PRINCIPAL --- */
+main {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #2a2a4e;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* --- 3. COMPONENTE: BARRA DE NAVEGACIÓN (IZQUIERDA) --- */
 .sidebar_index{
   position: fixed;
   top: 13%;
   left: 0;
-  width: 70px;
+  width: 90px;
   height: 640px;
-  padding: 2rem 1.5rem;
+  padding: 1rem 1rem; 
+  display: grid;
+  grid-template-rows: 40px auto;
+  align-items: center;
   
   background-color: #f8f8f8;
   color: #1a1a2e;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   border: 3px solid black;
   border-radius: 8px;
-  transition: transform 0.5s, width 0.5s;
+  /* Animamos el ancho y el padding-left del body */
+  transition: width 0.5s ease-in-out; 
+  z-index: 100; /* Asegura que esté por encima de todo */
+  font-family: "MedievalSharp", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 .sidebar_index:hover{
   width: 220px;
 }
-.sidebar_index:hover .index_element {
-  grid-template-columns: 40px 1fr;
-  
+
+/* Estilo del header dentro de la barra */
+.index_header{
+  font-size: large;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  margin-bottom: -10px;
+}
+.sidebar_index hr {
+  width: 50px; /* Ancho inicial (colapsado) */
+  background-color: #aaa; /* Un color más suave */
+  margin: 20px auto; /* Centrado */
+  margin-bottom: -5px;
+  transition: width 0.5s ease-in-out; /* Animación */
+}
+
+.sidebar_index:hover hr {
+  width: 90%; /* Ancho final (expandido) */
 }
 .index_list{
   list-style: none;
   padding: 0;
-  
-  gap: 40px;
+  gap: 20px;
 }
+
 .index_element{
-  padding: .8rem 1rem;
+  margin-top: 10px;
+  padding: .8rem .5rem 1rem .5rem;
   display: grid;
   gap: .5rem;
-  grid-template-columns: 40px 0fr;
-
+  align-items: center;
+  /* Columna del ícono (30px) y columna de texto (0fr colapsada) */
+  grid-template-columns: 30px 0fr;
   transition: grid-template-columns 0.5s, transform 0.3s;
+  text-decoration: none;
+  color: inherit;
 }
+
+/* Estado expandido del link (al hacer hover en la barra) */
+.sidebar_index:hover .index_element {
+  grid-template-columns: 30px 1fr;
+}
+
+/* Estado hover del link (al hacer hover en el link mismo) */
 .index_element:hover{
   background-color: #b6b6b6;
   border: 3px solid #181717;
   border-radius: 8px;
   cursor: pointer;
-  transform: scale(1.05) translateY(-6px);
+  /* Quitado scale(1.05) para evitar el "jiggle" */
+  transform: translateY(-6px);
   font-weight: bold;
 }
 
+/* Estilos de los íconos de la barra */
 .sidebar_icon{
   max-width: 100%;
   overflow: hidden;
-  justify-self: center;
   border: bold;
+  /* Tamaño base del ícono */
+  width: 30px;
+  height: 30px;
+  object-fit: contain; /* Asegura que el SVG escale bien */
 }
-.sidebar_hide{
-  overflow: hidden;
-}
-/* Corregimos el nombre de la clase a singular para que coincida con el HTML */
+
+/* Modificadores de íconos específicos */
 .sidebar_icon--servant{
-  transform: translateY(-5px); /* Lo subimos 10px para alinearlo mejor */
-}
-.index_text{
-  text-wrap: nowrap;
-  padding-left: 5px;
+  transform: translateY(-5px); 
 }
 .sidebar_icon--game{
   color:black;
   fill:black;
 }
-
 .sidebar_icon--tier{
+  /* Sobrescribe el tamaño base para este ícono */
   height: 40px;
   width: 40px;
-  object-fit: contain;
 }
+
+/* Contenedor del texto (se oculta) */
+.sidebar_hide{
+  overflow: hidden;
+}
+.index_text{
+  text-wrap: nowrap;
+  padding-left: 5px;
+}
+
+/* Estilos específicos del control de música */
 .sidebar_hide--music{
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-.range {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  background: #444444; /* Color del riel (track) */
-  border-radius: 6px;
-  cursor: pointer;
-  outline:#181717;
-}
-/* 3. El Botoncito (Thumb) */
-.range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 18px;
-  width: 18px;
-  border-radius: 35%;
-  background: black;
-}
-/* ¡ESTE ES EL CAMBIO! */
-.range::-webkit-slider-thumb:active {
-  background:#2a2a4e; /* Color dorado al hacer clic */
-}
-
-.range::-moz-range-thumb {
-  height: 18px;
-  width: 18px;
-  border-radius: 50%;
-  background: black; /* Consistente con webkit */
-  border: 0;
-}
-/* Y para Firefox */
-.range::-moz-range-thumb:active {
-  background: #f7b731; /* Color dorado al hacer clic */
 }
 .sound-column-icon{
   display: flex;
@@ -133,69 +206,101 @@ header{
   font-size: large;
   font-weight: bold;
 }
-
-.index_header{
-  font-size: large;
-  font-weight: bold;
-  color: black;
-  text-align: center;
+.range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #444444;
+  border-radius: 6px;
+  cursor: pointer;
+  outline:#181717;
+  margin-bottom: 10px;
 }
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 45%;
+  background: black;
+}
+.range::-webkit-slider-thumb:active {
+  background:#2a2a4e;
+}
+.range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 45%;
+  background: black;
+  border: 0;
+}
+.range::-moz-range-thumb:active {
+  background: #f7b731;
+}
+
+/* --- 4. COMPONENTE: BARRA DE FILTROS (DERECHA) --- */
 #sidebar-filtro {
   position: fixed;
   top: 0;
   right: 0;
   width: 300px;
-  height: 96%;
+  height: 100%;
   margin-bottom: 10px;
   background-color: #36332c88;
   border: 3px solid black;
-  text-align: center;
   padding: 15px;
   gap: 20px;
   transform: translateX(100%);
   transition: transform 0.5s ease-in-out;
+  z-index: 90; /* Detrás de la barra de nav, pero sobre el main */
 }
 #sidebar-filtro.sidebar-filtro-visible {
-  transform: translateX(0); /* La regresa a su lugar original */
+  transform: translateX(0);
 }
-h4 {
-  margin-top: 10px;
-  font-size: large;
-  font-weight: bold;
-  color: #f7b731;
-}
-hr {
-  width: 99%;
-  border: none; /* Quita el borde 3D feo */
-  height: 1px; /* La hace súper fina */
-  background-color: black; /* Un color sutil de tu paleta */
-  margin: 20px 0; /* Le da un poco de espacio arriba y abajo */
-}
-.filtro_class,.filtro_rarity,.filtro_NP{
+
+/* Contenedores de grupos de filtros */
+.filtro_class,
+.filtro_rarity,
+.filtro_NP{
   display: grid;
-  grid-template-columns:  repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
   margin-top: 20px;
   margin-bottom: 20px;
   align-items: center;
 }
-.filtro_class button:last-child {
-  /* Le dice al botón que se expanda para ocupar 2 columnas */
-  grid-column: span 2;
-}
-.filtro_class button {
+
+/* Estilo base para TODOS los botones de filtro */
+.filtro_class button,
+.filtro_rarity button,
+.filtro_NP button {
   background-color: #36332c;
   border: 3px solid #1a1a2e;
   border-radius: 5px;
   padding: 8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   font-size: medium;
   font-weight: bold;
   color: #f7b731;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+/* Estado .active base para TODOS los botones de filtro */
+.filtro_rarity button.active,
+.filtro_NP button.active,
+.filtro_class button.active {
+  transform: translateY(-3px) scale(1.05);
+  font-weight: bold;
+}
+
+/* Estilos específicos para botones CON ICONO (Class) */
+.filtro_class button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.filtro_class button:last-child {
+  grid-column: span 2;
 }
 .filter-icon {
   margin-left: 5px;
@@ -207,87 +312,8 @@ hr {
   flex-grow: 1;      
   text-align: center;
 }
-.filtro_class button.active {
-  background-color: #ffde8a; /* Un dorado más claro */
-  color: #1a1a2e;
-  font-weight: bold;
-  /* ¡Bonus! Hacemos que se mueva un poquito */
-  transform: translateY(-3px) scale(1.05);
-}
-.filtro_rarity button {
-  border-radius: 5px;
-  padding: 8px;
-  font-size: medium;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-  background-color: #36332c;
-  border: 3px solid #1a1a2e;
-  color: #f7b731;
-}
-.filtro_rarity button.active,.filtro_NP button.active{
-  transform: translateY(-3px) scale(1.1);
-  font-weight: bold;
-}
-#rarity-0{
-  background-color: #36332c;
-  border: 3px solid #606068;
-  color: black;
-}
-#rarity-0.active{
-  background: linear-gradient(to bottom, #4a4a4e 0%, #7b7b81 100%);
-  border: 3px solid black}
-#rarity-1,#rarity-2{
-  background-color: #693e13;
-  border: 3px solid #CD7F32;
-  color: #CD7F32;
-}
-#rarity-1.active,#rarity-2.active{
-  border: 3px solid #f7b731;
-}
-#rarity-3{
-  background-color: gray;
-  border: 3px solid silver;
-  color: silver;
-}
-#rarity-3.active{
-  border: 3px solid #e3e4e5;
-  color: #e3e4e5;
-}
-#rarity-4,#rarity-5{
-  border: 3px solid #f7b731;
-}
-#rarity-4.active,
-#rarity-5.active{
-  background: #181717;
-  background: linear-gradient(to bottom, #444444, #222222);
-  color: gold;
-}
-.filtro_NP button {
-  background-color: #36332c;
-  border: 3px solid #1a1a2e;
-  border-radius: 5px;
-  padding: 8px;
-  font-size: medium;
-  font-weight: bold;
-  color: #f7b731;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-#NP_Arts.active{
-  color: black;
-  background: linear-gradient(to bottom, rgb(16, 16, 199) 0%,rgb(13, 80, 180) 100%);
-  
-}
-#NP_Quick.active{
-  color: rgb(17, 16, 16);
-  background: linear-gradient(to bottom,rgb(5, 112, 5) 0%,rgb(14, 185, 14) 100%);
-  
-}
-#NP_Buster.active{
-  color: rgb(17, 16, 16);
-  background: linear-gradient(to bottom, rgb(177, 4, 4) 0%,red 100%);
-}
+
+/* Botón de Reset */
 .reset_filter{
   display: flex;
   flex-direction: row;
@@ -312,118 +338,157 @@ hr {
   transform: translateY(-3px) scale(1.1);
   box-shadow: black 0px 0px 10px;
 }
-main {
-  width: 100%;
-  max-width: 1000px;
-  background-color: #2a2a4e; /* Un azul un poco más claro */
-  padding: 20px;
-  border-radius: 8px; /* ¡Bordes redondeados! */
+
+/* --- ESTILOS TEMÁTICOS (BOTONES DE FILTRO) --- */
+/* (Aquí agrupamos todos los .active que cambian de color) */
+
+.filtro_class button.active {
+  background-color: #ffde8a;
+  color: #1a1a2e;
 }
-h2 {
-  color: #f7b731; /* Un color dorado F/GO */
-  font-weight: bold;
-  margin-top: 20px;
-  margin-bottom: 20px;
+
+/* Rarity */
+#rarity-0{
+  border-color: #606068;
+  color: black;
 }
+#rarity-0.active{
+  background: linear-gradient(to bottom, #4a4a4e 0%, #7b7b81 100%);
+  border-color: black;
+}
+#rarity-1,#rarity-2{
+  background-color: #693e13;
+  border-color: #CD7F32;
+  color: #CD7F32;
+}
+#rarity-1.active,#rarity-2.active{
+  border-color: #f7b731;
+}
+#rarity-3{
+  background-color: gray;
+  border-color: silver;
+  color: silver;
+}
+#rarity-3.active{
+  border-color: #e3e4e5;
+  color: #e3e4e5;
+}
+#rarity-4,#rarity-5{
+  border-color: #f7b731;
+}
+#rarity-4.active,
+#rarity-5.active{
+  background: linear-gradient(to bottom, #444444, #222222);
+  color: gold;
+}
+
+/* NP */
+#NP_Arts.active{
+  color: black;
+  background: linear-gradient(to bottom, rgb(16, 16, 199) 0%,rgb(13, 80, 180) 100%);
+}
+#NP_Quick.active{
+  color: rgb(17, 16, 16);
+  background: linear-gradient(to bottom,rgb(5, 112, 5) 0%,rgb(14, 185, 14) 100%);
+}
+#NP_Buster.active{
+  color: rgb(17, 16, 16);
+  background: linear-gradient(to bottom, rgb(177, 4, 4) 0%,red 100%);
+}
+
+
+/* --- 5. COMPONENTE: CONTENIDO PRINCIPAL (MAIN) --- */
+
+/* Barra de Búsqueda */
 .search_bar {
-    position: sticky;
-    top: 10px;
-    z-index: 10;
-  display: flex; /* ¡La clave! Pone los elementos en línea */
-  flex-direction: row; /* Alinea los elementos en fila */
-  justify-content: center; /* Centra horizontalmente */
-  gap: 10px; /* Espacio entre el input y el botón */
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 30px;
   margin-top: 10px;
 }
 #search-bar {
-  flex-grow: 1; /* Hace que el input ocupe todo el espacio disponible */
+  flex-grow: 1;
   padding: 12px 15px;
   font-size: 1em;
-  background-color: rgba(26, 26, 46, 0.8); /* Fondo oscuro */
-  color: #eaeaea; /* Texto claro */
-  border: 2px solid #5a5a9e; /* Borde sutil */
-  border-radius: 20px; /* Bordes redondeados, igual que el botón */
+  background-color: rgba(26, 26, 46, 0.8);
+  color: #eaeaea;
+  border: 2px solid #5a5a9e;
+  border-radius: 20px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 #search-bar:focus {
-  outline: none; /* Quitamos el borde feo por defecto */
-  border-color: #f7b731; /* Borde dorado al seleccionar */
-  box-shadow: 0 0 8px #f7b731; /* Sombra dorada para que brille */
+  outline: none;
+  border-color: #f7b731;
+  box-shadow: 0 0 8px #f7b731;
 }
 #button-filter {
   display: flex;
   align-items: center;
-  gap: 8px; /* Espacio entre el icono y el texto */
-  padding: 12px 20px; /* Ajustado para el nuevo layout */
-  background-color: #f7b731; /* El dorado que usamos */
-  color: #1a1a2e; /* El azul oscuro del fondo */
+  gap: 8px;
+  padding: 12px 20px;
+  background-color: #f7b731;
+  color: #1a1a2e;
   font-size: medium;
-  font-weight: 550; /* Letra en negrita */
-  border-radius: 20px; /* Bordes redondeados */
-  border: none; /* No necesitamos borde con flex */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
+  font-weight: 550;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 #button-filter:hover {
-  transform: (1.1);
-  background-color: #ffde8a; /* Un dorado más claro */
+  background-color: #ffde8a;
   color: #1a1a2e;
-  /* ¡Bonus! Hacemos que se mueva un poquito */
   transform: translateY(-3px);
+  /* NOTA: Tenías 'transform: (1.1);' que es un error de sintaxis, lo quité */
 }
+
+/* Cuadrícula de Servants */
 .servants_grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(162px, 1fr));
-  gap: 8px; /* Aumentamos el espacio para que no se vea tan apretado */
+  gap: 8px;
 }
 .details_link {
   text-decoration: none;
-  color: inherit; /* Hereda el color del texto normal */
+  color: inherit;
   display: inline-block;
-  align-items: center;
-  gap: 50px;
+  /* 'align-items' y 'gap' no tienen efecto en 'display: inline-block' */
 }
 
+/* Tarjeta de Servant */
 .servant_card {
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 95%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 0; /* Simplificado */
   border: 3px solid black;
   background-color: #36332c88;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
-
-/* --- Efecto Hover por Tipo de NP --- */
 .servant_card:hover {
-  transform: (1.1);
+  /* NOTA: Tenías 'transform: (1.1);' que es un error de sintaxis */
   transform: translateY(-3px);
 }
-/* 1. ARTS (data-np="1") -> Azul */
+
+/* Efectos de Hover por NP */
 .servant_card[data-np="1"]:hover {
- 
   background: linear-gradient(to bottom, #4e8cff, #3a7bd5);
-
 }
-
-/* 2. BUSTER (data-np="2") -> Rojo */
 .servant_card[data-np="2"]:hover {
-
   background: linear-gradient(to bottom, #e53935, #d32f2f);
-  
 }
-
-/* 3. QUICK (data-np="3") -> Verde */
 .servant_card[data-np="3"]:hover {
-  
   background: linear-gradient(to bottom, #66bb6a, #43a047);
-   
 }
 
+/* Partes de la Tarjeta */
 .face_main {
   margin-top: 10px;
   object-fit: cover;
@@ -432,13 +497,7 @@ h2 {
 .class_icon_overlay{
   width: 40px; 
   height: 40px;
-
-  /* Un margen negativo lo "tira" 20px hacia arriba, 
-     solapando al elemento anterior (la imagen face_main) */
-  margin-top: -20px;
-  
-  /* Pone el icono en una capa superior (z-index) para 
-     que esté POR ENCIMA de la imagen de la cara */
+  margin-top: -20px; /* El truco de superposición */
   z-index: 10;
 }
 .see_details_servant {
@@ -448,24 +507,16 @@ h2 {
   justify-content: center;
   width: 100%;
   margin-top: 10px;
-  position: relative; /* Necesario para que class_icon_overlay funcione */
-  z-index: 5;
-}
-h3 {
-  color: #f7b731;
-  margin-top: 10px;
-  margin-bottom: 5px;
-  font-size: small;
-  background-color: #36332c88;
-  text-align: center;
-  padding: 8px 10px;
-  border: 2px solid black;
-  border-radius: 5px;
-  width: 80%;
-  box-sizing: border-box;
+  position: relative; 
+  z-index: 5; /* Detrás del icono overlay */
 }
 .rarity_card{
   font-size: medium;
   font-weight: bold;
-  color:#f7b731
+  color:#f7b731;
+}
+.medievalsharp-regular {
+  font-family: "MedievalSharp", cursive;
+  font-weight: 400;
+  font-style: normal;
 }

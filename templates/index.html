@@ -1,338 +1,157 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
-    <title>F/GO Servants Dashboard</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
+<!-- 
+  Paso 1: Le decimos a Jinja2 que este archivo "hereda" 
+  de nuestro esqueleto base.html
+-->
+{% extends "base.html" %}
 
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='icons/favicon.ico') }}"
-      sizes="any"
-    />
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='icons/favicon.svg') }}"
-      type="image/svg+xml"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}"
-    />
-    <link
-      rel="manifest"
-      href="{{ url_for('static', filename='icons/site.webmanifest') }}"
-    />
-  </head>
-  <body>
-    <header>
-      <h1>FGO Dashboard</h1>
-    </header>
-    <aside id="sidebar-filtro">
-      <h4>Filtros</h4>
-      <hr/>
-      <div class="filtro_rarity">
-        <button id="rarity-0" data-value="0">★</button>
-        <button id="rarity-1" data-value="1">★</button>
-        <button id="rarity-2" data-value="2">★★</button>
-        <button id="rarity-3" data-value="3">★★★</button>
-        <button id="rarity-4" data-value="4">★★★★</button>
-        <button id="rarity-5" data-value="5">★★★★★</button>
-      </div>
-      <hr />
-      <div class="filtro_class">
-        <button id="class-saber" data-value="saber">
-          <img
-            src="{{ url_for('static', filename='classes/saber.png') }}"
-            alt="Icono Saber"
-            class="filter-icon"
-          />
-          <span>Saber</span>
-        </button>
-        <button id="class-archer" data-value="archer">
-          <img
-            src="{{ url_for('static', filename='classes/archer.png') }}"
-            alt="Icono Archer"
-            class="filter-icon"
-          />
-          <span>Archer</span>
-        </button>
-        <button id="class-lancer" data-value="lancer">
-          <img
-            src="{{ url_for('static', filename='classes/lancer.png') }}"
-            alt="Icono Lancer"
-            class="filter-icon"
-          />
-          <span>Lancer</span>
-        </button>
-        <button id="class-rider" data-value="rider">
-          <img
-            src="{{ url_for('static', filename='classes/rider.png') }}"
-            alt="Icono Rider"
-            class="filter-icon"
-          />
-          <span>Rider</span>
-        </button>
-        <button id="class-caster" data-value="caster">
-          <img
-            src="{{ url_for('static', filename='classes/caster.png') }}"
-            alt="Icono Caster"
-            class="filter-icon"
-          />
-          <span>Caster</span>
-        </button>
-        <button id="class-assassin" data-value="assassin">
-          <img
-            src="{{ url_for('static', filename='classes/assassin.png') }}"
-            alt="Icono Assassin"
-            class="filter-icon"
-          />
-          <span>Assassin</span>
-        </button>
-        <button id="class-berserker" data-value="berserker">
-          <img
-            src="{{ url_for('static', filename='classes/berserker.png') }}"
-            alt="Icono Berserker"
-            class="filter-icon"
-          />
-          <span>Berserker</span>
-        </button>
-        <button id="class-shielder" data-value="shielder">
-          <img
-            src="{{ url_for('static', filename='classes/shielder.png') }}"
-            alt="Icono Shielder"
-            class="filter-icon"
-          />
-          <span>Shielder</span>
-        </button>
-        <button id="class-ruler" data-value="ruler">
-          <img
-            src="{{ url_for('static', filename='classes/ruler.png') }}"
-            alt="Icono Ruler"
-            class="filter-icon"
-          />
-          <span>Ruler</span>
-        </button>
-        <button id="class-alterEgo" data-value="alterEgo">
-          <img
-            src="{{ url_for('static', filename='classes/alterego.png') }}"
-            alt="Icono Alter Ego"
-            class="filter-icon"
-          />
-          <span>Alter Ego</span>
-        </button>
-        <button id="class-avenger" data-value="avenger">
-          <img
-            src="{{ url_for('static', filename='classes/avenger.png') }}"
-            alt="Icono Avenger"
-            class="filter-icon"
-          />
-          <span>Avenger</span>
-        </button>
-        </button>
-        <button id="class-foreigner" data-value="foreigner">
-          <img
-            src="{{ url_for('static', filename='classes/foreigner.png') }}"
-            alt="Icono Foreigner"
-            class="filter-icon"
-          />
-          <span>Foreigner</span>
-        </button>
-        <button id="class-beast" data-value="beast">
-          <img
-            src="{{ url_for('static', filename='classes/beast.png') }}"
-            alt="Icono Beast"
-            class="filter-icon"
-          />
-          <span>Beast</span>
-        </button>
-        <button id="class-pretender" data-value="pretender">
-          <img
-            src="{{ url_for('static', filename='classes/pretender.png') }}"
-            alt="Icono Pretender"
-            class="filter-icon"
-          />
-          <span>Pretender</span>
-        </button>
-        <button id="class-moonCancer" data-value="moonCancer">
-          <img
-            src="{{ url_for('static', filename='classes/mooncancer.png') }}"
-            alt="Icono Moon Cancer"
-            class="filter-icon"
-          />
-          <span>Moon Cancer</span>
-      </div>
-      <hr />
-      <div class="filtro_NP">
-        <button id="NP_Arts" data-value="1">
-          <span>Arts</span>
-        </button>
-        <button id="NP_Quick" data-value="3">
-          <span>Quick</span>
-        </button>
-        <button id="NP_Buster" data-value="2">
-          <span>Buster</span>
-        </button>
+<!-- 
+  Paso 2: Definimos un título específico para esta página 
+  (esto reemplazará el bloque "title" en base.html) 
+-->
+{% block title %}Buscador de Servants{% endblock %}
 
-      </div>
-      <hr />
-      <div class="reset_filter">
-        <button id="reset-filter"><span>Reiniciar Filtros</span></button>
-      </div>
-    </aside>
-    <aside class="sidebar_index">
-      <header class="index_header">Menu</header>
-      <hr />
-      <ul class="index_list">
-        <li class="index_element">
-          <img
-          src="{{ url_for('static', filename='icons/side-bar/search-icon.svg') }}"
-          class="sidebar_icon sidebar_icon"
-          >
-          <div class="sidebar_hide">
-            <p class="index_text">Buscador</p>
-          </div>
-        </li>
-        <li class="index_element">
-          <img
-          src="{{url_for('static', filename='icons/side-bar/calculator-icon.svg') }}"
-          class="sidebar_icon"
-          >
-          <div class="sidebar_hide">
-            <p class="index_text">Calculadora</p>
-          </div>
-        </li>
-        <li class="index_element">
-          <img
-          src="{{url_for('static', filename='icons/side-bar/servants-icon.svg') }}"
-          class="sidebar_icon sidebar_icon--servant"
-          >
-          <div class="sidebar_hide">
-            <p class="index_text index_text--servants">Mis Servants</p>
-          </div>
-        </li>
-        <li class="index_element">
-          <svg class="sidebar_icon sidebar_icon--tier">
-            <use href="{{ url_for('static', filename='icons/side-bar/tier-icon.svg') }}"
-          </svg>
-          <div class="sidebar_hide">
-            <p class="index_text">Tier Lists</p>
-          </div>
-        </li>
-        <li class="index_element">
-          <img
-          src="{{url_for('static', filename='icons/side-bar/game-icon.svg') }}"
-          class="sidebar_icon sidebar_icon--game"
-          >
-          <div class="sidebar_hide">
-            <p class="index_text">FGOdle</p>
-          </div>
-        </li>
-        <li class="index_element">
-          <img
-          src="{{url_for('static', filename='icons/side-bar/calendar-icon.svg') }}"
-          class="sidebar_icon"
-          >
-          <div class="sidebar_hide">
-            <p class="index_text">Weekly Missions</p>
-          </div>
-        </li>
-        <li class="index_element index_element--music">
-          <div class="sound-column-icon">   
-            <img
-            src="{{url_for('static', filename='icons/side-bar/sound-icon.svg') }}"
-            class="sidebar_icon sidebar_icon--sound"
-            >
-            <span id="volume-display">30</span>
-          </div>
-          <div class="sidebar_hide sidebar_hide--music">
-            <span class="index_text index_text--music">ON/OFF</span>
-            <span class="index_text index_text--music">Music</span>
-            <div class="range-wrap"> 
-              <input type="range" id="volume-slider" class="range" min="0" max="100" value="30">
-              
-            </div>
-          </div>
-        </li>
+<!-- 
+  Paso 3: Todo el contenido único de esta página va 
+  dentro del bloque "content".
+-->
+{% block content %}
 
+<!-- La barra de filtros SÓLO existe en esta página -->
+<aside id="sidebar-filtro">
+  <h4>Filtros</h4>
+  <hr />
+  <div class="filtro_rarity">
+    <button id="rarity-0" data-value="0">★</button>
+    <button id="rarity-1" data-value="1">★</button>
+    <button id="rarity-2" data-value="2">★★</button>
+    <button id="rarity-3" data-value="3">★★★</button>
+    <button id="rarity-4" data-value="4">★★★★</button>
+    <button id="rarity-5" data-value="5">★★★★★</button>
+  </div>
+  <hr />
+  <div class="filtro_class">
+    <button id="class-saber" data-value="saber">
+      <img src="{{ url_for('static', filename='classes/saber.png') }}" alt="Icono Saber" class="filter-icon" />
+      <span>Saber</span>
+    </button>
+    <button id="class-archer" data-value="archer">
+      <img src="{{ url_for('static', filename='classes/archer.png') }}" alt="Icono Archer" class="filter-icon" />
+      <span>Archer</span>
+    </button>
+    <button id="class-lancer" data-value="lancer">
+      <img src="{{ url_for('static', filename='classes/lancer.png') }}" alt="Icono Lancer" class="filter-icon" />
+      <span>Lancer</span>
+    </button>
+    <button id="class-rider" data-value="rider">
+      <img src="{{ url_for('static', filename='classes/rider.png') }}" alt="Icono Rider" class="filter-icon" />
+      <span>Rider</span>
+    </button>
+    <button id="class-caster" data-value="caster">
+      <img src="{{ url_for('static', filename='classes/caster.png') }}" alt="Icono Caster" class="filter-icon" />
+      <span>Caster</span>
+    </button>
+    <button id="class-assassin" data-value="assassin">
+      <img src="{{ url_for('static', filename='classes/assassin.png') }}" alt="Icono Assassin" class="filter-icon" />
+      <span>Assassin</span>
+    </button>
+    <button id="class-berserker" data-value="berserker">
+      <img src="{{ url_for('static', filename='classes/berserker.png') }}" alt="Icono Berserker" class="filter-icon" />
+      <span>Berserker</span>
+    </button>
+    <button id="class-shielder" data-value="shielder">
+      <img src="{{ url_for('static', filename='classes/shielder.png') }}" alt="Icono Shielder" class="filter-icon" />
+      <span>Shielder</span>
+    </button>
+    <button id="class-ruler" data-value="ruler">
+      <img src="{{ url_for('static', filename='classes/ruler.png') }}" alt="Icono Ruler" class="filter-icon" />
+      <span>Ruler</span>
+    </button>
+    <button id="class-alterEgo" data-value="alterEgo">
+      <img src="{{ url_for('static', filename='classes/alterego.png') }}" alt="Icono Alter Ego" class="filter-icon" />
+      <span>Alter Ego</span>
+    </button>
+    <button id="class-avenger" data-value="avenger">
+      <img src="{{ url_for('static', filename='classes/avenger.png') }}" alt="Icono Avenger" class="filter-icon" />
+      <span>Avenger</span>
+    </button>
+    <button id="class-foreigner" data-value="foreigner">
+      <img src="{{ url_for('static', filename='classes/foreigner.png') }}" alt="Icono Foreigner" class="filter-icon" />
+      <span>Foreigner</span>
+    </button>
+    <img src="{{ url_for('static', filename='classes/beast.png') }}" alt="Icono Beast" class="filter-icon" />
+    <span>Beast</span>
+    </button>
+    <button id="class-pretender" data-value="pretender">
+      <img src="{{ url_for('static', filename='classes/pretender.png') }}" alt="Icono Pretender" class="filter-icon" />
+      <span>Pretender</span>
+    </button>
+    <button id="class-moonCancer" data-value="moonCancer">
+      <img src="{{ url_for('static', filename='classes/mooncancer.png') }}" alt="Icono Moon Cancer" <img
+        src="{{ url_for('static', filename='classes/mooncancer.png') }}" alt="Icono Moon Cancer" class="filter-icon" />
+      <span>Moon Cancer</span>
+    </button>
+  </div>
+  <hr />
+  <button id="NP_Arts" data-value="1">
+    <span>Arts</span>
+  </button>
+  <button id="NP_Quick" data-value="3">
+    <span>Quick</span>
+  </button>
+  <button id="NP_Buster" data-value="2">
+    <span>Buster</span>
+  </button>
 
-      </ul>
-    </aside>
-    <main>
-      <h2>Servants</h2>
-      <div class="search_bar">
-        <input
-          type="text"
-          id="search-bar"
-          placeholder="Buscar Servant por nombre..."
-        />
-        <button id="button-filter">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-sliders-horizontal"
-          >
-            <line x1="21" y1="4" x2="14" y2="4"></line>
-            <line x1="10" y1="4" x2="3" y2="4"></line>
-            <line x1="21" y1="12" x2="12" y2="12"></line>
-            <line x1="8" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="20" x2="16" y2="20"></line>
-            <line x1="12" y1="20" x2="3" y2="20"></line>
-            <line x1="14" y1="2" x2="14" y2="6"></line>
-            <line x1="8" y1="10" x2="8" y2="14"></line>
-            <line x1="16" y1="18" x2="16" y2="22"></line>
-          </svg>
-          <span>Filtrar</span>
-        </button>
-      </div>
+  </div>
+  <hr />
+  <div class="reset_filter">
+    <button id="reset-filter"><span>Reiniciar Filtros</span></button>
+  </div>
+</aside>
 
-      <div class="servants_grid">
-        {% for servant in servants_main_page %}
-        <a href="/servant/{{ servant.collectionNo }}" class="details_link">
-          <div
-            class="servant_card"
-            data-class="{{ servant.className | lower }}"
-            data-rarity="{{ servant.rarity }}"
-            data-name="{{ servant.name | lower }}"
-            data-np="{{ servant.npType }}"
-          >
-            <img
-              src="{{ servant.face }}"
-              alt=" Icono de {{ servant.name }}"
-              class="face_main"
-            />
-            <img 
-                src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}" 
-                alt="{{ servant.className }} class icon"
-                class="class_icon_overlay"
-              >
-            <div class="see_details_servant">
-              <div class="rarity_card">
-                {% for i in range(servant.rarity | int) %}
-                <span>★</span>
-                {% endfor %}
-              </div>
-              <h3>{{ servant.name }}</h3>
-            </div>
+<!-- El <main> también es único de esta página -->
+<main>
+  <h2>Servants</h2>
+  <div class="search_bar">
+    <input type="text" id="search-bar" placeholder="Buscar Servant por nombre..." />
+    <button id="button-filter">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="lucide lucide-sliders-horizontal">
+        <line x1="21" y1="4" x2="14" y2="4"></line>
+        <line x1="10" y1="4" x2="3" y2="4"></line>
+        <line x1="21" y1="12" x2="12" y2="12"></line>
+        <line x1="8" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="20" x2="16" y2="20"></line>
+        <line x1="12" y1="20" x2="3" y2="20"></line>
+        <line x1="14" y1="2" x2="14" y2="6"></line>
+        <line x1="8" y1="10" x2="8" y2="14"></line>
+        <line x1="16" y1="18" x2="16" y2="22"></line>
+      </svg>
+      <span>Filtrar</span>
+    </button>
+  </div>
+
+  <div class="servants_grid">
+    {% for servant in servants_main_page %}
+    <a href="/servant/{{ servant.collectionNo }}" class="details_link">
+      <div class="servant_card" data-class="{{ servant.className | lower }}" data-rarity="{{ servant.rarity }}"
+        data-name="{{ servant.name | lower }}" data-np="{{ servant.npType }}">
+        <img src="{{ servant.face }}" alt=" Icono de {{ servant.name }}" class="face_main" />
+        <img src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}"
+          alt="{{ servant.className }} class icon" class="class_icon_overlay">
+        <div class="see_details_servant">
+          <div class="rarity_card">
+            {% for i in range(servant.rarity | int) %}
+            <span>★</span>
+            {% endfor %}
           </div>
-        </a>
-        {% endfor %}
+          <h3>{{ servant.name }}</h3>
+        </div>
       </div>
-    </main>
-    <audio id="ost-player" loop>
-      <source src="static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg">
-    </audio>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
-  </body>
-</html>
+    </a>
+    {% endfor %}
+  </div>
+</main>
+
+{% endblock %}

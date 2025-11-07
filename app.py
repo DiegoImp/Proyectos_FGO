@@ -106,6 +106,18 @@ def pagina_principal():
     servants_para_template = _procesar_lista_servants(TODOS_LOS_SERVANTS)
     return render_template('index.html', servants_main_page=servants_para_template)
 
+# --- AÑADIMOS LA NUEVA RUTA ---
+
+
+@app.route('/calculadora')
+def pagina_calculadora():
+    """
+    Renderiza la página de la calculadora.
+    """
+    # CAMBIO 2: Pasamos la variable 'page' también aquí.
+    return render_template('calculadora.html', page='calculadora')
+# --- FIN DE LA NUEVA RUTA ---
+
 
 if __name__ == '__main__':
     app.run(debug=True)
