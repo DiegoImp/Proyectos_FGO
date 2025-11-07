@@ -78,8 +78,9 @@
       <img src="{{ url_for('static', filename='classes/foreigner.png') }}" alt="Icono Foreigner" class="filter-icon" />
       <span>Foreigner</span>
     </button>
-    <img src="{{ url_for('static', filename='classes/beast.png') }}" alt="Icono Beast" class="filter-icon" />
-    <span>Beast</span>
+    <button id="class-beast" data-value="beast">
+      <img src="{{ url_for('static', filename='classes/beast.png') }}" alt="Icono Beast" class="filter-icon" />
+      <span>Beast</span>
     </button>
     <button id="class-pretender" data-value="pretender">
       <img src="{{ url_for('static', filename='classes/pretender.png') }}" alt="Icono Pretender" class="filter-icon" />
@@ -92,15 +93,17 @@
     </button>
   </div>
   <hr />
-  <button id="NP_Arts" data-value="1">
-    <span>Arts</span>
-  </button>
-  <button id="NP_Quick" data-value="3">
-    <span>Quick</span>
-  </button>
-  <button id="NP_Buster" data-value="2">
-    <span>Buster</span>
-  </button>
+  <div class="filtro_NP">
+    <button id="NP_Arts" data-value="1">
+      <span>Arts</span>
+    </button>
+    <button id="NP_Quick" data-value="3">
+      <span>Quick</span>
+    </button>
+    <button id="NP_Buster" data-value="2">
+      <span>Buster</span>
+    </button>
+  </div>
 
   </div>
   <hr />

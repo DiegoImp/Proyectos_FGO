@@ -49,13 +49,14 @@ h3 {
   width: 80%;
 }
 
-h4 {
+h4{
   margin-top: 10px;
   font-size: large;
   font-weight: bold;
   color: #f7b731;
   text-align: center; /* Movido de #sidebar-filtro a h4 global */
 }
+
 
 hr {
   width: 99%;
