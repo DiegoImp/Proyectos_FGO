@@ -18,7 +18,25 @@
 </head>
 
 <body>
-    <!-- 1. EL HEADER (GLOBAL) -->
+    <nav class="auth_container">
+        <button id="auth-open-button" class="auth_button">
+            <img src="{{ url_for('static', filename='icons/side-bar/account-icon.svg') }}" alt="Usuario" />
+            <span>Iniciar Sesión</span>
+        </button>
+
+        <div id="user-profile" class="auth_user hidden">
+            <img src="{{ url_for('static', filename='icons/side-bar/account-icon.svg') }}" alt="Usuario" />
+            <span id="user-profile-name">Nombre Usuario</span>
+        </div>
+    </nav>
+
+    <div id="modal-overlay">
+        <div id="auth-modal">
+            <button id="auth-close-button" class="auth_modal_close">&times;</button>
+            <h3>Iniciar Sesión</h3>
+            <p style="color: white;">Aquí pondremos los formularios...</p>
+        </div>
+    </div>
     <header>
         <h1>FGO Dashboard</h1>
     </header>

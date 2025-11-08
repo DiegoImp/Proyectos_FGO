@@ -247,7 +247,7 @@ main {
   width: 300px;
   height: 100%;
   margin-bottom: 10px;
-  background-color: #36332c88;
+  background-color: #353434;
   border: 3px solid black;
   padding: 15px;
   gap: 20px;
@@ -520,4 +520,98 @@ main {
   font-family: "MedievalSharp", cursive;
   font-weight: 400;
   font-style: normal;
+}
+/* --- 6. COMPONENTE: AUTENTICACIÓN Y MODAL --- */
+
+/* Contenedor en la esquina superior derecha */
+.auth_container {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+ /* Encima de la barra lateral, pero debajo del modal */
+}
+
+/* Botón de "Iniciar Sesión" */
+.auth_button, .auth_user {
+    display: flex; /* Para alinear ícono y texto */
+    align-items: center;
+    gap: 10px;
+    background-color: #f7b731;
+    color: #1a1a2e;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    font-size: medium;
+    font-weight: 550;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth_button:hover {
+    background-color: #ffde8a;
+    transform: translateY(-2px);
+}
+
+.auth_button img, .auth_user img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Clase simple para ocultar/mostrar elementos con JS */
+.hidden {
+    display: none !important; /* !important para asegurar que se oculte */
+}
+
+
+/* * EXPLICACIÓN DEL OVERLAY *
+  Así es como funciona el fondo oscuro:
+  1. position: fixed -> Lo saca del flujo normal y lo pega a la ventana.
+  2. top/left/width/height -> Hacemos que ocupe TODA la pantalla.
+  3. background-color -> Le damos un color negro con 70% de opacidad.
+  4. z-index -> Lo ponemos muy alto (ej. 1000) para que tape todo.
+  5. Por defecto, tiene 'display: none'. Lo cambiaremos a 'display: block' con JS.
+*/
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    
+    /* Centra el modal que está dentro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Oculto por defecto */
+    display: none; 
+}
+
+/* El Modal (la ventana) */
+#auth-modal {
+    background: #2a2a4e; /* Usamos el color de fondo de tu 'main' */
+    border: 3px solid #f7b731;
+    border-radius: 8px;
+    padding: 25px;
+    width: 90%;
+    max-width: 450px; /* Ancho máximo */
+    z-index: 1001; /* Encima del overlay */
+    position: relative; /* Para posicionar el botón de cerrar */
+    
+    /* Oculto por defecto (lo controla el overlay) */
+    display: block; 
+}
+
+/* Botón de cerrar (la 'X') */
+.auth_modal_close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
 }

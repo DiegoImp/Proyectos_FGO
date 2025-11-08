@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const searchbar = document.getElementById("search-bar"); // tomamos la barra de busqueda
+  let textoBusqueda = "";
+
   const filterbutton = document.getElementById("button-filter"); //tomamos el boton de filtros
   const sidebar = document.getElementById("sidebar-filtro"); //tomamos el sidebar
   const botonesDeFiltro = document.querySelectorAll(
@@ -10,12 +12,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const audioPlayer = document.getElementById("ost-player");
   const volumeSlider = document.getElementById("volume-slider");
-
   const soundControl = document.querySelector(".index_element--music");
-
   const volumeDisplay = document.getElementById("volume-display");
-  // Definimos esta variable aquí para que esté disponible para todas las funciones
-  let textoBusqueda = "";
+
+  const AuthButton = document.querySelector(".auth_button");
+  const AuthCloseButton = document.querySelector(".auth_modal_close");
+  const Overlay = document.getElementById("modal-overlay");
+
+  function openAuthModal() {
+    Overlay.style.display = "flex";
+  }
+  function closeAuthModal() {
+    Overlay.style.display = "none";
+  }
 
   function aplicarFiltrosCombinados() {
     const botonesClaseActivos = document.querySelectorAll(
@@ -109,6 +118,22 @@ document.addEventListener("DOMContentLoaded", () => {
   volumeSlider.addEventListener("input", () => {
     updateVolume(); // Actualiza el audio
     updateVolumeDisplay(); // Actualiza el número
+  });
+
+  AuthButton.addEventListener("click", () => {
+    openAuthModal();
+  });
+
+  AuthCloseButton.addEventListener("click", () => {
+    closeAuthModal();
+  });
+  Overlay.addEventListener("click", (event) => {
+    // 'event.target' es el elemento exacto donde hiciste clic.
+    // Comprobamos si donde hiciste clic (event.target)
+    // es el overlay MISMO, y no uno de sus hijos (como el modal).
+    if (event.target === Overlay) {
+      closeAuthModal(); // Llama a la misma función de cierre
+    }
   });
 
   // 6. Carga inicial: Pone todo en su sitio
