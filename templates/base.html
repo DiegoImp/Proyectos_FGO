@@ -20,21 +20,70 @@
 <body>
     <nav class="auth_container">
         <button id="auth-open-button" class="auth_button">
-            <img src="{{ url_for('static', filename='icons/side-bar/account-icon.svg') }}" alt="Usuario" />
             <span>Iniciar Sesión</span>
+            <span class="input_separator input_separator--user">|</span>
+            <img src="{{ url_for('static', filename='icons/account-icon.svg') }}" alt="Icono de cuenta de usuario" />
+
         </button>
 
         <div id="user-profile" class="auth_user hidden">
-            <img src="{{ url_for('static', filename='icons/side-bar/account-icon.svg') }}" alt="Usuario" />
-            <span id="user-profile-name">Nombre Usuario</span>
+            <span id="user-profile-name"></span>
+            <span class="input_separator input_separator--user">|</span>
+            <div id="user-profile-icon" class="profile_icon">
+                <span></span>
+            </div>
+
         </div>
     </nav>
 
     <div id="modal-overlay">
         <div id="auth-modal">
             <button id="auth-close-button" class="auth_modal_close">&times;</button>
-            <h3>Iniciar Sesión</h3>
-            <p style="color: white;">Aquí pondremos los formularios...</p>
+            <h2 id="auth-title">Iniciar Sesión</h2>
+            <hr class="login">
+            <form id="login-form" class="auth_form">
+                <div class="login_input">
+                    <img src="{{ url_for('static', filename='icons/email-icon.svg') }}" alt="Icono de email"
+                        class="auth_icon" />
+                    <span class="input_separator">|</span>
+                    <input id="login-email" type="email" placeholder="Correo electrónico" class="auth_input" required>
+                </div>
+                <div class="login_input">
+                    <img src="{{ url_for('static', filename='icons/password-icon.svg') }}" alt="Icono de contraseña"
+                        class="auth_icon" />
+                    <span class="input_separator">|</span>
+                    <input id="login-password" type="password" placeholder="Contraseña" class="auth_input" required>
+                </div>
+
+                <button id="auth-submit-login" type="submit" class="auth_submit_button">Iniciar Sesión</button>
+                <div class="auth_toggle_container">
+                    <span id="auth-toggle-text">¿No tienes una cuenta?</span>
+                    <button id="auth-toggle-login" class="auth_toggle_button">Regístrate aquí</button>
+                </div>
+            </form>
+            <form id="register-form" class="auth_form hidden">
+
+                <div class="register_input">
+                    <img src="{{ url_for('static', filename='icons/email-icon.svg') }}" alt="Icono de email"
+                        class="auth_icon" />
+                    <span class="input_separator">|</span>
+                    <input id="register-email" type="email" placeholder="Correo electrónico" class="auth_input"
+                        required>
+                </div>
+                <div class="register_input">
+                    <img src="{{ url_for('static', filename='icons/password-icon.svg') }}" alt="Icono de contraseña"
+                        class="auth_icon" />
+                    <span class="input_separator">|</span>
+                    <input id="register-password" type="password" placeholder="Contraseña" class="auth_input" required>
+                </div>
+                <button id="auth-submit-register" type="submit" class="auth_submit_button">Registrarse</button>
+                <div class="auth_toggle_container">
+                    <span id="auth-toggle-text">¿Ya tienes una cuenta?</span>
+                    <button id="auth-toggle-register" class="auth_toggle_button">Inicia Sesión</button>
+                </div>
+            </form>
+
+            <p id="auth-error" class="auth_error hidden"></p>
         </div>
     </div>
     <header>
@@ -131,6 +180,8 @@
     <audio id="ost-player" loop>
         <source src="{{ url_for('static', filename='audio/mi-ost-de-fgo.mp3') }}" type="audio/mpeg">
     </audio>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="{{ url_for('static', filename='supabase_config.js') }}"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 

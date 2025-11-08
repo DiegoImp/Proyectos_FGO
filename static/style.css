@@ -5,23 +5,27 @@
 }
 
 body {
-  background-image: radial-gradient(ellipse at center, #2a2a4e 0%, #1a1a2e 100%);
+  background-image: radial-gradient(
+    ellipse at center,
+    #2a2a4e 0%,
+    #1a1a2e 100%
+  );
   background-size: cover;
   background-attachment: fixed; /* Fija el fondo durante el scroll */
   background-repeat: no-repeat;
-  
+
   /* Centra el contenido principal */
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
   /* Asegura que el padding-left no mueva el contenido */
   padding-left: 70px; /* Coincide con el ancho colapsado de .sidebar_index */
   min-height: 150vh; /* Cambiado de height a min-height */
   font-family: Arial, sans-serif;
 }
 
-header{
+header {
   color: #f7b731;
   text-align: center;
   margin-top: 20px;
@@ -35,7 +39,6 @@ h2 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
 h3 {
   color: #f7b731;
   margin-top: 10px;
@@ -48,15 +51,13 @@ h3 {
   border-radius: 5px;
   width: 80%;
 }
-
-h4{
+h4 {
   margin-top: 10px;
   font-size: large;
   font-weight: bold;
   color: #f7b731;
   text-align: center; /* Movido de #sidebar-filtro a h4 global */
 }
-
 
 hr {
   width: 99%;
@@ -76,35 +77,35 @@ main {
 }
 
 /* --- 3. COMPONENTE: BARRA DE NAVEGACIÓN (IZQUIERDA) --- */
-.sidebar_index{
+.sidebar_index {
   position: fixed;
   top: 13%;
   left: 0;
   width: 90px;
   height: 640px;
-  padding: 1rem 1rem; 
+  padding: 1rem 1rem;
   display: grid;
   grid-template-rows: 40px auto;
   align-items: center;
-  
+
   background-color: #f8f8f8;
   color: #1a1a2e;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   border: 3px solid black;
   border-radius: 8px;
   /* Animamos el ancho y el padding-left del body */
-  transition: width 0.5s ease-in-out; 
+  transition: width 0.5s ease-in-out;
   z-index: 100; /* Asegura que esté por encima de todo */
   font-family: "MedievalSharp", cursive;
   font-weight: 400;
   font-style: normal;
 }
-.sidebar_index:hover{
+.sidebar_index:hover {
   width: 220px;
 }
 
 /* Estilo del header dentro de la barra */
-.index_header{
+.index_header {
   font-size: large;
   font-weight: bold;
   color: black;
@@ -122,17 +123,17 @@ main {
 .sidebar_index:hover hr {
   width: 90%; /* Ancho final (expandido) */
 }
-.index_list{
+.index_list {
   list-style: none;
   padding: 0;
   gap: 20px;
 }
 
-.index_element{
+.index_element {
   margin-top: 10px;
-  padding: .8rem .5rem 1rem .5rem;
+  padding: 0.8rem 0.5rem 1rem 0.5rem;
   display: grid;
-  gap: .5rem;
+  gap: 0.5rem;
   align-items: center;
   /* Columna del ícono (30px) y columna de texto (0fr colapsada) */
   grid-template-columns: 30px 0fr;
@@ -147,7 +148,7 @@ main {
 }
 
 /* Estado hover del link (al hacer hover en el link mismo) */
-.index_element:hover{
+.index_element:hover {
   background-color: #b6b6b6;
   border: 3px solid #181717;
   border-radius: 8px;
@@ -158,7 +159,7 @@ main {
 }
 
 /* Estilos de los íconos de la barra */
-.sidebar_icon{
+.sidebar_icon {
   max-width: 100%;
   overflow: hidden;
   border: bold;
@@ -169,41 +170,41 @@ main {
 }
 
 /* Modificadores de íconos específicos */
-.sidebar_icon--servant{
-  transform: translateY(-5px); 
+.sidebar_icon--servant {
+  transform: translateY(-5px);
 }
-.sidebar_icon--game{
-  color:black;
-  fill:black;
+.sidebar_icon--game {
+  color: black;
+  fill: black;
 }
-.sidebar_icon--tier{
+.sidebar_icon--tier {
   /* Sobrescribe el tamaño base para este ícono */
   height: 40px;
   width: 40px;
 }
 
 /* Contenedor del texto (se oculta) */
-.sidebar_hide{
+.sidebar_hide {
   overflow: hidden;
 }
-.index_text{
+.index_text {
   text-wrap: nowrap;
   padding-left: 5px;
 }
 
 /* Estilos específicos del control de música */
-.sidebar_hide--music{
+.sidebar_hide--music {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.sound-column-icon{
+.sound-column-icon {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px
+  gap: 20px;
 }
-#volume-display{
+#volume-display {
   font-size: large;
   font-weight: bold;
 }
@@ -215,7 +216,7 @@ main {
   background: #444444;
   border-radius: 6px;
   cursor: pointer;
-  outline:#181717;
+  outline: #181717;
   margin-bottom: 10px;
 }
 .range::-webkit-slider-thumb {
@@ -226,7 +227,7 @@ main {
   background: black;
 }
 .range::-webkit-slider-thumb:active {
-  background:#2a2a4e;
+  background: #2a2a4e;
 }
 .range::-moz-range-thumb {
   height: 18px;
@@ -262,7 +263,7 @@ main {
 /* Contenedores de grupos de filtros */
 .filtro_class,
 .filtro_rarity,
-.filtro_NP{
+.filtro_NP {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
@@ -305,17 +306,17 @@ main {
 }
 .filter-icon {
   margin-left: 5px;
-  width: 20px; 
+  width: 20px;
   height: 20px;
-  object-fit: contain; 
+  object-fit: contain;
 }
-.filtro_class button span{
-  flex-grow: 1;      
+.filtro_class button span {
+  flex-grow: 1;
   text-align: center;
 }
 
 /* Botón de Reset */
-.reset_filter{
+.reset_filter {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -349,54 +350,64 @@ main {
 }
 
 /* Rarity */
-#rarity-0{
+#rarity-0 {
   border-color: #606068;
   color: black;
 }
-#rarity-0.active{
+#rarity-0.active {
   background: linear-gradient(to bottom, #4a4a4e 0%, #7b7b81 100%);
   border-color: black;
 }
-#rarity-1,#rarity-2{
+#rarity-1,
+#rarity-2 {
   background-color: #693e13;
-  border-color: #CD7F32;
-  color: #CD7F32;
+  border-color: #cd7f32;
+  color: #cd7f32;
 }
-#rarity-1.active,#rarity-2.active{
+#rarity-1.active,
+#rarity-2.active {
   border-color: #f7b731;
 }
-#rarity-3{
+#rarity-3 {
   background-color: gray;
   border-color: silver;
   color: silver;
 }
-#rarity-3.active{
+#rarity-3.active {
   border-color: #e3e4e5;
   color: #e3e4e5;
 }
-#rarity-4,#rarity-5{
+#rarity-4,
+#rarity-5 {
   border-color: #f7b731;
 }
 #rarity-4.active,
-#rarity-5.active{
+#rarity-5.active {
   background: linear-gradient(to bottom, #444444, #222222);
   color: gold;
 }
 
 /* NP */
-#NP_Arts.active{
+#NP_Arts.active {
   color: black;
-  background: linear-gradient(to bottom, rgb(16, 16, 199) 0%,rgb(13, 80, 180) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgb(16, 16, 199) 0%,
+    rgb(13, 80, 180) 100%
+  );
 }
-#NP_Quick.active{
+#NP_Quick.active {
   color: rgb(17, 16, 16);
-  background: linear-gradient(to bottom,rgb(5, 112, 5) 0%,rgb(14, 185, 14) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgb(5, 112, 5) 0%,
+    rgb(14, 185, 14) 100%
+  );
 }
-#NP_Buster.active{
+#NP_Buster.active {
   color: rgb(17, 16, 16);
-  background: linear-gradient(to bottom, rgb(177, 4, 4) 0%,red 100%);
+  background: linear-gradient(to bottom, rgb(177, 4, 4) 0%, red 100%);
 }
-
 
 /* --- 5. COMPONENTE: CONTENIDO PRINCIPAL (MAIN) --- */
 
@@ -495,8 +506,8 @@ main {
   object-fit: cover;
   border: 3px solid black;
 }
-.class_icon_overlay{
-  width: 40px; 
+.class_icon_overlay {
+  width: 40px;
   height: 40px;
   margin-top: -20px; /* El truco de superposición */
   z-index: 10;
@@ -508,13 +519,13 @@ main {
   justify-content: center;
   width: 100%;
   margin-top: 10px;
-  position: relative; 
+  position: relative;
   z-index: 5; /* Detrás del icono overlay */
 }
-.rarity_card{
+.rarity_card {
   font-size: medium;
   font-weight: bold;
-  color:#f7b731;
+  color: #f7b731;
 }
 .medievalsharp-regular {
   font-family: "MedievalSharp", cursive;
@@ -525,43 +536,66 @@ main {
 
 /* Contenedor en la esquina superior derecha */
 .auth_container {
-    position: fixed;
-    top: 20px;
-    right: 30px;
- /* Encima de la barra lateral, pero debajo del modal */
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  /* Encima de la barra lateral, pero debajo del modal */
 }
 
 /* Botón de "Iniciar Sesión" */
-.auth_button, .auth_user {
-    display: flex; /* Para alinear ícono y texto */
-    align-items: center;
-    gap: 10px;
-    background-color: #f7b731;
-    color: #1a1a2e;
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: none;
-    font-size: medium;
-    font-weight: 550;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.auth_button,
+.auth_user {
+  display: flex; /* Para alinear ícono y texto */
+  align-items: center;
+  gap: 10px;
+  background-color: #f7b731;
+  color: #1a1a2e;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  font-size: medium;
+  font-weight: 550;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.auth_button:hover {
-    background-color: #ffde8a;
-    transform: translateY(-2px);
+#user-profile-icon {
+  width: 30px; /* O el tamaño que prefieras */
+  height: 30px;
+  border-radius: 50%; /* ¡La clave para hacerlo redondo! */
+
+  /* Un color de fondo base (luego podemos hacerlo dinámico) */
+  background-color: black;
+  color: #f7b731; /* El color de la letra */
+
+  /* Centrar la letra dentro del círculo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Estilo de la letra */
+  font-weight: bold;
+  font-size: 1.1rem;
+
+  /* Evita que el texto (la letra) se pueda seleccionar */
+  user-select: none;
 }
 
-.auth_button img, .auth_user img {
-    width: 20px;
-    height: 20px;
+.auth_button:hover,
+.auth_user:hover {
+  background-color: #ffde8a;
+  transform: translateY(-2px);
+}
+
+.auth_button img {
+  width: 20px;
+  height: 20px;
 }
 
 /* Clase simple para ocultar/mostrar elementos con JS */
 .hidden {
-    display: none !important; /* !important para asegurar que se oculte */
+  display: none !important; /* !important para asegurar que se oculte */
 }
-
 
 /* * EXPLICACIÓN DEL OVERLAY *
   Así es como funciona el fondo oscuro:
@@ -572,46 +606,153 @@ main {
   5. Por defecto, tiene 'display: none'. Lo cambiaremos a 'display: block' con JS.
 */
 #modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
-    
-    /* Centra el modal que está dentro */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    /* Oculto por defecto */
-    display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+
+  /* Centra el modal que está dentro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Oculto por defecto */
+  display: none;
 }
 
 /* El Modal (la ventana) */
 #auth-modal {
-    background: #2a2a4e; /* Usamos el color de fondo de tu 'main' */
-    border: 3px solid #f7b731;
-    border-radius: 8px;
-    padding: 25px;
-    width: 90%;
-    max-width: 450px; /* Ancho máximo */
-    z-index: 1001; /* Encima del overlay */
-    position: relative; /* Para posicionar el botón de cerrar */
-    
-    /* Oculto por defecto (lo controla el overlay) */
-    display: block; 
+  background: #2a2a4e; /* Usamos el color de fondo de tu 'main' */
+  border: 3px solid #f7b731;
+  border-radius: 8px;
+  padding: 25px;
+  width: 90%;
+  max-width: 350px; /* Ancho máximo */
+  z-index: 1001; /* Encima del overlay */
+  position: relative; /* Para posicionar el botón de cerrar */
+
+  /* Oculto por defecto (lo controla el overlay) */
+  display: block;
 }
 
 /* Botón de cerrar (la 'X') */
 .auth_modal_close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #1a1a2e;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.auth_modal_close:hover {
+  color: #f7b731;
+}
+.auth_form,
+.auth_toggle_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login_input,
+.register_input {
+  display: flex;
+  align-items: center;
+  padding: 0.5em 1em;
+  color: #7a73737a;
+  background-color: #1a1a2e;
+  border-bottom: 2px solid #5a5a9e;
+  border-radius: 5px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  gap: 0.5rem;
+}
+.auth_icon {
+  width: 30px;
+  height: 30px;
+}
+.input_separator {
+  width: 1.5px; /* Ancho de la barra */
+  background-color: #7a73737a; /* Color de la barra */
+  cursor: default;
+  /* El espacio entre icono y barra, y barra e input */
+  margin-left: 0.75em;
+  margin-right: 0.75em;
+}
+.input_separator--user {
+  height: 90%;
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+}
+.auth_input {
+  color: #eaeaea;
+  background-color: #1a1a2e;
+  border: none;
+  outline: none;
+}
+.auth_input::placeholder {
+  color: #7a73737a;
+}
+.auth_input:-webkit-autofill {
+  box-shadow: 0 0 0px 100px #1a1a2e inset !important;
+  -webkit-text-fill-color: #eaeaea !important;
+}
+.auth_input:focus {
+  color: #eaeaea;
+}
+/* Cuando un elemento DENTRO de .login_input tiene foco... */
+.login_input:focus-within,
+.register_input:focus-within {
+  outline: none;
+  border-color: #f7b731;
+  box-shadow: 0 0 8px #f7b731;
+}
+.auth_submit_button {
+  color: #f7b731;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: small;
+  background-color: #36332c88;
+  text-align: center;
+  padding: 8px 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 100%;
+  transition: 0.3s;
+}
+.auth_submit_button:hover {
+  background-color: #f7b731;
+  color: #1a1a2e;
+  transform: translateY(-3px);
+  font-weight: bold;
+  border: 3px solid black;
+}
+#auth-toggle-text {
+  color: black;
+  text-align: center;
+  margin-top: 10px;
+  font-size: small;
+  font-weight: bold;
+}
+.auth_toggle_button {
+  flex-grow: 1;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  color: rgb(56, 56, 150);
+}
+.auth_toggle_button:hover {
+  color: #3a7bd5;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.auth_error {
+  color: #ff5555; /* Un color rojo para errores */
+  text-align: center;
+  margin-top: 15px;
 }

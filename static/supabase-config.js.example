@@ -1,0 +1,5 @@
+// static/supabase_config.js.example
+const SUPABASE_URL = 'https://TU_ID_DE_PROYECTO.supabase.co';
+const SUPABASE_ANON_KEY = 'TU_LLAVE_ANON_PUBLICA_AQUI';
+
+const clienteSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
