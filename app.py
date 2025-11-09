@@ -6,10 +6,16 @@ Este módulo se encarga de:
 - Cargar los datos de los servants desde una API externa o un caché local.
 - Servir la página principal que muestra la lista de servants.
 """
+import os
 import json
 import requests
 from flask import Flask, render_template
 from whitenoise import WhiteNoise
+from dotenv import load_dotenv
+
+# Cargamos las variables de entorno desde el archivo .env
+load_dotenv()
+
 
 # --- Constantes del Módulo ---
 # Es una buena práctica definir URLs y nombres de archivo como constantes.
@@ -22,6 +28,18 @@ app = Flask(__name__)
 # Configura WhiteNoise para servir archivos estáticos en producción.
 # No afecta el modo debug, pero es crucial para el despliegue.
 app.wsgi_app = WhiteNoise(app.wsgi_app, root='static/')
+
+
+@app.context_processor
+def inject_supabase_keys():
+    """
+    Inyecta las claves de Supabase (leídas de las variables de entorno de Render)
+    en el contexto de TODAS las plantillas Jinja2.
+    """
+    return dict(
+        SUPABASE_URL=os.environ.get('SUPABASE_URL'),
+        SUPABASE_ANON_KEY=os.environ.get('SUPABASE_ANON_KEY')
+    )
 
 
 def _procesar_lista_servants(lista_completa):
@@ -106,8 +124,6 @@ def pagina_principal():
     servants_para_template = _procesar_lista_servants(TODOS_LOS_SERVANTS)
     return render_template('index.html', servants_main_page=servants_para_template)
 
-# --- AÑADIMOS LA NUEVA RUTA ---
-
 
 @app.route('/calculadora')
 def pagina_calculadora():
@@ -116,7 +132,33 @@ def pagina_calculadora():
     """
     # CAMBIO 2: Pasamos la variable 'page' también aquí.
     return render_template('calculadora.html', page='calculadora')
-# --- FIN DE LA NUEVA RUTA ---
+
+
+@app.route('/fgodle')
+def pagina_fgodle():
+    """
+    Renderiza la página de la calculadora.
+    """
+    # CAMBIO 2: Pasamos la variable 'page' también aquí.
+    return render_template('fgodle.html', page='fgodle')
+
+
+@app.route('/mis-servants')
+def pagina_mis_servants():
+    """
+    Renderiza la página de la calculadora.
+    """
+    # CAMBIO 2: Pasamos la variable 'page' también aquí.
+    return render_template('mis-servants.html', page='mis-servants')
+
+
+@app.route('/tierlist')
+def pagina_tierlist():
+    """
+    Renderiza la página de la calculadora.
+    """
+    # CAMBIO 2: Pasamos la variable 'page' también aquí.
+    return render_template('tierlist.html', page='tierlist')
 
 
 if __name__ == '__main__':

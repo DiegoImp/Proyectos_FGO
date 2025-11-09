@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const AuthButton = document.querySelector(".auth_button");
   const AuthCloseButton = document.querySelector(".auth_modal_close");
   const Overlay = document.getElementById("modal-overlay");
+  const googleLoginButton = document.getElementById('google-login-button');
+  const loginform = document.getElementById("login-form");
   // Elementos de usuario
   const UserProfile = document.getElementById("user-profile");
   const UserProfileName = document.getElementById("user-profile-name");
@@ -81,7 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  const loginform = document.getElementById("login-form");
+  function updateVolume() {
+    audioPlayer.volume = volumeSlider.value / 100;
+  }
+  function updateVolumeDisplay() {
+    volumeDisplay.textContent = volumeSlider.value;
+  }
+
   // --- LÓGICA PARA MANEJAR EL ESTADO DE AUTENTICACIÓN ---
   clienteSupabase.auth.onAuthStateChange((evento, sesion) => {
 
@@ -124,6 +132,24 @@ document.addEventListener("DOMContentLoaded", () => {
       UserProfile.classList.add("hidden"); // 2. Oculta el div de perfil de usuario
     }
   });
+  // --- LOGICA PARA LOGIN CON GOOGLE ---
+
+  googleLoginButton.addEventListener('click', async () => {
+    // Limpiamos errores por si acaso
+    document.getElementById('auth-error').classList.add('hidden');
+
+    const { error } = await clienteSupabase.auth.signInWithOAuth({
+      provider: 'google',
+    });
+
+    if (error) {
+      // Si hay un error (ej. pop-up bloqueado), lo mostramos
+      document.getElementById('auth-error').textContent = error.message;
+      document.getElementById('auth-error').classList.remove('hidden');
+    }
+
+    // ¡Y YA ESTÁ!
+  });
   // --- LÓGICA PARA LOG-IN ---
   loginform.addEventListener("submit", async (evento) => {
     evento.preventDefault();
@@ -139,7 +165,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     if (error) {
       // ¡Error! Muestra el mensaje
-      authError.textContent = "usuario o contraseña incorrectos.";
       authError.textContent = "Usuario o contraseña incorrectos.";
     } else {
       // ¡Éxito! Cierra el modal
@@ -191,44 +216,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
   // --- LÓGICA PARA BARRA DE BÚSQUEDA ---
-  searchbar.addEventListener("input", (evento) => {
-    textoBusqueda = evento.target.value.toLowerCase().trim();
-    aplicarFiltrosCombinados();
-  });
+  if (searchbar) {
+    searchbar.addEventListener("input", (evento) => {
+      textoBusqueda = evento.target.value.toLowerCase().trim();
+      aplicarFiltrosCombinados();
+    });
+  }
 
-  filterbutton.addEventListener("click", () => {
-    sidebar.classList.toggle("sidebar-filtro-visible");
-  });
+  if (filterbutton) {
+    filterbutton.addEventListener("click", () => {
+      sidebar.classList.toggle("sidebar-filtro-visible");
+    });
+  }
 
   // --- LÓGICA PARA BOTONES DE FILTRO ---
   // 1. Seleccionamos TODOS los botones que están dentro de los contenedores de filtros
 
   // 2. Recorremos cada uno de los botones encontrados
-  botonesDeFiltro.forEach((boton) => {
-    // 3. A cada botón, le añadimos un "escuchador" de clics
-    boton.addEventListener("click", () => {
-      // 4. classList.toggle('active') hace la magia:
-      //    - Si el botón NO tiene la clase 'active', se la añade.
-      //    - Si el botón SÍ tiene la clase 'active', se la quita.
-      boton.classList.toggle("active");
+  if (botonesDeFiltro) {
+    botonesDeFiltro.forEach((boton) => {
+      // 3. A cada botón, le añadimos un "escuchador" de clics
+      boton.addEventListener("click", () => {
+        // 4. classList.toggle('active') hace la magia:
+        //    - Si el botón NO tiene la clase 'active', se la añade.
+        //    - Si el botón SÍ tiene la clase 'active', se la quita.
+        boton.classList.toggle("active");
+        aplicarFiltrosCombinados();
+      });
+    });
+  }
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
+      searchbar.value = "";
+      textoBusqueda = "";
+      botonesDeFiltro.forEach((boton) => {
+        boton.classList.remove("active");
+      });
       aplicarFiltrosCombinados();
     });
-  });
-  resetButton.addEventListener("click", () => {
-    searchbar.value = "";
-    textoBusqueda = "";
-    botonesDeFiltro.forEach((boton) => {
-      boton.classList.remove("active");
-    });
-    aplicarFiltrosCombinados();
-  });
+  }
 
-  function updateVolume() {
-    audioPlayer.volume = volumeSlider.value / 100;
-  }
-  function updateVolumeDisplay() {
-    volumeDisplay.textContent = volumeSlider.value;
-  }
+
   soundControl.addEventListener("click", (e) => {
     if (e.target.id === "volume-slider") {
       return; // Evita que el clic en el slider pause la música

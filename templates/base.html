@@ -82,7 +82,13 @@
                     <button id="auth-toggle-register" class="auth_toggle_button">Inicia Sesión</button>
                 </div>
             </form>
+            <div class="auth_separator">
+                <span>O</span>
+            </div>
 
+            <button id="google-login-button" class="auth_google_button">
+                <span>Iniciar sesión con Google</span>
+            </button>
             <p id="auth-error" class="auth_error hidden"></p>
         </div>
     </div>
@@ -127,7 +133,7 @@
                 </a>
             </li>
             <li>
-                <a href="/tier-list" class="index_element">
+                <a href="/tierlist" class="index_element">
                     <img src="{{ url_for('static', filename='icons/side-bar/tier-icon.svg') }}"
                         class="sidebar_icon sidebar_icon--tier" alt="Icono de Tier List">
                     <div class="sidebar_hide">
@@ -145,13 +151,13 @@
                 </a>
             </li>
             <li>
-                <a href="/misiones" class="index_element">
+                <div class="index_element">
                     <img src="{{url_for('static', filename='icons/side-bar/calendar-icon.svg') }}" class="sidebar_icon"
                         alt="Icono Misiones">
                     <div class="sidebar_hide">
                         <span class="index_text">Weekly Missions</span>
                     </div>
-                </a>
+                </div>
             </li>
             <li class="index_element index_element--music">
                 <div class="sound-column-icon">
@@ -181,7 +187,11 @@
         <source src="{{ url_for('static', filename='audio/mi-ost-de-fgo.mp3') }}" type="audio/mpeg">
     </audio>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="{{ url_for('static', filename='supabase_config.js') }}"></script>
+    <script>
+        const SUPABASE_URL = "{{ SUPABASE_URL }}";
+        const SUPABASE_ANON_KEY = "{{ SUPABASE_ANON_KEY }}";
+        const clienteSupabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    </script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 

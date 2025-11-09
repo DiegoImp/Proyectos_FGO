@@ -756,3 +756,39 @@ main {
   text-align: center;
   margin-top: 15px;
 }
+/* Separador "O" */
+.auth_separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #7a73737a;
+  margin: 15px 0;
+}
+.auth_separator::before,
+.auth_separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid black;
+}
+.auth_separator span {
+  padding: 0 10px;
+}
+
+/* Botón de Google */
+.auth_google_button {
+  /* (Puedes basarlo en tu .auth_submit_button) */
+  background-color: rgb(255, 115, 0); /* Fondo blanco */
+  color: #333; /* Texto oscuro */
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.auth_google_button:hover {
+  background-color: rgb(247, 181, 59);
+  transform: translateY(-3px);
+  font-weight: bold;
+}
