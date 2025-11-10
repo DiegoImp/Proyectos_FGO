@@ -139,7 +139,7 @@
     {% for servant in servants_main_page %}
     <a href="/servant/{{ servant.collectionNo }}" class="details_link">
       <div class="servant_card" data-class="{{ servant.className | lower }}" data-rarity="{{ servant.rarity }}"
-        data-name="{{ servant.name | lower }}" data-np="{{ servant.npType }}">
+        data-name="{{ servant.name | lower }}" data-np="{{ servant.np.type }}">
         <img src="{{ servant.face }}" alt=" Icono de {{ servant.name }}" class="face_main" />
         <img src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}"
           alt="{{ servant.className }} class icon" class="class_icon_overlay">
