@@ -87,8 +87,8 @@
       <span>Pretender</span>
     </button>
     <button id="class-moonCancer" data-value="moonCancer">
-      <img src="{{ url_for('static', filename='classes/mooncancer.png') }}" alt="Icono Moon Cancer" <img
-        src="{{ url_for('static', filename='classes/mooncancer.png') }}" alt="Icono Moon Cancer" class="filter-icon" />
+      <img src="{{ url_for('static', filename='classes/mooncancer.png') }}" alt="Icono Moon Cancer"
+        class="filter-icon" />
       <span>Moon Cancer</span>
     </button>
   </div>
@@ -111,7 +111,6 @@
     <button id="reset-filter"><span>Reiniciar Filtros</span></button>
   </div>
 </aside>
-
 <!-- El <main> también es único de esta página -->
 <main>
   <h2>Servants</h2>
@@ -137,24 +136,73 @@
 
   <div class="servants_grid">
     {% for servant in servants_main_page %}
-    <a href="/servant/{{ servant.collectionNo }}" class="details_link">
-      <div class="servant_card" data-class="{{ servant.className | lower }}" data-rarity="{{ servant.rarity }}"
-        data-name="{{ servant.name | lower }}" data-np="{{ servant.np.type }}">
+    <div class="servant_card" data-class="{{ servant.className | lower }}" data-rarity="{{ servant.rarity }}"
+      data-name="{{ servant.name | lower }}" data-np="{{ servant.np.type }}" data-face="{{ servant.face }}"
+      data-servant-id="{{ servant.id }}" data-skills='{{ servant.skills | tojson }}'>
+      <a href="/servant/{{ servant.collectionNo }}" class="details_link">
         <img src="{{ servant.face }}" alt=" Icono de {{ servant.name }}" class="face_main" />
-        <img src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}"
-          alt="{{ servant.className }} class icon" class="class_icon_overlay">
-        <div class="see_details_servant">
-          <div class="rarity_card">
-            {% for i in range(servant.rarity | int) %}
-            <span>★</span>
-            {% endfor %}
-          </div>
-          <h3>{{ servant.name }}</h3>
+      </a>
+      <img src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}"
+        alt="{{ servant.className }} class icon" class="class_icon_overlay">
+      <div class="see_details_servant">
+        <div class="rarity_card">
+          {% for i in range(servant.rarity | int) %}
+          <span>★</span>
+          {% endfor %}
         </div>
+        <h3 class="text_container">{{ servant.name }}</h3>
+        <button class="add_button add-servant-button">Agregar</button>
       </div>
-    </a>
+    </div>
     {% endfor %}
   </div>
 </main>
+<div id="add-servant-modal" class="modal_overlay">
+  <div id="add-window">
+    <button id="add-servant-close-button" class="modal_close">&times;</button>
+    <h2 id="add-title">Agregar Servant</h2>
+    <!-- Contenedor para el Servant seleccionado (se llenará con JS) -->
+    <div id="servant-preview" class="servant_preview">
+      <img id="servant-face" src="" alt="Servant Face" class="face_main">
+      <div id="preview-details">
+        <h2 id="servant-name" class="servant_name">Nombre del Servant</h2>
+        <img id="servant-class-icon" src="" alt="Servant Class Icon" class="servant_icon">
+      </div>
+    </div>
+    <hr>
+    <!-- Formulario de Ingreso de Niveles -->
+    <form id="add-servant-form" class="add_form">
+
+      <!-- Campo oculto para guardar el ID del Servant -->
+      <input type="hidden" id="input-servant-id" name="servant_id">
+
+      <!-- 1. NIVEL DEL SERVANT (1-120) -->
+      <div id="level-img-wrapper" class="level_img">Lv</div>
+      <label for="input-level" class="add_input_label">Nivel Actual (1-120)</label>
+      <input id="input-level" type="number" class="add_input" name="level" min="1" max="120" value="1" required>
+
+      <!-- 2. NIVEL DE NP (1-5) -->
+      <img id="np-img-wrapper" class="np_img"></img>
+      <label for="input-np" class="add_input_label">Nivel de Noble Phantasm (1-5)</label>
+      <input id="input-np" type="number" class="add_input" name="np_level" min="1" max="5" value="1" required>
+
+      <!-- 3. NIVEL DE BOND (1-15) -->
+      <img id="bond-img-wrapper" class="bond_img" src="{{ url_for('static', filename='icons/bondxp.png') }}"></img>
+      <label for="input-bond" class="add_input_label">Nivel de Vínculo (1-15)</label>
+      <input id="input-bond" type="number" class="add_input" name="bond_level" min="1" max="15" value="1" required>
+
+      <hr>
+
+      <!-- 4. NIVELES DE SKILLS (Usaremos un wrapper para Skills) -->
+      <div id="skills-wrapper" class="clase_skills_wrapper">
+        <!-- Los 3 inputs de skills se generarán con JavaScript -->
+      </div>
+
+      <button type="submit" class="auth_submit_button clase_submit_add">Guardar Servant</button>
+    </form>
+
+    <p id="add-error" class="auth_error hidden"></p>
+  </div>
+</div>
 
 {% endblock %}

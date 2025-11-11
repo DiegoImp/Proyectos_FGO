@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    <!-- Boton de iniciar sesión -->
     <nav class="auth_container">
         <button id="auth-open-button" class="auth_button">
             <span>Iniciar Sesión</span>
@@ -25,7 +26,7 @@
             <img src="{{ url_for('static', filename='icons/account-icon.svg') }}" alt="Icono de cuenta de usuario" />
 
         </button>
-
+        <!-- boton de cerrar sesion -->
         <div id="user-profile" class="auth_user hidden">
             <span id="user-profile-name"></span>
             <span class="input_separator input_separator--user">|</span>
@@ -35,12 +36,13 @@
 
         </div>
     </nav>
-
-    <div id="modal-overlay">
+    <!-- Modal de Autenticación -->
+    <div id="login-modal" class="modal_overlay">
         <div id="auth-modal">
-            <button id="auth-close-button" class="auth_modal_close">&times;</button>
+            <button id="auth-close-button" class="modal_close">&times;</button>
             <h2 id="auth-title">Iniciar Sesión</h2>
             <hr class="login">
+            <!-- Inicio de Sesión -->
             <form id="login-form" class="auth_form">
                 <div class="login_input">
                     <img src="{{ url_for('static', filename='icons/email-icon.svg') }}" alt="Icono de email"
@@ -61,6 +63,7 @@
                     <button id="auth-toggle-login" class="auth_toggle_button">Regístrate aquí</button>
                 </div>
             </form>
+            <!-- Registro -->
             <form id="register-form" class="auth_form hidden">
 
                 <div class="register_input">
@@ -85,7 +88,7 @@
             <div class="auth_separator">
                 <span>O</span>
             </div>
-
+            <!-- Google Login -->
             <button id="google-login-button" class="auth_google_button">
                 <span>Iniciar sesión con Google</span>
             </button>

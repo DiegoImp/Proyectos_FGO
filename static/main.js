@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const botonesDeFiltro = document.querySelectorAll(
     ".filtro_class button, .filtro_rarity button, .filtro_NP button"
   );
-  const servantLinks = document.querySelectorAll(".details_link");
+  const servantCard = document.querySelectorAll(".servant_card");
   const resetButton = document.getElementById("reset-filter");
 
   // Elementos para el control de audio
@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const volumeDisplay = document.getElementById("volume-display");
   // Elementos para el modal de autenticación login
   const AuthButton = document.querySelector(".auth_button");
-  const AuthCloseButton = document.querySelector(".auth_modal_close");
-  const Overlay = document.getElementById("modal-overlay");
+  const AuthCloseButton = document.getElementById("auth-close-button");
+  const Overlay = document.getElementById("login-modal");
   const googleLoginButton = document.getElementById('google-login-button');
   const loginform = document.getElementById("login-form");
   // Elementos de usuario
@@ -33,18 +33,91 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleregister = document.getElementById("auth-toggle-register");
   const registerForm = document.getElementById("register-form");
   const authtitle = document.getElementById("auth-title");
+  // Agregar Servants
+  const addServantButtons = document.querySelectorAll(".add_button");
+  const addServantModal = document.getElementById("add-servant-modal");
+  const addServantCloseButton = document.getElementById("add-servant-close-button");
+  const addForm = document.getElementById("add-servant-form");
+  // Elementos dentro del modal de agregar servant
+  const servantName = document.getElementById("servant-name");
+  const servantFace = document.getElementById("servant-face");
+  const servantClassIcon = document.getElementById("servant-class-icon");
+  const servantID = document.getElementById("input-servant-id");
+  const servantLevel = document.getElementById("input-level");
+  const servantNPimg = document.getElementById("np-img-wrapper");
+  const servantNP = document.getElementById("input-np");
+  const servantBond = document.getElementById("input-bond");
+  const servantSkillsWrapper = document.getElementById("skills-wrapper");
 
 
 
+
+
+  // Funciones para abrir/cerrar el modal de autenticación
   function openAuthModal() {
     Overlay.style.display = "flex";
   }
   function closeAuthModal() {
     Overlay.style.display = "none";
   }
+  // Funciones para abrir/cerrar el modal de agregar servant
+  function openAddServantModal() {
+    addServantModal.style.display = "flex";
+  }
+  function closeAddServantModal() {
+    addServantModal.style.display = "none";
+  }
+  function capitalizeWords(str) {
+    if (!str) return '';
+    // Divide el string en palabras, capitaliza la primera letra de cada una y las une.
+    return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+  function populateAddServantModal(data) {
+    // --- 1. Llenar la vista previa ---
+    servantFace.src = data.face;
+
+    servantName.textContent = capitalizeWords(data.name);
+
+    if (data.np === "1") {
+      servantNPimg.src = "/static/icons/np1.png";
+    } else if (data.np === "2") {
+      servantNPimg.src = "/static/icons/np2.png";
+    } else if (data.np === "3") {
+      servantNPimg.src = "/static/icons/np3.png";
+    }
+    // Construimos la ruta en JavaScript, no con Jinja2
+    servantClassIcon.src = `/static/classes/${data.class}.png`;
+
+    // --- 2. Llenar el ID oculto (¡MUY IMPORTANTE!) ---
+    servantID.value = data.servantId;
+
+    // --- 3. Generar las Skills dinámicamente ---
+    servantSkillsWrapper.innerHTML = ''; // Limpia el wrapper
+    // 1. Parseamos el string JSON del data-attribute para convertirlo en un array de objetos
+    const skills = JSON.parse(data.skills);
+
+    // 2. Iteramos sobre el array de skills
+    skills.slice(0, 3).forEach((skill, index) => {
+      // Genera el HTML para cada fila de skill
+      const skillHTML = `
+                <img src="${skill.icon}" alt="${skill.name}" class="skill_icon_preview">
+                <label for="input-skill-${index + 1}" class="add_input_label">
+                    ${capitalizeWords(skill.name)}
+                </label>
+                <input id="input-skill-${index + 1}" name="skill_${index + 1}" type="number" class="add_input" min="1" max="10" value="1" required>
+        `;
+      servantSkillsWrapper.innerHTML += skillHTML;
+    });
+
+    // --- 4. Resetear los inputs principales ---
+    servantLevel.value = 1;
+    servantNP.value = 1;
+    servantBond.value = 1;
+  }
 
   function aplicarFiltrosCombinados() {
     const botonesClaseActivos = document.querySelectorAll(
+
       ".filtro_class button.active"
     );
     const botonesRarezaActivos = document.querySelectorAll(
@@ -62,24 +135,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const NPActivos = Array.from(botonesNPActivos).map(
       (boton) => boton.dataset.value
     );
-    // tomamos los link
-    servantLinks.forEach((link) => {
-      const servantCard = link.querySelector(".servant_card");
-      const nombre = servantCard.dataset.name;
-      const rareza = servantCard.dataset.rarity;
-      const clase = servantCard.dataset.class;
-      const np = servantCard.dataset.np;
 
+    // Iteramos sobre cada tarjeta individualmente
+    servantCard.forEach((card) => {
+      // Obtenemos los datos de la tarjeta actual (card)
+      const nombre = card.dataset.name;
+      const rareza = card.dataset.rarity;
+      const clase = card.dataset.class;
+      const np = card.dataset.np;
+
+      // Comprobamos si la tarjeta cumple con todos los filtros
       const pasaNombre = nombre.includes(textoBusqueda);
       const pasaRareza =
         rarezasActivas.length === 0 || rarezasActivas.includes(rareza);
       const pasaClase =
         clasesActivas.length === 0 || clasesActivas.includes(clase);
       const pasaNp = NPActivos.length === 0 || NPActivos.includes(np);
+
+      // Mostramos u ocultamos la tarjeta (card) según el resultado
       if (pasaNombre && pasaRareza && pasaClase && pasaNp) {
-        link.style.display = "block";
+        card.style.display = "flex"; // Usamos 'flex' porque así está definida en el CSS
       } else {
-        link.style.display = "none";
+        card.style.display = "none";
       }
     });
   }
@@ -272,13 +349,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateVolume(); // Actualiza el audio
     updateVolumeDisplay(); // Actualiza el número
   });
-  togglelogin.addEventListener("click", () => {
+  togglelogin.addEventListener("click", (event) => {
     event.preventDefault();
     registerForm.classList.remove("hidden");
     loginform.classList.add("hidden");
     authtitle.textContent = "Registrarse";
   });
-  toggleregister.addEventListener("click", () => {
+  toggleregister.addEventListener("click", (event) => {
     event.preventDefault();
     registerForm.classList.add("hidden");
     loginform.classList.remove("hidden");
@@ -297,6 +374,49 @@ document.addEventListener("DOMContentLoaded", () => {
     // es el overlay MISMO, y no uno de sus hijos (como el modal).
     if (event.target === Overlay) {
       closeAuthModal(); // Llama a la misma función de cierre
+    }
+  });
+  addServantCloseButton.addEventListener("click", () => {
+    closeAddServantModal();
+  });
+  addServantButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      // 1. Encuentra la tarjeta padre del botón que se ha pulsado
+      const servantCardElement = event.currentTarget.closest('.servant_card');
+      // 2. Lee el dataset de la tarjeta, no del botón
+      const servantData = servantCardElement.dataset;
+      populateAddServantModal(servantData);
+
+      openAddServantModal();
+    });
+  });
+  addServantModal.addEventListener("click", (event) => {
+    // 'event.target' es el elemento exacto donde hiciste clic.
+    // Comprobamos si donde hiciste clic (event.target)
+    // es el overlay MISMO, y no uno de sus hijos (como el modal).
+    if (event.target === addServantModal) {
+      closeAddServantModal(); // Llama a la misma función de cierre
+    }
+  });
+  addForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(addForm);
+    const { data, error } = await clienteSupabase.from('user_servants').insert([{
+      servant_id: formData.get('servant_id'),
+      level: formData.get('level'),
+      np_level: formData.get('np_level'),
+      bond_level: formData.get('bond_level'),
+      skill_1: formData.get('skill_1'),
+      skill_2: formData.get('skill_2'),
+      skill_3: formData.get('skill_3'),
+    }]);
+    if (error) {
+      console.error('Error al agregar el servant:', error.message);
+      document.getElementById('add-error').textContent = "Error al agregar el servant";
+      document.getElementById('add-error').classList.remove('hidden');
+    } else {
+      // ¡Éxito! Cierra el modal
+      closeAddServantModal();
     }
   });
 
