@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const authtitle = document.getElementById("auth-title");
   // Agregar Servants
   const addServantButtons = document.querySelectorAll(".add_button");
+  let currentAddButton = null; // <-- Variable para "recordar" el botón pulsado
   const addServantModal = document.getElementById("add-servant-modal");
   const addServantCloseButton = document.getElementById("add-servant-close-button");
   const addForm = document.getElementById("add-servant-form");
@@ -114,7 +115,48 @@ document.addEventListener("DOMContentLoaded", () => {
     servantNP.value = 1;
     servantBond.value = 1;
   }
-
+  async function addServantUI() {
+    // 1. Obtener la lista de IDs de servants que el usuario ya posee.
+    const { data: servantList, error } = await clienteSupabase
+      .from('user_servants')
+      .select('servant_id');
+    if (error) {
+      console.error("Error al cargar el inventario del usuario:", error.message);
+      return;
+    }
+    //Creamos un Set para una búsqueda ultra-rápida de IDs.
+    //Un Set es mucho más eficiente que un Array para comprobar si un elemento existe.
+    const userAddedServantIds = new Set(
+      servantList.map(servant => parseInt(servant.servant_id, 10))
+    );
+    addServantButtons.forEach((button) => {
+      //Encontramos la tarjeta "padre" más cercana al botón.
+      const servantCard = button.closest('.servant_card');
+      if (!servantCard) return; // Si no se encuentra la tarjeta, saltamos este botón.
+      //Leemos el ID desde la tarjeta, no desde el botón.
+      const servID = parseInt(servantCard.dataset.servantId, 10);
+      // ------------------------------------
+      if (userAddedServantIds.has(servID)) {
+        added(button);
+      } else {
+        notAdded(button);
+      }
+    });
+  }
+  function added(button) {
+    button.textContent = "Invocado";
+    button.classList.remove("add-servant-button");
+    button.classList.add("button-added");
+    button.classList.remove("hidden");
+    button.disabled = true;
+  }
+  function notAdded(button) {
+    button.textContent = "Agregar";
+    button.classList.add("add-servant-button");
+    button.classList.remove("button-added");
+    button.classList.remove("hidden");
+    button.disabled = false;
+  }
   function aplicarFiltrosCombinados() {
     const botonesClaseActivos = document.querySelectorAll(
 
@@ -167,46 +209,31 @@ document.addEventListener("DOMContentLoaded", () => {
     volumeDisplay.textContent = volumeSlider.value;
   }
 
-  // --- LÓGICA PARA MANEJAR EL ESTADO DE AUTENTICACIÓN ---
+  // GUARDIA --- LÓGICA PARA MANEJAR EL ESTADO DE AUTENTICACIÓN ---
   clienteSupabase.auth.onAuthStateChange((evento, sesion) => {
-
     if (sesion) {
       // ¡El usuario ESTÁ conectado!
+      const nombreUsuario = sesion.user.email.split('@')[0];
+      emailUsuarioActual = nombreUsuario;
 
-      AuthButton.classList.add("hidden"); // 1. Oculta el botón de "Iniciar Sesión" (id="auth-open-button")
-      UserProfile.classList.remove("hidden"); // 2. Muestra el div de perfil de usuario (id="user-profile")
-      UserProfileName.textContent = sesion.user.email.split('@')[0]; // 3. (Bonus) Toma el email del usuario (sesion.user.email) y
+      //Actualizar la UI con la información del usuario.
+      UserProfileName.textContent = nombreUsuario;
+      UserIcon.textContent = nombreUsuario.charAt(0).toUpperCase();
 
-      // 1. Selecciona el nuevo div (junto a los otros)
-      try {
-        // A. Obtén el email y la primera letra
-        const emailUsuario = sesion.user.email.split('@')[0];
-        emailUsuarioActual = emailUsuario;
-        const primeraLetra = emailUsuario.charAt(0).toUpperCase();
-
-        // B. Asigna los valores (basado en tu HTML)
-        UserIcon.textContent = primeraLetra;     // Pone la letra en el círculo
-
-        // C. Muestra el perfil, oculta el botón
-        UserProfile.classList.remove('hidden');
-        AuthButton.classList.add('hidden');
-
-        // D. ¡CIERRA EL MODAL!
-        // Esta es la línea que movimos. Ahora se ejecuta al final.
-
-
-      } catch (e) {
-        console.error("Error actualizando la UI del perfil:", e);
-      }
-
+      //Alternar la visibilidad de los botones de autenticación y perfil.
+      AuthButton.classList.add('hidden');
+      UserProfile.classList.remove('hidden');
+      closeAuthModal();
+      addServantUI();
     } else {
       // El usuario NO está conectado
-      // (Esto se activa si no hay sesión, o después de hacer logout)
-
-
-      // --- TU LÓGICA AQUÍ ---
       AuthButton.classList.remove("hidden"); // 1. Muestra el botón de "Iniciar Sesión"
       UserProfile.classList.add("hidden"); // 2. Oculta el div de perfil de usuario
+
+      addServantButtons.forEach((button) => {
+        button.classList.add("hidden");
+      });
+
     }
   });
   // --- LOGICA PARA LOGIN CON GOOGLE ---
@@ -381,6 +408,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   addServantButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
+      // Guardamos el botón específico que se acaba de pulsar
+      currentAddButton = event.currentTarget;
+
       // 1. Encuentra la tarjeta padre del botón que se ha pulsado
       const servantCardElement = event.currentTarget.closest('.servant_card');
       // 2. Lee el dataset de la tarjeta, no del botón
@@ -395,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Comprobamos si donde hiciste clic (event.target)
     // es el overlay MISMO, y no uno de sus hijos (como el modal).
     if (event.target === addServantModal) {
-      closeAddServantModal(); // Llama a la misma función de cierre
+      closeAddServantModal();
     }
   });
   addForm.addEventListener("submit", async (event) => {
@@ -415,12 +445,15 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById('add-error').textContent = "Error al agregar el servant";
       document.getElementById('add-error').classList.remove('hidden');
     } else {
-      // ¡Éxito! Cierra el modal
+
+      if (currentAddButton) {
+        added(currentAddButton);
+      }
       closeAddServantModal();
     }
   });
 
-  // 6. Carga inicial: Pone todo en su sitio
+
   updateVolume();
   updateVolumeDisplay();
 });

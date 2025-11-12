@@ -138,7 +138,8 @@
     {% for servant in servants_main_page %}
     <div class="servant_card" data-class="{{ servant.className | lower }}" data-rarity="{{ servant.rarity }}"
       data-name="{{ servant.name | lower }}" data-np="{{ servant.np.type }}" data-face="{{ servant.face }}"
-      data-servant-id="{{ servant.id }}" data-skills='{{ servant.skills | tojson }}'>
+      data-type="{{ servant.type | lower }}" data-servant-id="{{ servant.id }}"
+      data-skills='{{ servant.skills | tojson }}'>
       <a href="/servant/{{ servant.collectionNo }}" class="details_link">
         <img src="{{ servant.face }}" alt=" Icono de {{ servant.name }}" class="face_main" />
       </a>
@@ -151,7 +152,9 @@
           {% endfor %}
         </div>
         <h3 class="text_container">{{ servant.name }}</h3>
-        <button class="add_button add-servant-button">Agregar</button>
+        {% if servant.type == 'normal' or servant.type == 'heroine' %}
+        <button class="add_button add-servant-button hidden">Agregar</button>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
@@ -188,8 +191,8 @@
 
       <!-- 3. NIVEL DE BOND (1-15) -->
       <img id="bond-img-wrapper" class="bond_img" src="{{ url_for('static', filename='icons/bondxp.png') }}"></img>
-      <label for="input-bond" class="add_input_label">Nivel de Vínculo (1-15)</label>
-      <input id="input-bond" type="number" class="add_input" name="bond_level" min="1" max="15" value="1" required>
+      <label for="input-bond" class="add_input_label">Nivel de Vínculo (0-15)</label>
+      <input id="input-bond" type="number" class="add_input" name="bond_level" min="0" max="15" value="0" required>
 
       <hr>
 

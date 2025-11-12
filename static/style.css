@@ -580,6 +580,9 @@ main {
   transform: translateY(-3px);
   font-weight: bold;
 }
+.button-added {
+  color: #7a73737a;
+}
 
 .medievalsharp-regular {
   font-family: "MedievalSharp", cursive;
