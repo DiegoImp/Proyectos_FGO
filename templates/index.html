@@ -134,30 +134,9 @@
     </button>
   </div>
 
-  <div class="servants_grid">
-    {% for servant in servants_main_page %}
-    <div class="servant_card" data-class="{{ servant.className | lower }}" data-rarity="{{ servant.rarity }}"
-      data-name="{{ servant.name | lower }}" data-np="{{ servant.np.type }}" data-face="{{ servant.face }}"
-      data-type="{{ servant.type | lower }}" data-servant-id="{{ servant.id }}"
-      data-skills='{{ servant.skills | tojson }}'>
-      <a href="/servant/{{ servant.collectionNo }}" class="details_link">
-        <img src="{{ servant.face }}" alt=" Icono de {{ servant.name }}" class="face_main" />
-      </a>
-      <img src="{{ url_for('static', filename='classes/' + (servant.className | lower) + '.png') }}"
-        alt="{{ servant.className }} class icon" class="class_icon_overlay">
-      <div class="see_details_servant">
-        <div class="rarity_card">
-          {% for i in range(servant.rarity | int) %}
-          <span>★</span>
-          {% endfor %}
-        </div>
-        <h3 class="text_container">{{ servant.name }}</h3>
-        {% if servant.type == 'normal' or servant.type == 'heroine' %}
-        <button class="add_button add-servant-button hidden">Agregar</button>
-        {% endif %}
-      </div>
-    </div>
-    {% endfor %}
+  <div class="servants_grid" id="servants-container">
+    <p id="loading-message" style="color: white; text-align: center; width: 100%;">Consultando a Chaldea...</p>
+    <!-- Los servants se generarán aquí con JavaScript -->
   </div>
 </main>
 <div id="add-servant-modal" class="modal_overlay">
@@ -190,7 +169,8 @@
       <input id="input-np" type="number" class="add_input" name="np_level" min="1" max="5" value="1" required>
 
       <!-- 3. NIVEL DE BOND (1-15) -->
-      <img id="bond-img-wrapper" class="bond_img" src="{{ url_for('static', filename='icons/bondxp.png') }}"></img>
+      <img id="bond-img-wrapper" class="bond_img"
+        src="{{ url_for('static', filename='icons/main-page/bondxp.png') }}"></img>
       <label for="input-bond" class="add_input_label">Nivel de Vínculo (0-15)</label>
       <input id="input-bond" type="number" class="add_input" name="bond_level" min="0" max="15" value="0" required>
 

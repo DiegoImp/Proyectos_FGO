@@ -1,22 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
   // Elementos para la barra de búsqueda
-  const searchbar = document.getElementById("search-bar");
+  let searchbar = document.getElementById("search-bar");
   let textoBusqueda = "";
   // Elementos para el sistema de filtros
-  const filterbutton = document.getElementById("button-filter");
-  const sidebar = document.getElementById("sidebar-filtro");
-  const botonesDeFiltro = document.querySelectorAll(
+  let filterbutton = document.getElementById("button-filter");
+  let sidebar = document.getElementById("sidebar-filtro");
+  let botonesDeFiltro = document.querySelectorAll(
     ".filtro_class button, .filtro_rarity button, .filtro_NP button"
   );
-  const servantCard = document.querySelectorAll(".servant_card");
-  const resetButton = document.getElementById("reset-filter");
+  let servantCard = document.querySelectorAll(".servant_card"); // Se re-asignará
+  let resetButton = document.getElementById("reset-filter");
 
   // Elementos para el control de audio
   const audioPlayer = document.getElementById("ost-player");
   const volumeSlider = document.getElementById("volume-slider");
   const soundControl = document.querySelector(".index_element--music");
   const volumeDisplay = document.getElementById("volume-display");
+
   // Elementos para el modal de autenticación login
   const AuthButton = document.querySelector(".auth_button");
   const AuthCloseButton = document.getElementById("auth-close-button");
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const registerForm = document.getElementById("register-form");
   const authtitle = document.getElementById("auth-title");
   // Agregar Servants
-  const addServantButtons = document.querySelectorAll(".add_button");
+  let addServantButtons = document.querySelectorAll(".add_button"); // Se re-asignará
   let currentAddButton = null; // <-- Variable para "recordar" el botón pulsado
   const addServantModal = document.getElementById("add-servant-modal");
   const addServantCloseButton = document.getElementById("add-servant-close-button");
@@ -49,10 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const servantNP = document.getElementById("input-np");
   const servantBond = document.getElementById("input-bond");
   const servantSkillsWrapper = document.getElementById("skills-wrapper");
-
-
-
-
 
   // Funciones para abrir/cerrar el modal de autenticación
   function openAuthModal() {
@@ -80,11 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
     servantName.textContent = capitalizeWords(data.name);
 
     if (data.np === "1") {
-      servantNPimg.src = "/static/icons/np1.png";
+      servantNPimg.src = "/static/icons/main-page/np1.png";
     } else if (data.np === "2") {
-      servantNPimg.src = "/static/icons/np2.png";
+      servantNPimg.src = "/static/icons/main-page/np2.png";
     } else if (data.np === "3") {
-      servantNPimg.src = "/static/icons/np3.png";
+      servantNPimg.src = "/static/icons/main-page/np3.png";
     }
     // Construimos la ruta en JavaScript, no con Jinja2
     servantClassIcon.src = `/static/classes/${data.class}.png`;
@@ -129,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const userAddedServantIds = new Set(
       servantList.map(servant => parseInt(servant.servant_id, 10))
     );
+    addServantButtons = document.querySelectorAll(".add_button");
     addServantButtons.forEach((button) => {
       //Encontramos la tarjeta "padre" más cercana al botón.
       const servantCard = button.closest('.servant_card');
@@ -158,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     button.disabled = false;
   }
   function aplicarFiltrosCombinados() {
+    // Use cached servantCard NodeList from initial render
     const botonesClaseActivos = document.querySelectorAll(
 
       ".filtro_class button.active"
@@ -208,6 +207,160 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateVolumeDisplay() {
     volumeDisplay.textContent = volumeSlider.value;
   }
+  function generarHTMLCarta(servant) {
+    // Generar las estrellas de rareza
+    let estrellasHTML = '';
+    for (let i = 0; i < servant.rarity; i++) {
+      estrellasHTML += '<span>★</span>';
+    }
+
+    // Convertir skills a JSON string seguro para el dataset
+    // Nota: Nos aseguramos de que existan para evitar errores
+    const skillsJSON = servant.skills ? JSON.stringify(servant.skills).replace(/"/g, '&quot;') : '[]';
+
+    // Definir si mostramos el botón de agregar (Solo en index, o basado en lógica)
+    // Por ahora lo ponemos siempre oculto y dejamos que addServantUI lo maneje
+    const botonAgregar = (servant.type === 'normal' || servant.type === 'heroine')
+      ? `<button class="add_button add-servant-button hidden">Agregar</button>`
+      : '';
+
+
+    return `
+    <div class="servant_card" 
+         data-class="${(servant.className || 'unknown').toLowerCase()}" 
+         data-rarity="${servant.rarity}"
+         data-name="${(servant.name || '').toLowerCase()}" 
+         data-np="${servant.np.type}" 
+         data-face="${servant.face}"
+         data-type="${(servant.type || '').toLowerCase()}" 
+         data-servant-id="${servant.id}"
+         data-skills="${skillsJSON}">
+         
+      <a href="/servant/${servant.collectionNo}" class="details_link">
+        <img src="${servant.face}" alt="Icono de ${servant.name}" class="face_main" loading="lazy" />
+      </a>
+      <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
+           alt="${servant.className} class icon" class="class_icon_overlay">
+           
+      <div class="see_details_servant">
+        <div class="rarity_card">${estrellasHTML}</div>
+        <h3 class="text_container">${servant.name}</h3>
+        ${botonAgregar}
+      </div>
+    </div>
+    `;
+  }
+  /**
+   * Inicializa los componentes de la UI y asigna los event listeners.
+   * Esta función se llama una sola vez cuando el DOM está listo.
+   */
+  function inicializarComponentesUI() {
+    // Asignar listeners
+    if (searchbar) {
+      searchbar.addEventListener("input", (evento) => {
+        textoBusqueda = evento.target.value.toLowerCase().trim();
+        aplicarFiltrosCombinados();
+      });
+    }
+
+    if (filterbutton) {
+      filterbutton.addEventListener("click", () => {
+        sidebar.classList.toggle("sidebar-filtro-visible");
+      });
+    }
+
+    if (botonesDeFiltro) {
+      botonesDeFiltro.forEach((boton) => {
+        boton.addEventListener("click", () => {
+          boton.classList.toggle("active");
+          aplicarFiltrosCombinados();
+        });
+      });
+    }
+
+    if (resetButton) {
+      resetButton.addEventListener("click", () => {
+        if (searchbar) searchbar.value = "";
+        textoBusqueda = "";
+        botonesDeFiltro.forEach((boton) => boton.classList.remove("active"));
+        aplicarFiltrosCombinados();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  }
+
+  /**
+   * Inicializa los componentes que se crean dinámicamente, como las tarjetas de servants.
+   * Debe llamarse CADA VEZ que se renderiza el contenedor de servants.
+   */
+  function inicializarComponentesDinamicos() {
+    // Re-seleccionamos elementos que acaban de ser creados
+    addServantButtons = document.querySelectorAll(".add_button");
+    servantCard = document.querySelectorAll(".servant_card");
+
+    if (addServantButtons) {
+      addServantButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          currentAddButton = event.currentTarget;
+          const servantCardElement = event.currentTarget.closest('.servant_card');
+          const servantData = servantCardElement.dataset;
+          populateAddServantModal(servantData);
+          openAddServantModal();
+        });
+      });
+    }
+  }
+
+  async function cargarDatosDePagina(session) {
+    const servantsContainer = document.getElementById("servants-container");
+    if (!servantsContainer) return;
+
+    const STATIC_JSON_URL = '/static/data/main_page_servants.json';
+
+    try {
+      const response = await fetch(STATIC_JSON_URL);
+      if (!response.ok) throw new Error("No se pudo cargar el JSON de servants");
+      const allServants = await response.json();
+
+      const path = window.location.pathname;
+
+      if (path === '/' || path === '/index.html') {
+        servantsContainer.innerHTML = allServants.map(s => generarHTMLCarta(s)).join('');
+      } else if (path === '/mis-servants') {
+        if (!session) { // Si no hay sesión, mostramos el mensaje.
+          servantsContainer.innerHTML = '<p style="color:white; text-align:center;">Inicia sesión para ver tus servants.</p>';
+          return;
+        }
+
+        const { data: userServants, error } = await clienteSupabase.from('user_servants').select('servant_id');
+        if (error) throw error;
+
+        if (!userServants || userServants.length === 0) {
+          servantsContainer.innerHTML = '<p style="color:white; text-align:center;">Aún no has agregado ningún servant.</p>';
+          return;
+        }
+
+        // 1. Creamos un "mapa" para buscar servants por ID de forma ultra-rápida.
+        const servantMap = new Map(allServants.map(s => [s.id, s]));
+
+        // 2. Usamos el mapa para construir la lista de servants del usuario con todos sus datos.
+        const misServantsCompletos = userServants
+          .map(userSvt => servantMap.get(userSvt.servant_id)) // Buscamos el servant completo por su ID.
+          .filter(Boolean); // Eliminamos cualquier resultado nulo si un servant no se encontrara.
+
+        // 3. Ahora sí, renderizamos las cartas con los datos completos.
+        servantsContainer.innerHTML = misServantsCompletos.map(s => generarHTMLCarta(s)).join('');
+      }
+
+      inicializarComponentesDinamicos();
+      // Llamar a esto DESPUÉS de que las cartas se hayan renderizado.
+
+
+    } catch (err) {
+      console.error("Error cargando servants:", err);
+      if (servantsContainer) servantsContainer.innerHTML = `<p class="error-message">Error al cargar datos. Intenta recargar la página.</p>`;
+    }
+  }
 
   // GUARDIA --- LÓGICA PARA MANEJAR EL ESTADO DE AUTENTICACIÓN ---
   clienteSupabase.auth.onAuthStateChange((evento, sesion) => {
@@ -225,235 +378,199 @@ document.addEventListener("DOMContentLoaded", () => {
       UserProfile.classList.remove('hidden');
       closeAuthModal();
       addServantUI();
+      // Carga el contenido de la página ahora que sabemos que el usuario está logueado.
+      cargarDatosDePagina(sesion);
     } else {
       // El usuario NO está conectado
       AuthButton.classList.remove("hidden"); // 1. Muestra el botón de "Iniciar Sesión"
       UserProfile.classList.add("hidden"); // 2. Oculta el div de perfil de usuario
 
-      addServantButtons.forEach((button) => {
-        button.classList.add("hidden");
-      });
-
+      // Carga el contenido de la página (que mostrará el mensaje de "inicia sesión" si es necesario).
+      cargarDatosDePagina(null);
     }
   });
   // --- LOGICA PARA LOGIN CON GOOGLE ---
 
-  googleLoginButton.addEventListener('click', async () => {
-    // Limpiamos errores por si acaso
-    document.getElementById('auth-error').classList.add('hidden');
+  if (googleLoginButton) {
+    googleLoginButton.addEventListener('click', async () => {
+      // Limpiamos errores por si acaso
+      document.getElementById('auth-error').classList.add('hidden');
 
-    const { error } = await clienteSupabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-
-    if (error) {
-      // Si hay un error (ej. pop-up bloqueado), lo mostramos
-      document.getElementById('auth-error').textContent = error.message;
-      document.getElementById('auth-error').classList.remove('hidden');
-    }
-
-    // ¡Y YA ESTÁ!
-  });
-  // --- LÓGICA PARA LOG-IN ---
-  loginform.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    const authError = document.getElementById('auth-error');
-
-    authError.classList.add('hidden');
-    // 'await' le dice a JS: "pausa aquí y espera la respuesta de Supabase"
-    const { data, error } = await clienteSupabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-    if (error) {
-      // ¡Error! Muestra el mensaje
-      authError.textContent = "Usuario o contraseña incorrectos.";
-    } else {
-      // ¡Éxito! Cierra el modal
-
-      closeAuthModal();
-    }
-  });
-  // --- LÓGICA PARA CERRAR SESIÓN ---
-  UserProfile.addEventListener("mouseover", () => {
-    UserProfileName.textContent = "Cerrar Sesión";
-  });
-  UserProfile.addEventListener("mouseout", () => {
-    UserProfileName.textContent = emailUsuarioActual;
-  });
-  UserProfile.addEventListener('click', async () => {
-
-
-    // La función de Supabase para cerrar sesión
-    const { error } = await clienteSupabase.auth.signOut();
-
-    if (error) {
-      console.error('Error al cerrar sesión:', error.message);
-    } else {
-
-
-    }
-  });
-  // --- LOGICA PARA REGISTRARSE ---
-  registerForm.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    const authError = document.getElementById('auth-error');
-    authError.classList.add('hidden');
-    // 'await' le dice a JS: "pausa aquí y espera la respuesta de Supabase"
-    const { data, error } = await clienteSupabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-    if (error) {
-      // ¡Error! Muestra el mensaje
-      authError.textContent = error.message;
-      authError.classList.remove('hidden');
-    } else {
-      // ¡Éxito! Cierra el modal
-
-      authtitle.textContent = "¡Revisa tu email para confirmar!";
-      registerForm.classList.add('hidden');
-    }
-  });
-  // --- LÓGICA PARA BARRA DE BÚSQUEDA ---
-  if (searchbar) {
-    searchbar.addEventListener("input", (evento) => {
-      textoBusqueda = evento.target.value.toLowerCase().trim();
-      aplicarFiltrosCombinados();
-    });
-  }
-
-  if (filterbutton) {
-    filterbutton.addEventListener("click", () => {
-      sidebar.classList.toggle("sidebar-filtro-visible");
-    });
-  }
-
-  // --- LÓGICA PARA BOTONES DE FILTRO ---
-  // 1. Seleccionamos TODOS los botones que están dentro de los contenedores de filtros
-
-  // 2. Recorremos cada uno de los botones encontrados
-  if (botonesDeFiltro) {
-    botonesDeFiltro.forEach((boton) => {
-      // 3. A cada botón, le añadimos un "escuchador" de clics
-      boton.addEventListener("click", () => {
-        // 4. classList.toggle('active') hace la magia:
-        //    - Si el botón NO tiene la clase 'active', se la añade.
-        //    - Si el botón SÍ tiene la clase 'active', se la quita.
-        boton.classList.toggle("active");
-        aplicarFiltrosCombinados();
+      const { error } = await clienteSupabase.auth.signInWithOAuth({
+        provider: 'google',
       });
-    });
-  }
-  if (resetButton) {
-    resetButton.addEventListener("click", () => {
-      searchbar.value = "";
-      textoBusqueda = "";
-      botonesDeFiltro.forEach((boton) => {
-        boton.classList.remove("active");
-      });
-      aplicarFiltrosCombinados();
-    });
-  }
 
-
-  soundControl.addEventListener("click", (e) => {
-    if (e.target.id === "volume-slider") {
-      return; // Evita que el clic en el slider pause la música
-    }
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-    } else {
-      audioPlayer.pause();
-    }
-  });
-  // 5. Evento principal: cuando mueves el slider
-  volumeSlider.addEventListener("input", () => {
-    updateVolume(); // Actualiza el audio
-    updateVolumeDisplay(); // Actualiza el número
-  });
-  togglelogin.addEventListener("click", (event) => {
-    event.preventDefault();
-    registerForm.classList.remove("hidden");
-    loginform.classList.add("hidden");
-    authtitle.textContent = "Registrarse";
-  });
-  toggleregister.addEventListener("click", (event) => {
-    event.preventDefault();
-    registerForm.classList.add("hidden");
-    loginform.classList.remove("hidden");
-    authtitle.textContent = "Iniciar Sesión";
-  });
-  AuthButton.addEventListener("click", () => {
-    openAuthModal();
-  });
-
-  AuthCloseButton.addEventListener("click", () => {
-    closeAuthModal();
-  });
-  Overlay.addEventListener("click", (event) => {
-    // 'event.target' es el elemento exacto donde hiciste clic.
-    // Comprobamos si donde hiciste clic (event.target)
-    // es el overlay MISMO, y no uno de sus hijos (como el modal).
-    if (event.target === Overlay) {
-      closeAuthModal(); // Llama a la misma función de cierre
-    }
-  });
-  addServantCloseButton.addEventListener("click", () => {
-    closeAddServantModal();
-  });
-  addServantButtons.forEach((button) => {
-    button.addEventListener("click", (event) => {
-      // Guardamos el botón específico que se acaba de pulsar
-      currentAddButton = event.currentTarget;
-
-      // 1. Encuentra la tarjeta padre del botón que se ha pulsado
-      const servantCardElement = event.currentTarget.closest('.servant_card');
-      // 2. Lee el dataset de la tarjeta, no del botón
-      const servantData = servantCardElement.dataset;
-      populateAddServantModal(servantData);
-
-      openAddServantModal();
-    });
-  });
-  addServantModal.addEventListener("click", (event) => {
-    // 'event.target' es el elemento exacto donde hiciste clic.
-    // Comprobamos si donde hiciste clic (event.target)
-    // es el overlay MISMO, y no uno de sus hijos (como el modal).
-    if (event.target === addServantModal) {
-      closeAddServantModal();
-    }
-  });
-  addForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    const formData = new FormData(addForm);
-    const { data, error } = await clienteSupabase.from('user_servants').insert([{
-      servant_id: formData.get('servant_id'),
-      level: formData.get('level'),
-      np_level: formData.get('np_level'),
-      bond_level: formData.get('bond_level'),
-      skill_1: formData.get('skill_1'),
-      skill_2: formData.get('skill_2'),
-      skill_3: formData.get('skill_3'),
-    }]);
-    if (error) {
-      console.error('Error al agregar el servant:', error.message);
-      document.getElementById('add-error').textContent = "Error al agregar el servant";
-      document.getElementById('add-error').classList.remove('hidden');
-    } else {
-
-      if (currentAddButton) {
-        added(currentAddButton);
+      if (error) {
+        // Si hay un error (ej. pop-up bloqueado), lo mostramos
+        document.getElementById('auth-error').textContent = error.message;
+        document.getElementById('auth-error').classList.remove('hidden');
       }
+
+      // ¡Y YA ESTÁ!
+    });
+  }
+  // --- LÓGICA PARA LOG-IN ---
+  if (loginform) {
+    loginform.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const authError = document.getElementById('auth-error');
+
+      authError.classList.add('hidden');
+      // 'await' le dice a JS: "pausa aquí y espera la respuesta de Supabase"
+      const { data, error } = await clienteSupabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      if (error) {
+        // ¡Error! Muestra el mensaje
+        authError.textContent = "Usuario o contraseña incorrectos.";
+      } else {
+        // ¡Éxito! Cierra el modal
+
+        closeAuthModal();
+      }
+    });
+  }
+  // --- LÓGICA PARA CERRAR SESIÓN ---
+  if (UserProfile) {
+    UserProfile.addEventListener("mouseover", () => {
+      UserProfileName.textContent = "Cerrar Sesión";
+    });
+    UserProfile.addEventListener("mouseout", () => {
+      UserProfileName.textContent = emailUsuarioActual;
+    });
+    UserProfile.addEventListener('click', async () => {
+      // La función de Supabase para cerrar sesión
+      const { error } = await clienteSupabase.auth.signOut();
+
+      if (error) {
+        console.error('Error al cerrar sesión:', error.message);
+      }
+    });
+  }
+  // --- LOGICA PARA REGISTRARSE ---
+  if (registerForm) {
+    registerForm.addEventListener("submit", async (evento) => {
+      evento.preventDefault();
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const authError = document.getElementById('auth-error');
+      authError.classList.add('hidden');
+      // 'await' le dice a JS: "pausa aquí y espera la respuesta de Supabase"
+      const { data, error } = await clienteSupabase.auth.signUp({
+        email: email,
+        password: password,
+      });
+      if (error) {
+        // ¡Error! Muestra el mensaje
+        authError.textContent = error.message;
+        authError.classList.remove('hidden');
+      } else {
+        // ¡Éxito! Cierra el modal
+
+        authtitle.textContent = "¡Revisa tu email para confirmar!";
+        registerForm.classList.add('hidden');
+      }
+    });
+  }
+
+  if (soundControl) {
+    soundControl.addEventListener("click", (e) => {
+      if (e.target.id === "volume-slider") {
+        return; // Evita que el clic en el slider pause la música
+      }
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+      }
+    });
+  }
+  // 5. Evento principal: cuando mueves el slider
+  if (volumeSlider) {
+    volumeSlider.addEventListener("input", () => {
+      updateVolume(); // Actualiza el audio
+      updateVolumeDisplay(); // Actualiza el número
+    });
+  }
+  if (togglelogin) {
+    togglelogin.addEventListener("click", (event) => {
+      event.preventDefault();
+      registerForm.classList.remove("hidden");
+      loginform.classList.add("hidden");
+      authtitle.textContent = "Registrarse";
+    });
+  }
+  if (toggleregister) {
+    toggleregister.addEventListener("click", (event) => {
+      event.preventDefault();
+      registerForm.classList.add("hidden");
+      loginform.classList.remove("hidden");
+      authtitle.textContent = "Iniciar Sesión";
+    });
+  }
+  if (AuthButton) {
+    AuthButton.addEventListener("click", () => {
+      openAuthModal();
+    });
+  }
+
+  if (AuthCloseButton) {
+    AuthCloseButton.addEventListener("click", () => {
+      closeAuthModal();
+    });
+  }
+  if (Overlay) {
+    Overlay.addEventListener("click", (event) => {
+      if (event.target === Overlay) {
+        closeAuthModal();
+      }
+    });
+  }
+  if (addServantCloseButton) {
+    addServantCloseButton.addEventListener("click", () => {
       closeAddServantModal();
-    }
-  });
+    });
+  }
+  if (addServantModal) {
+    addServantModal.addEventListener("click", (event) => {
+      if (event.target === addServantModal) {
+        closeAddServantModal();
+      }
+    });
+  }
+  if (addForm) {
+    addForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const formData = new FormData(addForm);
+      const { data, error } = await clienteSupabase.from('user_servants').insert([{
+        servant_id: formData.get('servant_id'),
+        level: formData.get('level'),
+        np_level: formData.get('np_level'),
+        bond_level: formData.get('bond_level'),
+        skill_1: formData.get('skill_1'),
+        skill_2: formData.get('skill_2'),
+        skill_3: formData.get('skill_3'),
+      }]);
+      if (error) {
+        console.error('Error al agregar el servant:', error.message);
+        document.getElementById('add-error').textContent = "Error al agregar el servant";
+        document.getElementById('add-error').classList.remove('hidden');
+      } else {
+        if (currentAddButton) {
+          added(currentAddButton);
+        }
+        closeAddServantModal();
+      }
+    });
+  }
 
 
+  // --- INICIALIZACIÓN DE LA PÁGINA ---
   updateVolume();
   updateVolumeDisplay();
+  inicializarComponentesUI(); // <-- Inicializamos los componentes estáticos una sola vez.
+
 });

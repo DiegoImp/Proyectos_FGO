@@ -11,10 +11,10 @@
     </style>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" sizes="any" />
-    <link rel="icon" href="{{ url_for('static', filename='icons/favicon.svg') }}" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}" />
-    <link rel="manifest" href="{{ url_for('static', filename='icons/site.webmanifest') }}" />
+    <link rel="icon" href="{{ url_for('static', filename='icons/base-page/favicon.ico') }}" sizes="any" />
+    <link rel="icon" href="{{ url_for('static', filename='icons/base-page/favicon.svg') }}" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/base-page/apple-touch-icon.png') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='icons/base-page/site.webmanifest') }}" />
 </head>
 
 <body>
@@ -23,7 +23,8 @@
         <button id="auth-open-button" class="auth_button">
             <span>Iniciar Sesión</span>
             <span class="input_separator input_separator--user">|</span>
-            <img src="{{ url_for('static', filename='icons/account-icon.svg') }}" alt="Icono de cuenta de usuario" />
+            <img src="{{ url_for('static', filename='icons/base-page/account-icon.svg') }}"
+                alt="Icono de cuenta de usuario" />
 
         </button>
         <!-- boton de cerrar sesion -->
@@ -45,14 +46,14 @@
             <!-- Inicio de Sesión -->
             <form id="login-form" class="auth_form">
                 <div class="login_input">
-                    <img src="{{ url_for('static', filename='icons/email-icon.svg') }}" alt="Icono de email"
+                    <img src="{{ url_for('static', filename='icons/base-page/email-icon.svg') }}" alt="Icono de email"
                         class="auth_icon" />
                     <span class="input_separator">|</span>
                     <input id="login-email" type="email" placeholder="Correo electrónico" class="auth_input" required>
                 </div>
                 <div class="login_input">
-                    <img src="{{ url_for('static', filename='icons/password-icon.svg') }}" alt="Icono de contraseña"
-                        class="auth_icon" />
+                    <img src="{{ url_for('static', filename='icons/base-page/password-icon.svg') }}"
+                        alt="Icono de contraseña" class="auth_icon" />
                     <span class="input_separator">|</span>
                     <input id="login-password" type="password" placeholder="Contraseña" class="auth_input" required>
                 </div>
@@ -67,15 +68,15 @@
             <form id="register-form" class="auth_form hidden">
 
                 <div class="register_input">
-                    <img src="{{ url_for('static', filename='icons/email-icon.svg') }}" alt="Icono de email"
+                    <img src="{{ url_for('static', filename='icons/base-page/email-icon.svg') }}" alt="Icono de email"
                         class="auth_icon" />
                     <span class="input_separator">|</span>
                     <input id="register-email" type="email" placeholder="Correo electrónico" class="auth_input"
                         required>
                 </div>
                 <div class="register_input">
-                    <img src="{{ url_for('static', filename='icons/password-icon.svg') }}" alt="Icono de contraseña"
-                        class="auth_icon" />
+                    <img src="{{ url_for('static', filename='icons/base-page/password-icon.svg') }}"
+                        alt="Icono de contraseña" class="auth_icon" />
                     <span class="input_separator">|</span>
                     <input id="register-password" type="password" placeholder="Contraseña" class="auth_input" required>
                 </div>
@@ -110,7 +111,7 @@
         -->
             <li>
                 <a href="/" class="index_element">
-                    <img src="{{ url_for('static', filename='icons/side-bar/search-icon.svg') }}" class="sidebar_icon"
+                    <img src="{{ url_for('static', filename='icons/base-page/search-icon.svg') }}" class="sidebar_icon"
                         alt="Icono Buscador">
                     <div class="sidebar_hide">
                         <span class="index_text">Buscador</span>
@@ -119,7 +120,7 @@
             </li>
             <li>
                 <a href="/calculadora" class="index_element">
-                    <img src="{{url_for('static', filename='icons/side-bar/calculator-icon.svg') }}"
+                    <img src="{{url_for('static', filename='icons/base-page/calculator-icon.svg') }}"
                         class="sidebar_icon" alt="Icono Calculadora">
                     <div class="sidebar_hide">
                         <span class="index_text">Calculadora</span>
@@ -128,7 +129,7 @@
             </li>
             <li>
                 <a href="/mis-servants" class="index_element">
-                    <img src="{{url_for('static', filename='icons/side-bar/servants-icon.svg') }}"
+                    <img src="{{url_for('static', filename='icons/base-page/servants-icon.svg') }}"
                         class="sidebar_icon sidebar_icon--servant" alt="Icono Mis Servants">
                     <div class="sidebar_hide">
                         <span class="index_text index_text--servants">Mis Servants</span>
@@ -137,7 +138,7 @@
             </li>
             <li>
                 <a href="/tierlist" class="index_element">
-                    <img src="{{ url_for('static', filename='icons/side-bar/tier-icon.svg') }}"
+                    <img src="{{ url_for('static', filename='icons/base-page/tier-icon.svg') }}"
                         class="sidebar_icon sidebar_icon--tier" alt="Icono de Tier List">
                     <div class="sidebar_hide">
                         <span class="index_text">Tier Lists</span>
@@ -146,7 +147,7 @@
             </li>
             <li>
                 <a href="/fgodle" class="index_element">
-                    <img src="{{url_for('static', filename='icons/side-bar/game-icon.svg') }}"
+                    <img src="{{url_for('static', filename='icons/base-page/game-icon.svg') }}"
                         class="sidebar_icon sidebar_icon--game" alt="Icono FGOdle">
                     <div class="sidebar_hide">
                         <span class="index_text">FGOdle</span>
@@ -155,7 +156,7 @@
             </li>
             <li>
                 <div class="index_element">
-                    <img src="{{url_for('static', filename='icons/side-bar/calendar-icon.svg') }}" class="sidebar_icon"
+                    <img src="{{url_for('static', filename='icons/base-page/calendar-icon.svg') }}" class="sidebar_icon"
                         alt="Icono Misiones">
                     <div class="sidebar_hide">
                         <span class="index_text">Weekly Missions</span>
@@ -164,7 +165,7 @@
             </li>
             <li class="index_element index_element--music">
                 <div class="sound-column-icon">
-                    <img src="{{url_for('static', filename='icons/side-bar/sound-icon.svg') }}"
+                    <img src="{{url_for('static', filename='icons/base-page/sound-icon.svg') }}"
                         class="sidebar_icon sidebar_icon--sound">
                     <span id="volume-display">30</span>
                 </div>
