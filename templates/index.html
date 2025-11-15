@@ -135,57 +135,57 @@
   </div>
 
   <div class="servants_grid" id="servants-container">
-    <p id="loading-message" style="color: white; text-align: center; width: 100%;">Consultando a Chaldea...</p>
+    <p class="loading-message"">Consultando a Chaldea...</p>
     <!-- Los servants se generarán aquí con JavaScript -->
   </div>
 </main>
-<div id="add-servant-modal" class="modal_overlay">
-  <div id="add-window">
-    <button id="add-servant-close-button" class="modal_close">&times;</button>
-    <h2 id="add-title">Agregar Servant</h2>
-    <!-- Contenedor para el Servant seleccionado (se llenará con JS) -->
-    <div id="servant-preview" class="servant_preview">
-      <img id="servant-face" src="" alt="Servant Face" class="face_main">
-      <div id="preview-details">
-        <h2 id="servant-name" class="servant_name">Nombre del Servant</h2>
-        <img id="servant-class-icon" src="" alt="Servant Class Icon" class="servant_icon">
+<div id=" add-servant-modal" class="modal_overlay">
+    <div id="add-window">
+      <button id="add-servant-close-button" class="modal_close">&times;</button>
+      <h2 id="add-title">Agregar Servant</h2>
+      <!-- Contenedor para el Servant seleccionado (se llenará con JS) -->
+      <div id="servant-preview" class="servant_preview">
+        <img id="servant-face" src="" alt="Servant Face" class="face_main">
+        <div id="preview-details">
+          <h2 id="servant-name" class="servant_name">Nombre del Servant</h2>
+          <img id="servant-class-icon" src="" alt="Servant Class Icon" class="servant_icon">
+        </div>
       </div>
-    </div>
-    <hr>
-    <!-- Formulario de Ingreso de Niveles -->
-    <form id="add-servant-form" class="add_form">
-
-      <!-- Campo oculto para guardar el ID del Servant -->
-      <input type="hidden" id="input-servant-id" name="servant_id">
-
-      <!-- 1. NIVEL DEL SERVANT (1-120) -->
-      <div id="level-img-wrapper" class="level_img">Lv</div>
-      <label for="input-level" class="add_input_label">Nivel Actual (1-120)</label>
-      <input id="input-level" type="number" class="add_input" name="level" min="1" max="120" value="1" required>
-
-      <!-- 2. NIVEL DE NP (1-5) -->
-      <img id="np-img-wrapper" class="np_img"></img>
-      <label for="input-np" class="add_input_label">Nivel de Noble Phantasm (1-5)</label>
-      <input id="input-np" type="number" class="add_input" name="np_level" min="1" max="5" value="1" required>
-
-      <!-- 3. NIVEL DE BOND (1-15) -->
-      <img id="bond-img-wrapper" class="bond_img"
-        src="{{ url_for('static', filename='icons/main-page/bondxp.png') }}"></img>
-      <label for="input-bond" class="add_input_label">Nivel de Vínculo (0-15)</label>
-      <input id="input-bond" type="number" class="add_input" name="bond_level" min="0" max="15" value="0" required>
-
       <hr>
+      <!-- Formulario de Ingreso de Niveles -->
+      <form id="add-servant-form" class="add_form">
 
-      <!-- 4. NIVELES DE SKILLS (Usaremos un wrapper para Skills) -->
-      <div id="skills-wrapper" class="clase_skills_wrapper">
-        <!-- Los 3 inputs de skills se generarán con JavaScript -->
-      </div>
+        <!-- Campo oculto para guardar el ID del Servant -->
+        <input type="hidden" id="input-servant-id" name="servant_id">
 
-      <button type="submit" class="auth_submit_button clase_submit_add">Guardar Servant</button>
-    </form>
+        <!-- 1. NIVEL DEL SERVANT (1-120) -->
+        <div id="level-img-wrapper" class="level_img">Lv</div>
+        <label for="input-level" class="add_input_label">Nivel Actual (1-120)</label>
+        <input id="input-level" type="number" class="add_input" name="level" min="1" max="120" value="1" required>
 
-    <p id="add-error" class="auth_error hidden"></p>
+        <!-- 2. NIVEL DE NP (1-5) -->
+        <img id="np-img-wrapper" class="np_img"></img>
+        <label for="input-np" class="add_input_label">Nivel de Noble Phantasm (1-5)</label>
+        <input id="input-np" type="number" class="add_input" name="np_level" min="1" max="5" value="1" required>
+
+        <!-- 3. NIVEL DE BOND (1-15) -->
+        <img id="bond-img-wrapper" class="bond_img"
+          src="{{ url_for('static', filename='icons/main-page/bondxp.png') }}"></img>
+        <label for="input-bond" class="add_input_label">Nivel de Vínculo (0-15)</label>
+        <input id="input-bond" type="number" class="add_input" name="bond_level" min="0" max="15" value="0" required>
+
+        <hr>
+
+        <!-- 4. NIVELES DE SKILLS (Usaremos un wrapper para Skills) -->
+        <div id="skills-wrapper" class="clase_skills_wrapper">
+          <!-- Los 3 inputs de skills se generarán con JavaScript -->
+        </div>
+
+        <button type="submit" class="auth_submit_button clase_submit_add">Guardar Servant</button>
+      </form>
+
+      <p id="add-error" class="auth_error hidden"></p>
+    </div>
   </div>
-</div>
 
-{% endblock %}
+  {% endblock %}

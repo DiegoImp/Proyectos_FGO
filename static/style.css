@@ -105,7 +105,7 @@ main {
   font-style: normal;
 }
 .sidebar_index:hover {
-  width: 220px;
+  width: 230px;
 }
 
 /* Estilo del header dentro de la barra */
@@ -489,6 +489,20 @@ main {
     minmax(162px, 1fr)
   );
   gap: 8px;
+}
+.loading-message {
+  text-align: center;
+  color: white;
+  grid-column: 1 / -1;
+  font-size: large;
+  font-weight: bold;
+}
+.error_message {
+  text-align: center;
+  color: red;
+  grid-column: span 5;
+  font-size: large;
+  font-weight: bold;
 }
 .details_link {
   text-decoration: none;
@@ -961,4 +975,74 @@ main {
   width: 40px; /* O el tamaño que prefieras */
   height: 40px;
   margin-left: -2px;
+}
+.servant_box_container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.servant_box {
+  background-color: #36332c88;
+  border: 5px solid black;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.3);
+  display: grid;
+  grid-template-columns: 1fr max-content 80px auto;
+  align-items: center;
+  gap: 15px;
+}
+.servant_box[data-np="1"]:hover {
+  border-radius: 20px;
+  border: 5px solid transparent;
+  border-color: #3a7bd5;
+
+  border-image-slice: 1;
+}
+.servant_box[data-np="2"]:hover {
+  border: 5px solid transparent;
+  border-radius: 20px;
+  border-image-slice: 1;
+  border-color: #d32f2f;
+}
+.servant_box[data-np="3"]:hover {
+  border: 5px solid transparent;
+  border-radius: 20px;
+  border-image-slice: 1;
+  border-color: #43a047;
+}
+.box-name {
+  color: #f7b731;
+  margin-bottom: 5px;
+  text-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.box_class_icon {
+  width: 50px;
+  height: 50px;
+}
+.card-rareza {
+  color: white; /* Dorado claro */
+  font-size: 1em; /* Un poco más chica la letra */
+  font-weight: bold;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.box-imagen {
+  width: 80px;
+  height: 80px;
+  align-self: center;
+  border-radius: 50%;
+  border: 2px solid #f7b731;
+  object-fit: cover;
+  transition: 0.3s ease;
+}
+.box-imagen:hover {
+  transform: scale(1.1); /* La agranda un 10% */
+  box-shadow: 0 0 10px #f7b731; /* Le da un brillo dorado */
 }

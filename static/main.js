@@ -207,6 +207,41 @@ document.addEventListener("DOMContentLoaded", async () => {
   function updateVolumeDisplay() {
     volumeDisplay.textContent = volumeSlider.value;
   }
+  function generarHTMLmis_servants(servant) {
+    // Generar las estrellas de rareza
+    let estrellasHTML = '';
+    for (let i = 0; i < servant.rarity; i++) {
+      estrellasHTML += '<span>★</span>';
+    }
+    const skillsJSON = JSON.stringify(servant.skills || [])
+      .replace(/"/g, '&quot;');
+
+    return `
+      <div class="servant_box" 
+          data-class="${(servant.className || 'unknown').toLowerCase()}" 
+          data-rarity="${servant.rarity}"
+          data-name="${(servant.name || '').toLowerCase()}" 
+          data-np="${servant.np.type}" 
+          data-face="${servant.face}"
+          data-type="${(servant.type || '').toLowerCase()}" 
+          data-servant-id="${servant.id}"
+          data-skills="${skillsJSON}">
+          <span class="box-name">
+              ${servant.name}
+          </span>
+          <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
+                class="box_class_icon">
+          <div class="card-rareza">
+              <span class="rarity_card">
+                  ${estrellasHTML}
+                </span>
+              <span>Nivel: ${servant.level}</span>
+          </div>
+          <img src="${servant.face}" alt="Icono de ${servant.name}" class="box-imagen">
+      </div>
+    `;
+
+  }
   function generarHTMLCarta(servant) {
     // Generar las estrellas de rareza
     let estrellasHTML = '';
@@ -216,7 +251,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Convertir skills a JSON string seguro para el dataset
     // Nota: Nos aseguramos de que existan para evitar errores
-    const skillsJSON = servant.skills ? JSON.stringify(servant.skills).replace(/"/g, '&quot;') : '[]';
+    const skillsJSON = JSON.stringify(servant.skills || [])
+      .replace(/"/g, '&quot;');
 
     // Definir si mostramos el botón de agregar (Solo en index, o basado en lógica)
     // Por ahora lo ponemos siempre oculto y dejamos que addServantUI lo maneje
@@ -328,7 +364,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         servantsContainer.innerHTML = allServants.map(s => generarHTMLCarta(s)).join('');
       } else if (path === '/mis-servants') {
         if (!session) { // Si no hay sesión, mostramos el mensaje.
-          servantsContainer.innerHTML = '<p style="color:white; text-align:center;">Inicia sesión para ver tus servants.</p>';
+          servantsContainer.innerHTML = '<p class="loading-message">Inicia sesión para ver tus servants.</p>';
           return;
         }
 
@@ -336,20 +372,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (error) throw error;
 
         if (!userServants || userServants.length === 0) {
-          servantsContainer.innerHTML = '<p style="color:white; text-align:center;">Aún no has agregado ningún servant.</p>';
+          servantsContainer.innerHTML = '<p class="loading-message">Aún no has agregado ningún servant.</p>';
           return;
         }
 
-        // 1. Creamos un "mapa" para buscar servants por ID de forma ultra-rápida.
+        // 1. Creamos el índice de búsqueda estático 
         const servantMap = new Map(allServants.map(s => [s.id, s]));
 
-        // 2. Usamos el mapa para construir la lista de servants del usuario con todos sus datos.
-        const misServantsCompletos = userServants
-          .map(userSvt => servantMap.get(userSvt.servant_id)) // Buscamos el servant completo por su ID.
-          .filter(Boolean); // Eliminamos cualquier resultado nulo si un servant no se encontrara.
+        // 2. Pedimos los datos completos de Supabase
+        const { data: userServantsData } = await clienteSupabase
+          .from('user_servants')
+          .select('servant_id, level, skill_1, skill_2, skill_3, np_level, bond_level');
 
-        // 3. Ahora sí, renderizamos las cartas con los datos completos.
-        servantsContainer.innerHTML = misServantsCompletos.map(s => generarHTMLCarta(s)).join('');
+        const misServantsCompletos = userServantsData.map(userSvt => {
+          //  Obtenemos los datos dinámicos (de Supabase)
+          const dynamicData = userSvt;
+
+          //  Obtenemos los datos estáticos (del JSON) usando el Map
+          // Nota: El ID de Supabase es 'servant_id', pero el de nuestro JSON es 'id'.
+          const staticData = servantMap.get(userSvt.servant_id);
+
+          // La Fusión
+          // utiliza ... para combinar ambos objetos en uno solo (funcion de spread)
+          const mergedServant = {
+            ...staticData,
+            ...dynamicData
+          };
+
+          return mergedServant;
+        });
+
+        // --- CORRECCIÓN ---
+        // 1. Generamos todas las tarjetas.
+        const servantBoxesHTML = misServantsCompletos.map(s => generarHTMLmis_servants(s)).join('');
+        // 2. Las envolvemos en UN ÚNICO contenedor de cuadrícula.
+        servantsContainer.innerHTML = `<div class="servant_box_container">${servantBoxesHTML}</div>`;
       }
 
       inicializarComponentesDinamicos();
@@ -358,7 +415,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
       console.error("Error cargando servants:", err);
-      if (servantsContainer) servantsContainer.innerHTML = `<p class="error-message">Error al cargar datos. Intenta recargar la página.</p>`;
+      if (servantsContainer) servantsContainer.innerHTML = `<p class="error_message">Error al cargar datos. Intenta recargar la página.</p>`;
     }
   }
 
