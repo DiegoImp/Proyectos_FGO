@@ -992,25 +992,65 @@ main {
   grid-template-columns: 1fr max-content 80px auto;
   align-items: center;
   gap: 15px;
+  position: relative;
+  overflow: visible; /* Para que el overlay no se salga */
+  z-index: 1;
+  transition: transform 0.5s ease, z-index 0.3s;
+}
+.servant_box:hover {
+  cursor: pointer;
+  box-shadow: 0 0 15px #f7b731;
+  z-index: 100;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 5px solid transparent;
 }
 .servant_box[data-np="1"]:hover {
-  border-radius: 20px;
-  border: 5px solid transparent;
   border-color: #3a7bd5;
-
-  border-image-slice: 1;
 }
 .servant_box[data-np="2"]:hover {
-  border: 5px solid transparent;
-  border-radius: 20px;
-  border-image-slice: 1;
   border-color: #d32f2f;
 }
 .servant_box[data-np="3"]:hover {
-  border: 5px solid transparent;
-  border-radius: 20px;
-  border-image-slice: 1;
   border-color: #43a047;
+}
+/* --- EL POP-OVER (Lo que se desliza) --- */
+.box_details_overlay {
+  /* Posicionamiento */
+  position: absolute;
+  top: 100%; /* Empieza casi al final de la carta principal */
+  left: -5px; /* Compensa el borde de 3px de la carta padre */
+  width: calc(
+    100% + 10px
+  ); /* Ancho de la carta + bordes */
+  margin-top: -5px;
+  /* Estilo visual */
+  background-color: rgb(32, 30, 30);
+  border: inherit;
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  padding: 10px;
+  color: white;
+  font-size: 0.9rem;
+  text-align: center;
+
+  visibility: hidden; /* No interactuable por defecto */
+  transform: translateY(
+    -10px
+  ); /* Empieza un poco más arriba */
+  transition: all 0.3s ease-in;
+
+  /* Asegura que esté encima de la carta de abajo visualmente */
+  z-index: 99;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidad */
+}
+
+.servant_box:hover .box_details_overlay {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(
+    0
+  ); /* Baja a su posición natural */
 }
 .box-name {
   color: #f7b731;

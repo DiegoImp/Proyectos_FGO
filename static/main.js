@@ -226,18 +226,25 @@ document.addEventListener("DOMContentLoaded", async () => {
           data-type="${(servant.type || '').toLowerCase()}" 
           data-servant-id="${servant.id}"
           data-skills="${skillsJSON}">
-          <span class="box-name">
+        <span class="box-name">
               ${servant.name}
-          </span>
-          <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
+        </span>
+        <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
                 class="box_class_icon">
-          <div class="card-rareza">
-              <span class="rarity_card">
+        <div class="card-rareza">
+          <span class="rarity_card">
                   ${estrellasHTML}
-                </span>
-              <span>Nivel: ${servant.level}</span>
-          </div>
-          <img src="${servant.face}" alt="Icono de ${servant.name}" class="box-imagen">
+            </span>
+          <span>Nivel: ${servant.level}</span>
+        </div>
+        <img src="${servant.face}" alt="Icono de ${servant.name}" class="box-imagen">
+        <div class="box_details_overlay">
+          
+            <p>Skills: 1/1/1</p>
+            <p>NP: Lv. 1</p>
+            <p>Bond: 0</p>
+          
+        </div>
       </div>
     `;
 
