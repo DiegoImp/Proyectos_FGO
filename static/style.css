@@ -37,7 +37,8 @@ h2 {
   color: #f7b731;
   font-weight: bold;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  text-wrap: nowrap;
 }
 .text_container,
 .add_button {
@@ -621,24 +622,115 @@ main {
   gap: 10px;
   background-color: #f7b731;
   color: #1a1a2e;
-  padding: 10px 15px;
+  padding: 10px 10px;
   border-radius: 20px;
   border: none;
   font-size: medium;
   font-weight: 550;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 182px;
+  height: 50px;
+  position: relative;
+  z-index: 10;
+}
+.auth_button:hover {
+  background-color: #ffde8a;
+  transform: translateY(-2px);
+}
+.auth_user {
+  transition: border-bottom-left-radius 1s,
+    border-bottom-right-radius 1s,
+    background-color 0.3s ease, color 0.3s ease;
+}
+.auth_user:hover {
+  background-color: black;
+  color: white;
+  text-align: center;
+  z-index: 100;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  cursor: default;
+  transition: border-radius 0.3s ease;
+}
+.auth_user:hover #user-profile-name {
+  margin-left: 10px;
+}
+.user_menu {
+  /* Posicionamiento */
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  top: 100%;
+  left: 0px;
+  width: calc(
+    100%
+  ); /* Ancho de la carta + bordes */
+  gap: 10px;
+  /* Estilo visual */
+  background-color: black;
+  border: inherit;
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  padding: 10px 15px;
+  margin-top: 0px;
+
+  color: white;
+  font-size: medium;
+  font-weight: 550;
+  cursor: default;
+
+  visibility: hidden; /* No interactuable por defecto */
+  transform: translateY(
+    -10px
+  ); /* Empieza un poco más arriba */
+  transition: all 0.3s ease-in;
+
+  /* Asegura que esté encima de la carta de abajo visualmente */
+  z-index: 99;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidad */
 }
 
+.auth_user:hover .user_menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(
+    0
+  ); /* Baja a su posición natural */
+}
+#user-email {
+  margin-left: 5px;
+}
+.logout_button {
+  display: flex;
+  gap: 10px;
+  background-color: black;
+  color: white;
+  font-size: medium;
+  font-weight: 550;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+.logout_button:hover {
+  background-color: rgb(36, 34, 34);
+  transform: translateY(-2px);
+  border: 2px solid gray;
+}
+.logout_icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
 #user-profile-icon {
   width: 30px; /* O el tamaño que prefieras */
   height: 30px;
   border-radius: 50%; /* ¡La clave para hacerlo redondo! */
-
+  flex-shrink: 0;
   /* Un color de fondo base (luego podemos hacerlo dinámico) */
   background-color: black;
   color: #f7b731; /* El color de la letra */
-
   /* Centrar la letra dentro del círculo */
   display: flex;
   justify-content: center;
@@ -650,12 +742,6 @@ main {
 
   /* Evita que el texto (la letra) se pueda seleccionar */
   user-select: none;
-}
-
-.auth_button:hover,
-.auth_user:hover {
-  background-color: #ffde8a;
-  transform: translateY(-2px);
 }
 
 .auth_button img {
@@ -683,7 +769,7 @@ main {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
+  z-index: 999;
 
   /* Centra el modal que está dentro */
   display: flex;
@@ -695,7 +781,8 @@ main {
 }
 
 /* El Modal (la ventana) */
-#auth-modal {
+#auth-modal,
+#welcome-message {
   background: #2a2a4e; /* Usamos el color de fondo de tu 'main' */
   border: 3px solid #f7b731;
   border-radius: 8px;
@@ -708,7 +795,30 @@ main {
   /* Oculto por defecto (lo controla el overlay) */
   display: block;
 }
-
+#welcome-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  z-index: 1000;
+  max-width: 400px;
+}
+#web-guide h2 {
+  padding-left: 10px;
+}
+#web-guide ul {
+  padding-left: 40px;
+  margin: 0;
+  /* Usamos flexbox para separar los items elegantemente */
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Espacio entre cada item de la lista */
+}
+#web-guide li {
+  color: #e0e0e0; /* Color del texto (gris claro/blanco) */
+  font-size: 0.95rem; /* Tamaño de letra */
+  line-height: 1.4; /* Altura de línea para mejor lectura */
+}
 /* Botón de cerrar (la 'X') */
 .modal_close {
   position: absolute;
@@ -749,15 +859,20 @@ main {
   height: 30px;
 }
 .input_separator {
-  width: 1.5px; /* Ancho de la barra */
-  background-color: #7a73737a; /* Color de la barra */
+  width: 2px; /* Ancho de la barra */
+  background-color: rgb(
+    20,
+    20,
+    20
+  ); /* Color de la barra */
   cursor: default;
   /* El espacio entre icono y barra, y barra e input */
   margin-left: 0.75em;
   margin-right: 0.75em;
 }
 .input_separator--user {
-  height: 90%;
+  height: 80%;
+  align-self: center;
   margin-left: 0.4em;
   margin-right: 0.4em;
 }
@@ -803,6 +918,7 @@ main {
   transform: translateY(-3px);
   font-weight: bold;
   border: 3px solid black;
+  cursor: pointer;
 }
 #auth-toggle-text {
   color: black;
@@ -1052,23 +1168,33 @@ main {
     0
   ); /* Baja a su posición natural */
 }
-.box-name {
+.box_name {
   color: #f7b731;
-  margin-bottom: 5px;
   text-wrap: nowrap;
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.box_stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  font-size: 1em;
+  font-weight: bold;
+  color: white;
 }
 .box_class_icon {
   width: 50px;
   height: 50px;
 }
-.card-rareza {
+.card_rareza {
   color: white; /* Dorado claro */
   font-size: 1em; /* Un poco más chica la letra */
   font-weight: bold;
-  gap: 10px;
+  gap: 7px;
   display: flex;
   flex-direction: column;
   align-items: center;

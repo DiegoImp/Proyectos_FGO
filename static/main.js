@@ -20,15 +20,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Elementos para el modal de autenticación login
   const AuthButton = document.querySelector(".auth_button");
+  const AuthModal = document.getElementById("auth-modal");
   const AuthCloseButton = document.getElementById("auth-close-button");
   const Overlay = document.getElementById("login-modal");
   const googleLoginButton = document.getElementById('google-login-button');
   const loginform = document.getElementById("login-form");
+  const welcomeMessage = document.getElementById("welcome-message");
+  const welcomeCloseButton = document.getElementById("welcome-close-button");
   // Elementos de usuario
   const UserProfile = document.getElementById("user-profile");
   const UserProfileName = document.getElementById("user-profile-name");
   let emailUsuarioActual = "";
   const UserIcon = document.getElementById("user-profile-icon");
+  const UserSeparator = document.getElementById("user-input-separator");
+  const Usermenuemail = document.getElementById("user-email");
+  const LogoutButton = document.getElementById("logout-button");
   // Elementos del modal de autenticación registro
   const togglelogin = document.getElementById("auth-toggle-login");
   const toggleregister = document.getElementById("auth-toggle-register");
@@ -226,12 +232,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           data-type="${(servant.type || '').toLowerCase()}" 
           data-servant-id="${servant.id}"
           data-skills="${skillsJSON}">
-        <span class="box-name">
-              ${servant.name}
-        </span>
+        <div class="box_name">
+              <span>${servant.name}</span>
+              <div class="box_stats">
+                <span>ATK: 1200</span>
+                <span>HP: 1200</span>
+              </div>
+        </div>
         <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
                 class="box_class_icon">
-        <div class="card-rareza">
+        <div class="card_rareza">
           <span class="rarity_card">
                   ${estrellasHTML}
             </span>
@@ -440,7 +450,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       //Alternar la visibilidad de los botones de autenticación y perfil.
       AuthButton.classList.add('hidden');
       UserProfile.classList.remove('hidden');
-      closeAuthModal();
       addServantUI();
       // Carga el contenido de la página ahora que sabemos que el usuario está logueado.
       cargarDatosDePagina(sesion);
@@ -492,20 +501,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         authError.textContent = "Usuario o contraseña incorrectos.";
       } else {
         // ¡Éxito! Cierra el modal
+        welcomeMessage.classList.remove('hidden');
+        AuthModal.classList.add('hidden');
 
-        closeAuthModal();
+
       }
+    });
+  }
+  if (welcomeMessage) {
+    welcomeCloseButton.addEventListener('click', () => {
+      closeAuthModal();
+      welcomeMessage.classList.add('hidden');
+      AuthModal.classList.remove('hidden');
     });
   }
   // --- LÓGICA PARA CERRAR SESIÓN ---
   if (UserProfile) {
     UserProfile.addEventListener("mouseover", () => {
-      UserProfileName.textContent = "Cerrar Sesión";
+      UserProfileName.textContent = "Master Info";
+      UserSeparator.classList.add("hidden");
+      UserIcon.classList.add("hidden");
+      Usermenuemail.textContent = emailUsuarioActual;
     });
     UserProfile.addEventListener("mouseout", () => {
       UserProfileName.textContent = emailUsuarioActual;
+      UserSeparator.classList.remove("hidden");
+      UserIcon.classList.remove("hidden");
     });
-    UserProfile.addEventListener('click', async () => {
+    LogoutButton.addEventListener('click', async () => {
       // La función de Supabase para cerrar sesión
       const { error } = await clienteSupabase.auth.signOut();
 
