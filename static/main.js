@@ -222,40 +222,107 @@ document.addEventListener("DOMContentLoaded", async () => {
     const skillsJSON = JSON.stringify(servant.skills || [])
       .replace(/"/g, '&quot;');
 
-    return `
-      <div class="servant_box" 
-          data-class="${(servant.className || 'unknown').toLowerCase()}" 
-          data-rarity="${servant.rarity}"
-          data-name="${(servant.name || '').toLowerCase()}" 
-          data-np="${servant.np.type}" 
-          data-face="${servant.face}"
-          data-type="${(servant.type || '').toLowerCase()}" 
-          data-servant-id="${servant.id}"
-          data-skills="${skillsJSON}">
-        <div class="box_name">
-              <span>${servant.name}</span>
-              <div class="box_stats">
-                <span>ATK: 1200</span>
-                <span>HP: 1200</span>
+    let skillsHTML = '';
+    (servant.skills || []).slice(0, 3).forEach((skill, index) => {
+      const len = (skill.name || '').length;
+
+      let cssClass = '';
+
+      if (len > 24) {
+        cssClass = 'scroll_long';   // Animación agresiva para textos muy largos
+      } else if (len > 19) {
+        cssClass = 'scroll_medium'; // Animación suave para textos medianos
+      } else if (len > 12) {
+        cssClass = 'scroll_short';  // Animación ligera para textos cortos
+      }
+      // Genera el HTML para cada fila de skill
+      skillsHTML += `
+              <div class="skill_row">
+                <img src="${skill.icon}" alt="${skill.name}" class="skill_icon_preview">
+                <div class="skill_name" title="${skill.name}">
+                  <span id="input-skill-${index + 1}" class="skill_name_text ${cssClass}">
+                      ${capitalizeWords(skill.name)}
+                  </span>
+                </div>
+                <p class="skill-level">Nivel: ${servant[`skill_${index + 1}`] || 'N/A'}</p>
               </div>
-        </div>
-        <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
-                class="box_class_icon">
-        <div class="card_rareza">
-          <span class="rarity_card">
-                  ${estrellasHTML}
-            </span>
-          <span>Nivel: ${servant.level}</span>
-        </div>
-        <img src="${servant.face}" alt="Icono de ${servant.name}" class="box-imagen">
-        <div class="box_details_overlay">
-          
-            <p>Skills: 1/1/1</p>
-            <p>NP: Lv. 1</p>
-            <p>Bond: 0</p>
-          
+        `;
+    });
+    let npTypeDisplay = '';
+    if (servant.np.type === '2') {
+      npTypeDisplay = 'Buster';
+    } else if (servant.np.type === '1') {
+      npTypeDisplay = 'Arts';
+    } else if (servant.np.type === '3') {
+      npTypeDisplay = 'Quick';
+    }
+    return `
+    <div class="servant_box_container" data-np="${servant.np.type}">
+      <div class="servant_box" 
+         data-class="${(servant.className || 'unknown').toLowerCase()}" 
+         data-rarity="${servant.rarity}" 
+         data-name="${(servant.name || '').toLowerCase()}" 
+         data-face="${servant.face}" 
+         data-type="${(servant.type || '').toLowerCase()}" 
+         data-servant-id="${servant.id}" 
+         data-skills="${skillsJSON}">
+      <div class="box_name">
+        <span>${servant.name}</span>
+        <div class="box_stats">
+          <span>ATK: 1200</span>
+          <span>HP: 1200</span>
         </div>
       </div>
+      <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png" class="box_class_icon">
+      <div class="card_rareza">
+        <span class="rarity_card">
+        ${estrellasHTML}
+        </span>
+        <span>Nivel: ${servant.level}</span>
+      </div>
+      <img src="${servant.face}" alt="Icono de ${servant.name}" class="box-imagen">
+      </div>
+      <div class="box_details_overlay">
+      <div class="box_details_content">
+        <div class="skills_details">
+        <h3>Active Skills</h3>
+        ${skillsHTML}
+        </div>
+        <div class="INFO_details">
+        <h3>Servant Info</h3>
+        <div class="NP_info">
+          <!-- Fila Superior: Título y Tipo de Carta -->
+          <div class="np_top_row">
+          <span class="np_title">NOBLE PHANTASM</span>
+          <!-- Aquí iría dinámicamente: Buster, Arts o Quick -->
+          <span class="np_card_type">${npTypeDisplay}</span>
+          </div>
+          <!-- Fila Central: Nombre del NP -->
+          <span class="np_name">${servant.name}</span>
+          <!-- Fila Inferior: Nivel -->
+          <div class="np_level_row">
+          <span class="np_lvl_label">Nivel:</span>
+          <span class="np_lvl_value">${servant.np_level}</span>
+          </div>
+        </div>
+        <div class="Bond_info">
+          <div class="bond_info_details">
+          <span>Bond Level:</span>
+          <span>${servant.bond_level}</span>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="redirect_buttons">
+        <button class="btn-custom btn-calc">
+        <i class="fas fa-calculator"></i> Calculadora
+        </button>
+        <button class="btn-custom btn-detail">
+        Más detalles <i class="fas fa-arrow-right text-xs"></i>
+        </button>
+      </div>
+      </div>
+    </div>
     `;
 
   }
@@ -423,7 +490,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 1. Generamos todas las tarjetas.
         const servantBoxesHTML = misServantsCompletos.map(s => generarHTMLmis_servants(s)).join('');
         // 2. Las envolvemos en UN ÚNICO contenedor de cuadrícula.
-        servantsContainer.innerHTML = `<div class="servant_box_container">${servantBoxesHTML}</div>`;
+        servantsContainer.innerHTML = servantBoxesHTML;
       }
 
       inicializarComponentesDinamicos();

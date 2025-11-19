@@ -2,15 +2,9 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width = device-width, initial-scale = 1.0"
-    />
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
     <!-- El título puede ser un bloque para que cada página lo cambie -->
-    <title>
-      {% block title %}F/GO Dashboard{% endblock
-      %}
-    </title>
+    <title>{% block title %}F/GO Dashboard{% endblock %}</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
     </style>
@@ -23,6 +17,11 @@
       rel="icon"
       href="{{ url_for('static', filename='icons/base-page/favicon.ico') }}"
       sizes="any"
+    />
+    <!-- Font Awesome Free 6.4.0 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
       rel="icon"
@@ -42,41 +41,27 @@
   <body>
     <!-- Boton de iniciar sesión -->
     <nav class="auth_container">
-      <button
-        id="auth-open-button"
-        class="auth_button"
-      >
+      <button id="auth-open-button" class="auth_button">
         <span>Iniciar Sesión</span>
-        <span
-          class="input_separator input_separator--user"
-        ></span>
+        <span class="input_separator input_separator--user"></span>
         <img
           src="{{ url_for('static', filename='icons/base-page/account-icon.svg') }}"
           alt="Icono de cuenta de usuario"
         />
       </button>
       <!-- boton de cerrar sesion -->
-      <div
-        id="user-profile"
-        class="auth_user hidden"
-      >
+      <div id="user-profile" class="auth_user hidden">
         <span id="user-profile-name"></span>
         <span
           id="user-input-separator"
           class="input_separator input_separator--user"
         ></span>
-        <div
-          id="user-profile-icon"
-          class="profile_icon"
-        >
+        <div id="user-profile-icon" class="profile_icon">
           <span></span>
         </div>
         <div class="user_menu">
           <span id="user-email"></span>
-          <button
-            id="logout-button"
-            class="logout_button"
-          >
+          <button id="logout-button" class="logout_button">
             <span>Cerrar Sesión</span>
             <img
               src="{{ url_for('static', filename='icons/base-page/logout-icon.svg') }}"
@@ -88,24 +73,13 @@
       </div>
     </nav>
     <!-- Modal de Autenticación -->
-    <div
-      id="login-modal"
-      class="modal_overlay"
-    >
+    <div id="login-modal" class="modal_overlay">
       <div id="auth-modal">
-        <button
-          id="auth-close-button"
-          class="modal_close"
-        >
-          &times;
-        </button>
+        <button id="auth-close-button" class="modal_close">&times;</button>
         <h2 id="auth-title">Iniciar Sesión</h2>
         <hr class="login" />
         <!-- Inicio de Sesión -->
-        <form
-          id="login-form"
-          class="auth_form"
-        >
+        <form id="login-form" class="auth_form">
           <div class="login_input">
             <img
               src="{{ url_for('static', filename='icons/base-page/email-icon.svg') }}"
@@ -145,22 +119,14 @@
             Iniciar Sesión
           </button>
           <div class="auth_toggle_container">
-            <span id="auth-toggle-text"
-              >¿No tienes una cuenta?</span
-            >
-            <button
-              id="auth-toggle-login"
-              class="auth_toggle_button"
-            >
+            <span id="auth-toggle-text">¿No tienes una cuenta?</span>
+            <button id="auth-toggle-login" class="auth_toggle_button">
               Regístrate aquí
             </button>
           </div>
         </form>
         <!-- Registro -->
-        <form
-          id="register-form"
-          class="auth_form hidden"
-        >
+        <form id="register-form" class="auth_form hidden">
           <div class="register_input">
             <img
               src="{{ url_for('static', filename='icons/base-page/email-icon.svg') }}"
@@ -199,13 +165,8 @@
             Registrarse
           </button>
           <div class="auth_toggle_container">
-            <span id="auth-toggle-text"
-              >¿Ya tienes una cuenta?</span
-            >
-            <button
-              id="auth-toggle-register"
-              class="auth_toggle_button"
-            >
+            <span id="auth-toggle-text">¿Ya tienes una cuenta?</span>
+            <button id="auth-toggle-register" class="auth_toggle_button">
               Inicia Sesión
             </button>
           </div>
@@ -214,43 +175,24 @@
           <span>O</span>
         </div>
         <!-- Google Login -->
-        <button
-          id="google-login-button"
-          class="auth_google_button"
-        >
+        <button id="google-login-button" class="auth_google_button">
           <span>Iniciar sesión con Google</span>
         </button>
-        <p
-          id="auth-error"
-          class="auth_error hidden"
-        ></p>
+        <p id="auth-error" class="auth_error hidden"></p>
       </div>
-      <div
-        id="welcome-message"
-        class="hidden"
-      >
+      <div id="welcome-message" class="hidden">
         <h2>¡Bienvenido de nuevo,Master!</h2>
-        <p style="color: white">
-          Has iniciado sesión correctamente.
-        </p>
+        <p style="color: white">Has iniciado sesión correctamente.</p>
         <div id="web-guide">
           <h2>Actividades:</h2>
           <ul>
-            <li>
-              Añade servants desde la página
-              principal de búsqueda.
-            </li>
+            <li>Añade servants desde la página principal de búsqueda.</li>
             <li>
               Ver tus servants y sus stats en
-              <span style="color: #f7b731"
-                >Mis Servants</span
-              >.
+              <span style="color: #f7b731">Mis Servants</span>.
             </li>
           </ul>
-          <button
-            id="welcome-close-button"
-            class="auth_submit_button"
-          >
+          <button id="welcome-close-button" class="auth_submit_button">
             Comenzar
           </button>
         </div>
@@ -270,88 +212,62 @@
           en qué página estamos. Esto lo podemos configurar en Python luego. 
         -->
         <li>
-          <a
-            href="/"
-            class="index_element"
-          >
+          <a href="/" class="index_element">
             <img
               src="{{ url_for('static', filename='icons/base-page/search-icon.svg') }}"
               class="sidebar_icon"
               alt="Icono Buscador"
             />
             <div class="sidebar_hide">
-              <span class="index_text"
-                >Buscador</span
-              >
+              <span class="index_text">Buscador</span>
             </div>
           </a>
         </li>
         <li>
-          <a
-            href="/calculadora"
-            class="index_element"
-          >
+          <a href="/calculadora" class="index_element">
             <img
               src="{{url_for('static', filename='icons/base-page/calculator-icon.svg') }}"
               class="sidebar_icon"
               alt="Icono Calculadora"
             />
             <div class="sidebar_hide">
-              <span class="index_text"
-                >Calculadora</span
-              >
+              <span class="index_text">Calculadora</span>
             </div>
           </a>
         </li>
         <li>
-          <a
-            href="/mis-servants"
-            class="index_element"
-          >
+          <a href="/mis-servants" class="index_element">
             <img
               src="{{url_for('static', filename='icons/base-page/servants-icon.svg') }}"
               class="sidebar_icon sidebar_icon--servant"
               alt="Icono Mis Servants"
             />
             <div class="sidebar_hide">
-              <span
-                class="index_text index_text--servants"
-                >Mis Servants</span
-              >
+              <span class="index_text index_text--servants">Mis Servants</span>
             </div>
           </a>
         </li>
         <li>
-          <a
-            href="/tierlist"
-            class="index_element"
-          >
+          <a href="/tierlist" class="index_element">
             <img
               src="{{ url_for('static', filename='icons/base-page/tier-icon.svg') }}"
               class="sidebar_icon sidebar_icon--tier"
               alt="Icono de Tier List"
             />
             <div class="sidebar_hide">
-              <span class="index_text"
-                >Tier Lists</span
-              >
+              <span class="index_text">Tier Lists</span>
             </div>
           </a>
         </li>
         <li>
-          <a
-            href="/fgodle"
-            class="index_element"
-          >
+          <a href="/fgodle" class="index_element">
             <img
               src="{{url_for('static', filename='icons/base-page/game-icon.svg') }}"
               class="sidebar_icon sidebar_icon--game"
               alt="Icono FGOdle"
             />
             <div class="sidebar_hide">
-              <span class="index_text"
-                >FGOdle</span
-              >
+              <span class="index_text">FGOdle</span>
             </div>
           </a>
         </li>
@@ -363,15 +279,11 @@
               alt="Icono Misiones"
             />
             <div class="sidebar_hide">
-              <span class="index_text"
-                >Weekly Missions</span
-              >
+              <span class="index_text">Weekly Missions</span>
             </div>
           </div>
         </li>
-        <li
-          class="index_element index_element--music"
-        >
+        <li class="index_element index_element--music">
           <div class="sound-column-icon">
             <img
               src="{{url_for('static', filename='icons/base-page/sound-icon.svg') }}"
@@ -379,13 +291,8 @@
             />
             <span id="volume-display">30</span>
           </div>
-          <div
-            class="sidebar_hide sidebar_hide--music"
-          >
-            <span
-              class="index_text index_text--music"
-              >ON/OFF<br />Music</span
-            >
+          <div class="sidebar_hide sidebar_hide--music">
+            <span class="index_text index_text--music">ON/OFF<br />Music</span>
             <div class="range-wrap">
               <input
                 type="range"
@@ -409,10 +316,7 @@
     {% block content %}{% endblock %}
 
     <!-- 4. LOS SCRIPTS (GLOBALES) -->
-    <audio
-      id="ost-player"
-      loop
-    >
+    <audio id="ost-player" loop>
       <source
         src="{{ url_for('static', filename='audio/mi-ost-de-fgo.mp3') }}"
         type="audio/mpeg"
@@ -421,13 +325,11 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
       const SUPABASE_URL = "{{ SUPABASE_URL }}";
-      const SUPABASE_ANON_KEY =
-        "{{ SUPABASE_ANON_KEY }}";
-      const clienteSupabase =
-        supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_ANON_KEY
-        );
+      const SUPABASE_ANON_KEY = "{{ SUPABASE_ANON_KEY }}";
+      const clienteSupabase = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
     </script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
   </body>
