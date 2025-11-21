@@ -9,10 +9,30 @@
       @import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
     </style>
 
+    <!-- CSS Modular: Variables > Reset > Componentes -->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
+      href="{{ url_for('static', filename='css/variables.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/reset.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/components/sidebar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/components/cards.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/components/auth.css') }}"
+    />
+    <!-- CSS Monolítico Original (Comentado para backup) -->
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" /> -->
+
     <link
       rel="icon"
       href="{{ url_for('static', filename='icons/base-page/favicon.ico') }}"
@@ -315,6 +335,10 @@
     -->
     {% block content %}{% endblock %}
 
+    <!-- ================================================
+         SCRIPTS GLOBALES
+         ================================================ -->
+
     <!-- 4. LOS SCRIPTS (GLOBALES) -->
     <audio id="ost-player" loop>
       <source
@@ -331,6 +355,10 @@
         SUPABASE_ANON_KEY
       );
     </script>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <!-- ✅ CAMBIO FASE 3: ES Module para imports -->
+    <script
+      type="module"
+      src="{{ url_for('static', filename='main.js') }}"
+    ></script>
   </body>
 </html>

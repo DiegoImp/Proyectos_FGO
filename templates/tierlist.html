@@ -1,27 +1,290 @@
-<!-- 
-  Paso 1: Heredamos de nuestro esqueleto base
--->
-{% extends "base.html" %}
+﻿<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tier List - F/GO Dashboard</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
+    </style>
 
-<!-- 
-  Paso 2: Definimos un título para esta página
--->
-{% block title %}Tier List{% endblock %}
+    <link rel="stylesheet" href="../static/css/variables.css" />
+    <link rel="stylesheet" href="../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/css/components/sidebar.css" />
+    <link rel="stylesheet" href="../static/css/components/cards.css" />
+    <link rel="stylesheet" href="../static/css/components/auth.css" />
 
-<!-- 
-  Paso 3: Este es el contenido único de la página
--->
-{% block content %}
+    <link rel="icon" href="../static/icons/base-page/favicon.ico" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="../static/icons/base-page/favicon.svg"
+      type="image/svg+xml"
+    />
+  </head>
 
-<!-- 
-    Usamos <main> para mantener la consistencia con index.html,
-    así heredará los estilos de 'main' del CSS.
-  -->
-<main>
-  <h2>Tier List de Servants</h2>
-  <p style="color: white; font-size: 1.2rem;">
-    ¡Aquí irá la futura Tier List!
-  </p>
-</main>
+  <body>
+    <nav class="auth_container">
+      <button id="auth-open-button" class="auth_button">
+        <span>Iniciar Sesión</span>
+        <span class="input_separator input_separator--user"></span>
+        <img
+          src="../static/icons/base-page/account-icon.svg"
+          alt="Icono de cuenta de usuario"
+        />
+      </button>
+      <div id="user-profile" class="auth_user hidden">
+        <span id="user-profile-name"></span>
+        <span
+          id="user-input-separator"
+          class="input_separator input_separator--user"
+        ></span>
+        <div id="user-profile-icon" class="profile_icon"><span></span></div>
+        <div class="user_menu">
+          <span id="user-email"></span>
+          <button id="logout-button" class="logout_button">
+            <span>Cerrar Sesión</span>
+            <img
+              src="../static/icons/base-page/logout-icon.svg"
+              alt="Icono de cerrar sesión"
+              class="logout_icon"
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
 
-{% endblock %}
+    <div id="login-modal" class="modal_overlay">
+      <div id="auth-modal">
+        <button id="auth-close-button" class="modal_close">&times;</button>
+        <h2 id="auth-title">Iniciar Sesión</h2>
+        <hr class="login" />
+        <form id="login-form" class="auth_form">
+          <div class="login_input">
+            <img
+              src="../static/icons/base-page/email-icon.svg"
+              alt="Icono de email"
+              class="auth_icon"
+            />
+            <span class="input_separator">|</span>
+            <input
+              id="login-email"
+              type="email"
+              placeholder="Correo electrónico"
+              class="auth_input"
+              required
+            />
+          </div>
+          <div class="login_input">
+            <img
+              src="../static/icons/base-page/password-icon.svg"
+              alt="Icono de contraseña"
+              class="auth_icon"
+            />
+            <span class="input_separator">|</span>
+            <input
+              id="login-password"
+              type="password"
+              placeholder="Contraseña"
+              class="auth_input"
+              required
+            />
+          </div>
+          <button
+            id="auth-submit-login"
+            type="submit"
+            class="auth_submit_button"
+          >
+            Iniciar Sesión
+          </button>
+          <div class="auth_toggle_container">
+            <span id="auth-toggle-text">¿No tienes una cuenta?</span>
+            <button id="auth-toggle-login" class="auth_toggle_button">
+              Regístrate aquí
+            </button>
+          </div>
+        </form>
+        <form id="register-form" class="auth_form hidden">
+          <div class="register_input">
+            <img
+              src="../static/icons/base-page/email-icon.svg"
+              alt="Icono de email"
+              class="auth_icon"
+            />
+            <span class="input_separator">|</span>
+            <input
+              id="register-email"
+              type="email"
+              placeholder="Correo electrónico"
+              class="auth_input"
+              required
+            />
+          </div>
+          <div class="register_input">
+            <img
+              src="../static/icons/base-page/password-icon.svg"
+              alt="Icono de contraseña"
+              class="auth_icon"
+            />
+            <span class="input_separator">|</span>
+            <input
+              id="register-password"
+              type="password"
+              placeholder="Contraseña"
+              class="auth_input"
+              required
+            />
+          </div>
+          <button
+            id="auth-submit-register"
+            type="submit"
+            class="auth_submit_button"
+          >
+            Registrarse
+          </button>
+          <div class="auth_toggle_container">
+            <span id="auth-toggle-text">¿Ya tienes una cuenta?</span>
+            <button id="auth-toggle-register" class="auth_toggle_button">
+              Inicia Sesión
+            </button>
+          </div>
+        </form>
+        <div class="auth_separator"><span>O</span></div>
+        <button id="google-login-button" class="auth_google_button">
+          <span>Iniciar sesión con Google</span>
+        </button>
+        <p id="auth-error" class="auth_error hidden"></p>
+      </div>
+    </div>
+
+    <header><h1>FGO Dashboard</h1></header>
+
+    <aside class="sidebar_index">
+      <header class="index_header">Menu</header>
+      <hr />
+      <ul class="index_list">
+        <li>
+          <a href="./index.html" class="index_element">
+            <img
+              src="../static/icons/base-page/search-icon.svg"
+              class="sidebar_icon"
+              alt="Icono Buscador"
+            />
+            <div class="sidebar_hide">
+              <span class="index_text">Buscador</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="./calculadora.html" class="index_element">
+            <img
+              src="../static/icons/base-page/calculator-icon.svg"
+              class="sidebar_icon"
+              alt="Icono Calculadora"
+            />
+            <div class="sidebar_hide">
+              <span class="index_text">Calculadora</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="./mis-servants.html" class="index_element">
+            <img
+              src="../static/icons/base-page/servants-icon.svg"
+              class="sidebar_icon sidebar_icon--servant"
+              alt="Icono Mis Servants"
+            />
+            <div class="sidebar_hide">
+              <span class="index_text index_text--servants">Mis Servants</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="./tierlist.html" class="index_element active">
+            <img
+              src="../static/icons/base-page/tier-icon.svg"
+              class="sidebar_icon sidebar_icon--tier"
+              alt="Icono de Tier List"
+            />
+            <div class="sidebar_hide">
+              <span class="index_text">Tier Lists</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <a href="./fgodle.html" class="index_element">
+            <img
+              src="../static/icons/base-page/game-icon.svg"
+              class="sidebar_icon sidebar_icon--game"
+              alt="Icono FGOdle"
+            />
+            <div class="sidebar_hide">
+              <span class="index_text">FGOdle</span>
+            </div>
+          </a>
+        </li>
+        <li>
+          <div class="index_element">
+            <img
+              src="../static/icons/base-page/calendar-icon.svg"
+              class="sidebar_icon"
+              alt="Icono Misiones"
+            />
+            <div class="sidebar_hide">
+              <span class="index_text">Weekly Missions</span>
+            </div>
+          </div>
+        </li>
+        <li class="index_element index_element--music">
+          <div class="sound-column-icon">
+            <img
+              src="../static/icons/base-page/sound-icon.svg"
+              class="sidebar_icon sidebar_icon--sound"
+            />
+            <span id="volume-display">30</span>
+          </div>
+          <div class="sidebar_hide sidebar_hide--music">
+            <span class="index_text index_text--music">ON/OFF<br />Music</span>
+            <div class="range-wrap">
+              <input
+                type="range"
+                id="volume-slider"
+                class="range"
+                min="0"
+                max="100"
+                value="30"
+              />
+            </div>
+          </div>
+        </li>
+      </ul>
+    </aside>
+
+    <main>
+      <h2>Tier List de Servants</h2>
+      <div class="tierlist-container">
+        <p class="info-message">
+          📊 Tier List en construcción - Próximamente disponible
+        </p>
+      </div>
+    </main>
+
+    <audio id="ost-player" loop>
+      <source src="../static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module">
+      import { CONFIG } from "../static/js/config.js";
+      window.clienteSupabase = supabase.createClient(
+        CONFIG.SUPABASE_URL,
+        CONFIG.SUPABASE_ANON_KEY
+      );
+      console.log("OK Supabase inicializado desde config.js");
+    </script>
+    <script type="module" src="../static/main.js"></script>
+  </body>
+</html>

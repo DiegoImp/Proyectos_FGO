@@ -1,52 +1,75 @@
+/**
+ * ============================================================
+ * MAIN.JS - FGO Dashboard
+ * ============================================================
+ * Archivo principal que coordina toda la lógica del frontend.
+ * Usa ES6 Modules para imports y arquitectura modular.
+ * ============================================================
+ */
+
+// ================================================
+// IMPORTS
+// ================================================
+import { renderServants, renderMessage } from './js/modules/uiRenderer.js';
+import { CONFIG } from './js/config.js';
+import { getCurrentPage, getStaticPath } from './js/utils/routing.js';
+
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // Elementos para la barra de búsqueda
+  // ================================================
+  // RUTA BASE DINÁMICA
+  // ================================================
+  const staticPath = getStaticPath();
+  console.log('📁 Ruta base detectada:', staticPath);
+
+  // ================================================
+  // ELEMENTOS DOM - FILTROS Y BÚSQUEDA
+  // ================================================
   let searchbar = document.getElementById("search-bar");
   let textoBusqueda = "";
-  // Elementos para el sistema de filtros
   let filterbutton = document.getElementById("button-filter");
   let sidebar = document.getElementById("sidebar-filtro");
   let botonesDeFiltro = document.querySelectorAll(
     ".filtro_class button, .filtro_rarity button, .filtro_NP button"
   );
-  let servantCard = document.querySelectorAll(".servant_card"); // Se re-asignará
+  let servantCard = document.querySelectorAll(".servant_card");
   let resetButton = document.getElementById("reset-filter");
 
-  // Elementos para el control de audio
+  // ================================================
+  // ELEMENTOS DOM - AUDIO
+  // ================================================
   const audioPlayer = document.getElementById("ost-player");
   const volumeSlider = document.getElementById("volume-slider");
   const soundControl = document.querySelector(".index_element--music");
   const volumeDisplay = document.getElementById("volume-display");
 
-  // Elementos para el modal de autenticación login
+  // ================================================
+  // ELEMENTOS DOM - AUTENTICACIÓN
+  // ================================================
   const AuthButton = document.querySelector(".auth_button");
   const AuthModal = document.getElementById("auth-modal");
   const AuthCloseButton = document.getElementById("auth-close-button");
   const Overlay = document.getElementById("login-modal");
-  const googleLoginButton = document.getElementById('google-login-button');
   const loginform = document.getElementById("login-form");
   const welcomeMessage = document.getElementById("welcome-message");
   const welcomeCloseButton = document.getElementById("welcome-close-button");
-  // Elementos de usuario
   const UserProfile = document.getElementById("user-profile");
   const UserProfileName = document.getElementById("user-profile-name");
-  let emailUsuarioActual = "";
   const UserIcon = document.getElementById("user-profile-icon");
-  const UserSeparator = document.getElementById("user-input-separator");
   const Usermenuemail = document.getElementById("user-email");
   const LogoutButton = document.getElementById("logout-button");
-  // Elementos del modal de autenticación registro
   const togglelogin = document.getElementById("auth-toggle-login");
   const toggleregister = document.getElementById("auth-toggle-register");
   const registerForm = document.getElementById("register-form");
   const authtitle = document.getElementById("auth-title");
-  // Agregar Servants
-  let addServantButtons = document.querySelectorAll(".add_button"); // Se re-asignará
-  let currentAddButton = null; // <-- Variable para "recordar" el botón pulsado
+
+  // ================================================
+  // ELEMENTOS DOM - AGREGAR SERVANT
+  // ================================================
+  let currentAddButton = null;
   const addServantModal = document.getElementById("add-servant-modal");
   const addServantCloseButton = document.getElementById("add-servant-close-button");
   const addForm = document.getElementById("add-servant-form");
-  // Elementos dentro del modal de agregar servant
   const servantName = document.getElementById("servant-name");
   const servantFace = document.getElementById("servant-face");
   const servantClassIcon = document.getElementById("servant-class-icon");
@@ -57,107 +80,123 @@ document.addEventListener("DOMContentLoaded", async () => {
   const servantBond = document.getElementById("input-bond");
   const servantSkillsWrapper = document.getElementById("skills-wrapper");
 
+  // ================================================
+  // CANVAS GLOBAL PARA MEDICIONES DE TEXTO
+  // ================================================
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
 
-  // Funciones para abrir/cerrar el modal de autenticación
+  // ================================================
+  // FUNCIONES HELPER - MODALES
+  // ================================================
   function openAuthModal() {
     Overlay.style.display = "flex";
   }
+
   function closeAuthModal() {
     Overlay.style.display = "none";
   }
-  // Funciones para abrir/cerrar el modal de agregar servant
+
   function openAddServantModal() {
     addServantModal.style.display = "flex";
   }
+
   function closeAddServantModal() {
     addServantModal.style.display = "none";
   }
+
+  // ================================================
+  // FUNCIONES HELPER - FORMATEO
+  // ================================================
   function capitalizeWords(str) {
     if (!str) return '';
-    // Divide el string en palabras, capitaliza la primera letra de cada una y las une.
     return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   }
-  function populateAddServantModal(data) {
-    // --- 1. Llenar la vista previa ---
-    servantFace.src = data.face;
 
+  // ================================================
+  // FUNCIONES HELPER - MODAL AGREGAR SERVANT
+  // ================================================
+  function populateAddServantModal(data) {
+    servantFace.src = data.face;
     servantName.textContent = capitalizeWords(data.name);
 
-    if (data.np === "1") {
-      servantNPimg.src = "/static/icons/main-page/np1.png";
-    } else if (data.np === "2") {
-      servantNPimg.src = "/static/icons/main-page/np2.png";
-    } else if (data.np === "3") {
-      servantNPimg.src = "/static/icons/main-page/np3.png";
-    }
-    // Construimos la ruta en JavaScript, no con Jinja2
-    servantClassIcon.src = `/static/classes/${data.class}.png`;
+    const npImages = {
+      "1": `${staticPath}/icons/main-page/np1.png`,
+      "2": `${staticPath}/icons/main-page/np2.png`,
+      "3": `${staticPath}/icons/main-page/np3.png`
+    };
+    servantNPimg.src = npImages[data.np] || npImages["1"];
 
-    // --- 2. Llenar el ID oculto (¡MUY IMPORTANTE!) ---
+    servantClassIcon.src = `${staticPath}/classes/${data.class}.png`;
     servantID.value = data.servantId;
 
-    // --- 3. Generar las Skills dinámicamente ---
-    servantSkillsWrapper.innerHTML = ''; // Limpia el wrapper
-    // 1. Parseamos el string JSON del data-attribute para convertirlo en un array de objetos
+    servantSkillsWrapper.innerHTML = '';
     const skills = JSON.parse(data.skills);
 
-    // 2. Iteramos sobre el array de skills
     skills.slice(0, 3).forEach((skill, index) => {
-      // Genera el HTML para cada fila de skill
       const skillHTML = `
-                <img src="${skill.icon}" alt="${skill.name}" class="skill_icon_preview">
-                <label for="input-skill-${index + 1}" class="add_input_label">
-                    ${capitalizeWords(skill.name)}
-                </label>
-                <input id="input-skill-${index + 1}" name="skill_${index + 1}" type="number" class="add_input" min="1" max="10" value="1" required>
-        `;
+        <div class="skill-input-group">
+          <img src="${skill.icon}" alt="${skill.name}" class="skill-icon-preview">
+          <label for="input-skill-${index + 1}">${capitalizeWords(skill.name)}</label>
+          <input 
+            id="input-skill-${index + 1}" 
+            name="skill_${index + 1}" 
+            type="number" 
+            min="1" 
+            max="10" 
+            value="1" 
+            required
+          >
+        </div>
+      `;
       servantSkillsWrapper.innerHTML += skillHTML;
     });
 
-    // --- 4. Resetear los inputs principales ---
     servantLevel.value = 1;
     servantNP.value = 1;
     servantBond.value = 1;
   }
+
   async function addServantUI() {
-    // 1. Obtener la lista de IDs de servants que el usuario ya posee.
-    const { data: servantList, error } = await clienteSupabase
+    const { data: servantList, error } = await window.clienteSupabase
       .from('user_servants')
       .select('servant_id');
+
     if (error) {
-      console.error("Error al cargar el inventario del usuario:", error.message);
+      console.error("❌ Error al cargar inventario:", error.message);
       return;
     }
-    //Creamos un Set para una búsqueda ultra-rápida de IDs.
-    //Un Set es mucho más eficiente que un Array para comprobar si un elemento existe.
+
     const userAddedServantIds = new Set(
       servantList.map(servant => parseInt(servant.servant_id, 10))
     );
-    addServantButtons = document.querySelectorAll(".add_button");
-    addServantButtons.forEach((button) => {
-      //Encontramos la tarjeta "padre" más cercana al botón.
+
+    const addButtons = document.querySelectorAll(".add_button");
+    addButtons.forEach((button) => {
       const servantCard = button.closest('.servant_card');
-      if (!servantCard) return; // Si no se encuentra la tarjeta, saltamos este botón.
-      //Leemos el ID desde la tarjeta, no desde el botón.
+      if (!servantCard) return;
+
       const servID = parseInt(servantCard.dataset.servantId, 10);
-      // ------------------------------------
+
       if (userAddedServantIds.has(servID)) {
-        added(button);
+        markAsAdded(button);
       } else {
-        notAdded(button);
+        markAsNotAdded(button);
       }
     });
   }
-  function added(button) {
+
+  function markAsAdded(button) {
+    if (!button) return;
     button.textContent = "Invocado";
     button.classList.remove("add-servant-button");
     button.classList.add("button-added");
     button.classList.remove("hidden");
     button.disabled = true;
   }
-  function notAdded(button) {
+
+  function markAsNotAdded(button) {
+    if (!button) return;
     button.textContent = "Agregar";
     button.classList.add("add-servant-button");
     button.classList.remove("button-added");
@@ -165,9 +204,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     button.disabled = false;
   }
   function aplicarFiltrosCombinados() {
-    // Use cached servantCard NodeList from initial render
-    const botonesClaseActivos = document.querySelectorAll(
+    // ✅ Re-seleccionar tarjetas cada vez (por si se re-renderizaron)
+    servantCard = document.querySelectorAll(".servant_card");
 
+    const botonesClaseActivos = document.querySelectorAll(
       ".filtro_class button.active"
     );
     const botonesRarezaActivos = document.querySelectorAll(
@@ -186,98 +226,67 @@ document.addEventListener("DOMContentLoaded", async () => {
       (boton) => boton.dataset.value
     );
 
-    // Iteramos sobre cada tarjeta individualmente
     servantCard.forEach((card) => {
-      // Obtenemos los datos de la tarjeta actual (card)
-      const nombre = card.dataset.name;
-      const rareza = card.dataset.rarity;
-      const clase = card.dataset.class;
-      const np = card.dataset.np;
+      const { name: nombre, rarity: rareza, class: clase, np } = card.dataset;
 
-      // Comprobamos si la tarjeta cumple con todos los filtros
       const pasaNombre = nombre.includes(textoBusqueda);
-      const pasaRareza =
-        rarezasActivas.length === 0 || rarezasActivas.includes(rareza);
-      const pasaClase =
-        clasesActivas.length === 0 || clasesActivas.includes(clase);
+      const pasaRareza = rarezasActivas.length === 0 || rarezasActivas.includes(rareza);
+      const pasaClase = clasesActivas.length === 0 || clasesActivas.includes(clase);
       const pasaNp = NPActivos.length === 0 || NPActivos.includes(np);
 
-      // Mostramos u ocultamos la tarjeta (card) según el resultado
-      if (pasaNombre && pasaRareza && pasaClase && pasaNp) {
-        card.style.display = "flex"; // Usamos 'flex' porque así está definida en el CSS
-      } else {
-        card.style.display = "none";
-      }
+      card.style.display = (pasaNombre && pasaRareza && pasaClase && pasaNp) ? "flex" : "none";
     });
   }
+
+  // ================================================
+  // FUNCIONES HELPER - AUDIO
+  // ================================================
   function updateVolume() {
-    audioPlayer.volume = volumeSlider.value / 100;
+    if (audioPlayer) audioPlayer.volume = volumeSlider.value / 100;
   }
+
   function updateVolumeDisplay() {
-    volumeDisplay.textContent = volumeSlider.value;
+    if (volumeDisplay) volumeDisplay.textContent = volumeSlider.value;
   }
-  // "Mis Servants"
+
+  // ================================================
+  // FUNCIONES HELPER - MIS SERVANTS
+  // ================================================
   function getAscensionLevel(rarity, currentLevel) {
-    // Límites de nivel para cada ascensión [Asc0, Asc1, Asc2, Asc3]
-    // Si el nivel supera el límite de Asc3, automáticamente es Asc4.
     const caps = {
       5: [50, 60, 70, 80],
       4: [40, 50, 60, 70],
       3: [30, 40, 50, 60],
       2: [25, 35, 45, 55],
       1: [20, 30, 40, 50],
-      0: [25, 35, 45, 55] // Angra Mainyu sigue la curva de 2★
+      0: [25, 35, 45, 55]
     };
 
     const limits = caps[rarity];
+    if (!limits) return 0;
 
-    // Validación básica
-    if (!limits) {
-      console.error("Rareza no válida");
-      return 0;
-    }
-
-    // Lógica de comprobación
-    if (currentLevel <= limits[0]) return 0; // Base
-    if (currentLevel <= limits[1]) return 1; // Ascensión 1
-    if (currentLevel <= limits[2]) return 2; // Ascensión 2
-    if (currentLevel <= limits[3]) return 3; // Ascensión 3
-
-    return 4; // Ascensión 4 (Max o Grailed)
+    if (currentLevel <= limits[0]) return 0;
+    if (currentLevel <= limits[1]) return 1;
+    if (currentLevel <= limits[2]) return 2;
+    if (currentLevel <= limits[3]) return 3;
+    return 4;
   }
+
   function getTextWidthCanvas(text, fontSize = "13.6px", fontWeight = "500", fontFamily = "Roboto, sans-serif") {
-    // Configuramos la fuente del contexto. 
-    // Nota: Canvas entiende mejor "px" que "rem", así que intenta convertirlo si puedes.
-    // 0.85rem suele ser 13.6px (si tu base es 16px).
     context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
-
-    const metrics = context.measureText(text);
-    return metrics.width;
+    return context.measureText(text).width;
   }
-  function getScrollClass(textWidth, type) {
-    // Definimos el ancho del contenedor según el tipo
-    const containerWidth = (type === "np") ? 174 : 96;
 
-    // Si el texto cabe, no hay clase
+  function getScrollClass(textWidth, type) {
+    const containerWidth = (type === "np") ? 174 : 96;
     if (textWidth <= containerWidth) return "";
 
-    // Calculamos qué porcentaje del texto está oculto
-    // Ejemplo: Si Texto=200 y Container=100 -> (200-100)/200 = 0.5 (50% oculto)
     const hiddenRatio = (textWidth - containerWidth) / textWidth;
 
-    // Asignamos la clase según el porcentaje necesario para mostrarlo todo
-
-
     if (hiddenRatio <= 0.35) return "scroll_short";
-
-
-    else if (hiddenRatio <= 0.40) return "scroll_medium";
-
-
-    else if (hiddenRatio <= 0.60) return "scroll_long";
-
-
-    else return "scroll_extreme";
+    if (hiddenRatio <= 0.40) return "scroll_medium";
+    if (hiddenRatio <= 0.60) return "scroll_long";
+    return "scroll_extreme";
   }
   function generarHTMLmis_servants(servant) {
     // Generar las estrellas de rareza
@@ -340,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span>HP: 1200</span>
         </div>
       </div>
-      <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png" class="box_class_icon">
+      <img src="${staticPath}/classes/${(servant.className || 'unknown').toLowerCase()}.png" class="box_class_icon">
       <div class="card_rareza">
         <span class="rarity_card">
         ${estrellasHTML}
@@ -395,56 +404,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     `;
 
   }
-  function generarHTMLCarta(servant) {
-    // Generar las estrellas de rareza
-    let estrellasHTML = '';
-    for (let i = 0; i < servant.rarity; i++) {
-      estrellasHTML += '<span>★</span>';
-    }
 
-    // Convertir skills a JSON string seguro para el dataset
-    // Nota: Nos aseguramos de que existan para evitar errores
-    const skillsJSON = JSON.stringify(servant.skills || [])
-      .replace(/"/g, '&quot;');
-
-    // Definir si mostramos el botón de agregar (Solo en index, o basado en lógica)
-    // Por ahora lo ponemos siempre oculto y dejamos que addServantUI lo maneje
-    const botonAgregar = (servant.type === 'normal' || servant.type === 'heroine')
-      ? `<button class="add_button add-servant-button hidden">Agregar</button>`
-      : '';
-
-
-    return `
-    <div class="servant_card" 
-         data-class="${(servant.className || 'unknown').toLowerCase()}" 
-         data-rarity="${servant.rarity}"
-         data-name="${(servant.name || '').toLowerCase()}" 
-         data-np="${servant.np.type}" 
-         data-face="${servant.face}"
-         data-type="${(servant.type || '').toLowerCase()}" 
-         data-servant-id="${servant.id}"
-         data-skills="${skillsJSON}">
-         
-      <a href="/servant/${servant.collectionNo}" class="details_link">
-        <img src="${servant.face["1"]}" alt="Icono de ${servant.name}" class="face_main" loading="lazy" />
-      </a>
-      <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
-           alt="${servant.className} class icon" class="class_icon_overlay">
-           
-      <div class="see_details_servant">
-        <div class="rarity_card">${estrellasHTML}</div>
-        <h3 class="text_container">${servant.name}</h3>
-        ${botonAgregar}
-      </div>
-    </div>
-    `;
-  }
-  /**
-   * Inicializa los componentes de la UI y asigna los event listeners.
-   * Esta función se llama una sola vez cuando el DOM está listo.
-   */
+  // ================================================
+  // INICIALIZACIÓN DE COMPONENTES
+  // ================================================
   function inicializarComponentesUI() {
-    // Asignar listeners
     if (searchbar) {
       searchbar.addEventListener("input", (evento) => {
         textoBusqueda = evento.target.value.toLowerCase().trim();
@@ -478,147 +442,107 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  /**
-   * Inicializa los componentes que se crean dinámicamente, como las tarjetas de servants.
-   * Debe llamarse CADA VEZ que se renderiza el contenedor de servants.
-   */
   function inicializarComponentesDinamicos() {
-    // Re-seleccionamos elementos que acaban de ser creados
-    addServantButtons = document.querySelectorAll(".add_button");
     servantCard = document.querySelectorAll(".servant_card");
 
-    if (addServantButtons) {
-      addServantButtons.forEach((button) => {
-        button.addEventListener("click", (event) => {
-          currentAddButton = event.currentTarget;
-          const servantCardElement = event.currentTarget.closest('.servant_card');
-          const servantData = servantCardElement.dataset;
-          populateAddServantModal(servantData);
-          openAddServantModal();
-        });
+    const servantsContainer = document.getElementById("servants-container");
+    if (servantsContainer && !servantsContainer.dataset.listenerAttached) {
+      servantsContainer.addEventListener("click", (event) => {
+        const button = event.target.closest('.add-servant-button');
+        if (!button) return;
+
+        currentAddButton = button;
+        const servantCardElement = button.closest('.servant_card');
+        if (!servantCardElement) return;
+
+        populateAddServantModal(servantCardElement.dataset);
+        openAddServantModal();
       });
+
+      servantsContainer.dataset.listenerAttached = "true";
     }
   }
 
+  // ================================================
+  // CARGA DE DATOS POR PÁGINA
+  // ================================================
   async function cargarDatosDePagina(session) {
     const servantsContainer = document.getElementById("servants-container");
     if (!servantsContainer) return;
 
-    const STATIC_JSON_URL = '/static/data/main_page_servants.json';
+    const currentPage = getCurrentPage();
 
     try {
-      const response = await fetch(STATIC_JSON_URL);
-      if (!response.ok) throw new Error("No se pudo cargar el JSON de servants");
+      const response = await fetch(`${staticPath}/data/main_page_servants.json`);
+      if (!response.ok) throw new Error("No se pudo cargar servants");
       const allServants = await response.json();
 
-      const path = window.location.pathname;
-
-      if (path === '/' || path === '/index.html') {
-        servantsContainer.innerHTML = allServants.map(s => generarHTMLCarta(s)).join('');
-      } else if (path === '/mis-servants') {
-        if (!session) { // Si no hay sesión, mostramos el mensaje.
-          servantsContainer.innerHTML = '<p class="loading-message">Inicia sesión para ver tus servants.</p>';
+      if (currentPage === 'index') {
+        renderServants(allServants, servantsContainer);
+      } else if (currentPage === 'mis-servants') {
+        if (!session) {
+          renderMessage(servantsContainer, 'Inicia sesión para ver tus servants.');
           return;
         }
 
-        const { data: userServants, error } = await clienteSupabase.from('user_servants').select('servant_id');
+        const { data: userServants, error } = await window.clienteSupabase
+          .from('user_servants')
+          .select('servant_id');
+
         if (error) throw error;
 
         if (!userServants || userServants.length === 0) {
-          servantsContainer.innerHTML = '<p class="loading-message">Aún no has agregado ningún servant.</p>';
+          renderMessage(servantsContainer, 'Aún no has agregado ningún servant.');
           return;
         }
 
-        // 1. Creamos el índice de búsqueda estático 
         const servantMap = new Map(allServants.map(s => [s.id, s]));
 
-        // 2. Pedimos los datos completos de Supabase
-        const { data: userServantsData } = await clienteSupabase
+        const { data: userServantsData } = await window.clienteSupabase
           .from('user_servants')
           .select('servant_id, level, skill_1, skill_2, skill_3, np_level, bond_level');
 
-        const misServantsCompletos = userServantsData.map(userSvt => {
-          //  Obtenemos los datos dinámicos (de Supabase)
-          const dynamicData = userSvt;
+        const misServantsCompletos = userServantsData.map(userSvt => ({
+          ...servantMap.get(userSvt.servant_id),
+          ...userSvt
+        }));
 
-          //  Obtenemos los datos estáticos (del JSON) usando el Map
-          // Nota: El ID de Supabase es 'servant_id', pero el de nuestro JSON es 'id'.
-          const staticData = servantMap.get(userSvt.servant_id);
-
-          // La Fusión
-          // utiliza ... para combinar ambos objetos en uno solo (funcion de spread)
-          const mergedServant = {
-            ...staticData,
-            ...dynamicData
-          };
-
-          return mergedServant;
-        });
-
-        // --- CORRECCIÓN ---
-        // 1. Generamos todas las tarjetas.
-        const servantBoxesHTML = misServantsCompletos.map(s => generarHTMLmis_servants(s)).join('');
-        // 2. Las envolvemos en UN ÚNICO contenedor de cuadrícula.
-        servantsContainer.innerHTML = servantBoxesHTML;
+        servantsContainer.innerHTML = misServantsCompletos
+          .map(s => generarHTMLmis_servants(s))
+          .join('');
       }
 
       inicializarComponentesDinamicos();
-      // Llamar a esto DESPUÉS de que las cartas se hayan renderizado.
-
-
     } catch (err) {
-      console.error("Error cargando servants:", err);
-      if (servantsContainer) servantsContainer.innerHTML = `<p class="error_message">Error al cargar datos. Intenta recargar la página.</p>`;
+      console.error("❌ Error cargando servants:", err);
+      if (servantsContainer) {
+        renderMessage(servantsContainer, 'Error al cargar datos. Intenta recargar la página.', 'error');
+      }
     }
   }
 
-  // GUARDIA --- LÓGICA PARA MANEJAR EL ESTADO DE AUTENTICACIÓN ---
-  clienteSupabase.auth.onAuthStateChange((evento, sesion) => {
+  // ================================================
+  // AUTENTICACIÓN - ESTADO Y EVENTOS
+  // ================================================
+  window.clienteSupabase.auth.onAuthStateChange((evento, sesion) => {
     if (sesion) {
-      // ¡El usuario ESTÁ conectado!
       const nombreUsuario = sesion.user.email.split('@')[0];
-      emailUsuarioActual = nombreUsuario;
+      window.currentUserEmail = nombreUsuario;
 
-      //Actualizar la UI con la información del usuario.
-      UserProfileName.textContent = nombreUsuario;
-      UserIcon.textContent = nombreUsuario.charAt(0).toUpperCase();
+      if (UserProfileName) UserProfileName.textContent = nombreUsuario;
+      if (UserIcon) UserIcon.textContent = nombreUsuario.charAt(0).toUpperCase();
+      if (AuthButton) AuthButton.classList.add('hidden');
+      if (UserProfile) UserProfile.classList.remove('hidden');
 
-      //Alternar la visibilidad de los botones de autenticación y perfil.
-      AuthButton.classList.add('hidden');
-      UserProfile.classList.remove('hidden');
       addServantUI();
-      // Carga el contenido de la página ahora que sabemos que el usuario está logueado.
       cargarDatosDePagina(sesion);
     } else {
-      // El usuario NO está conectado
-      AuthButton.classList.remove("hidden"); // 1. Muestra el botón de "Iniciar Sesión"
-      UserProfile.classList.add("hidden"); // 2. Oculta el div de perfil de usuario
-
-      // Carga el contenido de la página (que mostrará el mensaje de "inicia sesión" si es necesario).
+      if (AuthButton) AuthButton.classList.remove("hidden");
+      if (UserProfile) UserProfile.classList.add("hidden");
       cargarDatosDePagina(null);
     }
   });
-  // --- LOGICA PARA LOGIN CON GOOGLE ---
 
-  if (googleLoginButton) {
-    googleLoginButton.addEventListener('click', async () => {
-      // Limpiamos errores por si acaso
-      document.getElementById('auth-error').classList.add('hidden');
-
-      const { error } = await clienteSupabase.auth.signInWithOAuth({
-        provider: 'google',
-      });
-
-      if (error) {
-        // Si hay un error (ej. pop-up bloqueado), lo mostramos
-        document.getElementById('auth-error').textContent = error.message;
-        document.getElementById('auth-error').classList.remove('hidden');
-      }
-
-      // ¡Y YA ESTÁ!
-    });
-  }
-  // --- LÓGICA PARA LOG-IN ---
   if (loginform) {
     loginform.addEventListener("submit", async (evento) => {
       evento.preventDefault();
@@ -627,24 +551,23 @@ document.addEventListener("DOMContentLoaded", async () => {
       const authError = document.getElementById('auth-error');
 
       authError.classList.add('hidden');
-      // 'await' le dice a JS: "pausa aquí y espera la respuesta de Supabase"
-      const { data, error } = await clienteSupabase.auth.signInWithPassword({
+
+      const { data, error } = await window.clienteSupabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
+
       if (error) {
-        // ¡Error! Muestra el mensaje
         authError.textContent = "Usuario o contraseña incorrectos.";
+        authError.classList.remove('hidden');
       } else {
-        // ¡Éxito! Cierra el modal
         welcomeMessage.classList.remove('hidden');
         AuthModal.classList.add('hidden');
-
-
       }
     });
   }
-  if (welcomeMessage) {
+
+  if (welcomeMessage && welcomeCloseButton) {
     welcomeCloseButton.addEventListener('click', () => {
       closeAuthModal();
       welcomeMessage.classList.add('hidden');
@@ -652,29 +575,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       toggleAudio();
     });
   }
-  // --- LÓGICA PARA CERRAR SESIÓN ---
+
   if (UserProfile) {
     UserProfile.addEventListener("mouseover", () => {
-      UserProfileName.textContent = "Master Info";
-      UserSeparator.classList.add("hidden");
-      UserIcon.classList.add("hidden");
-      Usermenuemail.textContent = emailUsuarioActual;
+      if (UserProfileName) UserProfileName.textContent = "Master Info";
+      if (UserIcon) UserIcon.classList.add("hidden");
+      if (Usermenuemail) Usermenuemail.textContent = window.currentUserEmail || '';
     });
-    UserProfile.addEventListener("mouseout", () => {
-      UserProfileName.textContent = emailUsuarioActual;
-      UserSeparator.classList.remove("hidden");
-      UserIcon.classList.remove("hidden");
-    });
-    LogoutButton.addEventListener('click', async () => {
-      // La función de Supabase para cerrar sesión
-      const { error } = await clienteSupabase.auth.signOut();
 
-      if (error) {
-        console.error('Error al cerrar sesión:', error.message);
-      }
+    UserProfile.addEventListener("mouseout", () => {
+      if (UserProfileName) UserProfileName.textContent = window.currentUserEmail || '';
+      if (UserIcon) UserIcon.classList.remove("hidden");
     });
+
+    if (LogoutButton) {
+      LogoutButton.addEventListener('click', async () => {
+        const { error } = await window.clienteSupabase.auth.signOut();
+        if (error) console.error('❌ Error al cerrar sesión:', error.message);
+      });
+    }
   }
-  // --- LOGICA PARA REGISTRARSE ---
+
   if (registerForm) {
     registerForm.addEventListener("submit", async (evento) => {
       evento.preventDefault();
@@ -682,48 +603,41 @@ document.addEventListener("DOMContentLoaded", async () => {
       const password = document.getElementById('register-password').value;
       const authError = document.getElementById('auth-error');
       authError.classList.add('hidden');
-      // 'await' le dice a JS: "pausa aquí y espera la respuesta de Supabase"
-      const { data, error } = await clienteSupabase.auth.signUp({
+
+      const { data, error } = await window.clienteSupabase.auth.signUp({
         email: email,
         password: password,
       });
+
       if (error) {
-        // ¡Error! Muestra el mensaje
         authError.textContent = error.message;
         authError.classList.remove('hidden');
       } else {
-        // ¡Éxito! Cierra el modal
-
         authtitle.textContent = "¡Revisa tu email para confirmar!";
         registerForm.classList.add('hidden');
       }
     });
   }
 
-  // Función auxiliar para alternar reproducción
   function toggleAudio() {
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-    } else {
-      audioPlayer.pause();
-    }
+    if (!audioPlayer) return;
+    audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause();
   }
 
   if (soundControl) {
     soundControl.addEventListener("click", (e) => {
-      if (e.target.id === "volume-slider") {
-        return; // Evita que el clic en el slider pause la música
-      }
+      if (e.target.id === "volume-slider") return;
       toggleAudio();
     });
   }
-  // 5. Evento principal: cuando mueves el slider
+
   if (volumeSlider) {
     volumeSlider.addEventListener("input", () => {
-      updateVolume(); // Actualiza el audio
-      updateVolumeDisplay(); // Actualiza el número
+      updateVolume();
+      updateVolumeDisplay();
     });
   }
+
   if (togglelogin) {
     togglelogin.addEventListener("click", (event) => {
       event.preventDefault();
@@ -732,6 +646,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       authtitle.textContent = "Registrarse";
     });
   }
+
   if (toggleregister) {
     toggleregister.addEventListener("click", (event) => {
       event.preventDefault();
@@ -740,41 +655,37 @@ document.addEventListener("DOMContentLoaded", async () => {
       authtitle.textContent = "Iniciar Sesión";
     });
   }
+
   if (AuthButton) {
-    AuthButton.addEventListener("click", () => {
-      openAuthModal();
-    });
+    AuthButton.addEventListener("click", openAuthModal);
   }
 
   if (AuthCloseButton) {
-    AuthCloseButton.addEventListener("click", () => {
-      closeAuthModal();
-    });
+    AuthCloseButton.addEventListener("click", closeAuthModal);
   }
+
   if (Overlay) {
     Overlay.addEventListener("click", (event) => {
-      if (event.target === Overlay) {
-        closeAuthModal();
-      }
+      if (event.target === Overlay) closeAuthModal();
     });
   }
+
   if (addServantCloseButton) {
-    addServantCloseButton.addEventListener("click", () => {
-      closeAddServantModal();
-    });
+    addServantCloseButton.addEventListener("click", closeAddServantModal);
   }
+
   if (addServantModal) {
     addServantModal.addEventListener("click", (event) => {
-      if (event.target === addServantModal) {
-        closeAddServantModal();
-      }
+      if (event.target === addServantModal) closeAddServantModal();
     });
   }
+
   if (addForm) {
     addForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const formData = new FormData(addForm);
-      const { data, error } = await clienteSupabase.from('user_servants').insert([{
+
+      const { data, error } = await window.clienteSupabase.from('user_servants').insert([{
         servant_id: formData.get('servant_id'),
         level: formData.get('level'),
         np_level: formData.get('np_level'),
@@ -783,23 +694,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         skill_2: formData.get('skill_2'),
         skill_3: formData.get('skill_3'),
       }]);
+
       if (error) {
-        console.error('Error al agregar el servant:', error.message);
-        document.getElementById('add-error').textContent = "Error al agregar el servant";
-        document.getElementById('add-error').classList.remove('hidden');
-      } else {
-        if (currentAddButton) {
-          added(currentAddButton);
+        console.error('❌ Error al agregar servant:', error.message);
+        const addError = document.getElementById('add-error');
+        if (addError) {
+          addError.textContent = "Error al agregar el servant";
+          addError.classList.remove('hidden');
         }
+      } else {
+        if (currentAddButton) markAsAdded(currentAddButton);
         closeAddServantModal();
       }
     });
   }
 
-
-  // --- INICIALIZACIÓN DE LA PÁGINA ---
+  // ================================================
+  // INICIALIZACIÓN FINAL
+  // ================================================
   updateVolume();
   updateVolumeDisplay();
-  inicializarComponentesUI(); // <-- Inicializamos los componentes estáticos una sola vez.
+  inicializarComponentesUI();
 
 });
