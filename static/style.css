@@ -1228,7 +1228,6 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   padding-top: 12px;
-  width: 220px;
 }
 
 /* Cada fila de Skill individual */
@@ -1477,9 +1476,11 @@ main {
    ========================================= */
 
 .redirect_buttons {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 15px;
   margin-top: 5px;
+  margin-bottom: 5px;
   padding-top: 15px;
   /* Línea divisoria arriba de los botones */
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -1493,7 +1494,6 @@ main {
   cursor: pointer;
   transition: all 0.2s;
   border: none;
-  flex: 1; /* Ambos botones ocupan el mismo ancho */
 
   display: flex;
   align-items: center;

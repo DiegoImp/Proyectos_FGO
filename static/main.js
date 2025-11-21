@@ -365,7 +365,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="np_card_type">${npTypeDisplay}</span>
           </div>
           <!-- Fila Central: Nombre del NP -->
-          <div class="np_name">
+          <div class="np_name" title="${servant.np.name}">
             <span class="np_name_text ${npClass}">${servant.np.name}</span>
           </div>
           <!-- Fila Inferior: Nivel -->
@@ -649,6 +649,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       closeAuthModal();
       welcomeMessage.classList.add('hidden');
       AuthModal.classList.remove('hidden');
+      toggleAudio();
     });
   }
   // --- LÓGICA PARA CERRAR SESIÓN ---
@@ -699,16 +700,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // Función auxiliar para alternar reproducción
+  function toggleAudio() {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+    } else {
+      audioPlayer.pause();
+    }
+  }
+
   if (soundControl) {
     soundControl.addEventListener("click", (e) => {
       if (e.target.id === "volume-slider") {
         return; // Evita que el clic en el slider pause la música
       }
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-      } else {
-        audioPlayer.pause();
-      }
+      toggleAudio();
     });
   }
   // 5. Evento principal: cuando mueves el slider
