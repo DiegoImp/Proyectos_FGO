@@ -85,6 +85,9 @@ main {
   padding: 20px;
   border-radius: 8px;
 }
+.mis_servants_page {
+  max-width: 1600px;
+}
 
 /* --- 3. COMPONENTE: BARRA DE NAVEGACIÓN (IZQUIERDA) --- */
 .sidebar_index {
@@ -480,7 +483,7 @@ main {
   margin-top: 20px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
 }
 .loading-message {
@@ -1225,11 +1228,13 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   padding-top: 12px;
+  width: 220px;
 }
 
 /* Cada fila de Skill individual */
 .skill_row {
   display: grid;
+
   /* Columnas: Icono (35px) | Nombre (auto) | Nivel (auto a la derecha) */
   grid-template-columns: 35px 1fr auto;
   align-items: center;
@@ -1257,7 +1262,7 @@ main {
 
 /* Nombre de la skill (label) */
 .skill_name {
-  font-size: 0.85rem;
+  font-size: 13px;
   color: #eee;
   font-weight: 500;
   cursor: default;
@@ -1271,28 +1276,28 @@ main {
   white-space: nowrap;
   transition: transform 0.3s;
 }
-/* Cuando haces hover en la FILA entera, animamos el texto si tiene la clase */
 .skill_row:hover .skill_name_text.scroll_short {
-  text-overflow: clip; /* Quitamos los puntos suspensivos */
-  /* Animación simple: se mueve a la izquierda y vuelve */
-  animation: scroll-text-short 3s linear infinite;
+  animation: scroll-text-short 4s linear infinite;
 }
-
+.skill_row:hover .skill_name_text.scroll_medium {
+  animation: scroll-text-medium 5s linear infinite;
+}
+.skill_row:hover .skill_name_text.scroll_long {
+  animation: scroll-text-long 6s linear infinite;
+}
+.skill_row:hover .skill_name_text.scroll_extreme {
+  animation: scroll-text-extreme 7s linear infinite;
+}
 @keyframes scroll-text-short {
   0% {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-30%);
+    transform: translateX(-35%);
   } /* Ajusta este % según el largo */
   100% {
     transform: translateX(0);
   }
-}
-.skill_row:hover .skill_name_text.scroll_medium {
-  text-overflow: clip; /* Quitamos los puntos suspensivos */
-  /* Animación simple: se mueve a la izquierda y vuelve */
-  animation: scroll-text-medium 4s linear infinite;
 }
 
 @keyframes scroll-text-medium {
@@ -1300,16 +1305,11 @@ main {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-40%);
+    transform: translateX(-55%);
   } /* Ajusta este % según el largo */
   100% {
     transform: translateX(0);
   }
-}
-.skill_row:hover .skill_name_text.scroll_long {
-  text-overflow: clip; /* Quitamos los puntos suspensivos */
-  /* Animación simple: se mueve a la izquierda y vuelve */
-  animation: scroll-text-long 6s linear infinite;
 }
 
 @keyframes scroll-text-long {
@@ -1317,11 +1317,20 @@ main {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-60%);
+    transform: translateX(-75%);
   } /* Ajusta este % según el largo */
   100% {
     transform: translateX(0);
   }
+}
+@keyframes scroll-text-extreme {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-90%);
+  } /* Cubre hasta el 90% oculto */
 }
 /* Nivel de la skill (p) */
 .skill-level {
@@ -1338,10 +1347,7 @@ main {
 .INFO_details {
   display: flex;
   flex-direction: column;
-
   gap: 0px;
-
-  /* Línea divisoria a la izquierda */
   border-left: 1px solid rgba(255, 255, 255, 0.1);
   padding-left: 15px;
   justify-content: flex-start;
@@ -1355,7 +1361,7 @@ main {
   padding: 8px 10px;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
-
+  width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1385,21 +1391,19 @@ main {
   background-color: rgba(0, 0, 0, 0.3);
   padding: 10px 12px; /* Un poco más de padding */
   border-radius: 6px;
-  border: 1px solid; /* Borde rojizo sutil para NP */
+  border: 1px solid;
   border-color: var(--servant-theme);
   /* Altura mínima para asegurar que equilibre con las skills */
   margin-bottom: 10px;
   min-height: 100px;
 }
 
-/* --- NUEVAS CLASES --- */
-
 /* 1. La fila de arriba (Título + Badge de Tipo) */
 .np_top_row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Línea separadora sutil */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 5px;
   margin-bottom: 2px;
   gap: 12px;
@@ -1408,32 +1412,46 @@ main {
 .np_title {
   font-size: 0.65rem;
   font-weight: 800;
-  color: #ff6b6b; /* Rojo claro para destacar "Noble Phantasm" */
+  color: #ff6b6b;
   letter-spacing: 0.5px;
 }
 
 .np_card_type {
   font-size: 0.65rem;
-  background-color: var(
-    --servant-theme
-  ); /* Fondo rojo oscuro (puedes hacerlo dinámico si quieres) */
+  background-color: var(--servant-theme);
   color: white;
   padding: 2px 6px;
   border-radius: 4px;
   font-weight: bold;
   text-transform: uppercase;
 }
-
-/* 2. El nombre del ataque (Excalibur Morgan, etc) */
 .np_name {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.3;
-  /* Si el nombre es muy largo, añade puntos suspensivos automáticamente */
-  white-space: nowrap;
+  font-size: 13px;
+  color: #eee;
+  font-weight: 500;
+  cursor: default;
+  display: block;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+/* 2. El nombre del ataque (Excalibur Morgan, etc) */
+.np_name_text {
+  display: inline-block;
+  white-space: nowrap;
+  transition: transform 0.3s;
+}
+.NP_info:hover .np_name_text.scroll_short {
+  animation: scroll-text-short 4s linear infinite;
+}
+.NP_info:hover .np_name_text.scroll_medium {
+  animation: scroll-text-medium 5s linear infinite;
+}
+.NP_info:hover .np_name_text.scroll_long {
+  animation: scroll-text-long 6s linear infinite;
+}
+.NP_info:hover .np_name_text.scroll_extreme {
+  animation: scroll-text-extreme 7s linear infinite;
 }
 
 /* 3. La fila del nivel */

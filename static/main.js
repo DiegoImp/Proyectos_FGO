@@ -57,6 +57,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const servantBond = document.getElementById("input-bond");
   const servantSkillsWrapper = document.getElementById("skills-wrapper");
 
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+
   // Funciones para abrir/cerrar el modal de autenticación
   function openAuthModal() {
     Overlay.style.display = "flex";
@@ -213,6 +216,69 @@ document.addEventListener("DOMContentLoaded", async () => {
   function updateVolumeDisplay() {
     volumeDisplay.textContent = volumeSlider.value;
   }
+  // "Mis Servants"
+  function getAscensionLevel(rarity, currentLevel) {
+    // Límites de nivel para cada ascensión [Asc0, Asc1, Asc2, Asc3]
+    // Si el nivel supera el límite de Asc3, automáticamente es Asc4.
+    const caps = {
+      5: [50, 60, 70, 80],
+      4: [40, 50, 60, 70],
+      3: [30, 40, 50, 60],
+      2: [25, 35, 45, 55],
+      1: [20, 30, 40, 50],
+      0: [25, 35, 45, 55] // Angra Mainyu sigue la curva de 2★
+    };
+
+    const limits = caps[rarity];
+
+    // Validación básica
+    if (!limits) {
+      console.error("Rareza no válida");
+      return 0;
+    }
+
+    // Lógica de comprobación
+    if (currentLevel <= limits[0]) return 0; // Base
+    if (currentLevel <= limits[1]) return 1; // Ascensión 1
+    if (currentLevel <= limits[2]) return 2; // Ascensión 2
+    if (currentLevel <= limits[3]) return 3; // Ascensión 3
+
+    return 4; // Ascensión 4 (Max o Grailed)
+  }
+  function getTextWidthCanvas(text, fontSize = "13.6px", fontWeight = "500", fontFamily = "Roboto, sans-serif") {
+    // Configuramos la fuente del contexto. 
+    // Nota: Canvas entiende mejor "px" que "rem", así que intenta convertirlo si puedes.
+    // 0.85rem suele ser 13.6px (si tu base es 16px).
+    context.font = `${fontWeight} ${fontSize} ${fontFamily}`;
+
+    const metrics = context.measureText(text);
+    return metrics.width;
+  }
+  function getScrollClass(textWidth, type) {
+    // Definimos el ancho del contenedor según el tipo
+    const containerWidth = (type === "np") ? 174 : 96;
+
+    // Si el texto cabe, no hay clase
+    if (textWidth <= containerWidth) return "";
+
+    // Calculamos qué porcentaje del texto está oculto
+    // Ejemplo: Si Texto=200 y Container=100 -> (200-100)/200 = 0.5 (50% oculto)
+    const hiddenRatio = (textWidth - containerWidth) / textWidth;
+
+    // Asignamos la clase según el porcentaje necesario para mostrarlo todo
+
+
+    if (hiddenRatio <= 0.35) return "scroll_short";
+
+
+    else if (hiddenRatio <= 0.40) return "scroll_medium";
+
+
+    else if (hiddenRatio <= 0.60) return "scroll_long";
+
+
+    else return "scroll_extreme";
+  }
   function generarHTMLmis_servants(servant) {
     // Generar las estrellas de rareza
     let estrellasHTML = '';
@@ -224,23 +290,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let skillsHTML = '';
     (servant.skills || []).slice(0, 3).forEach((skill, index) => {
-      const len = (skill.name || '').length;
-
-      let cssClass = '';
-
-      if (len > 24) {
-        cssClass = 'scroll_long';   // Animación agresiva para textos muy largos
-      } else if (len > 19) {
-        cssClass = 'scroll_medium'; // Animación suave para textos medianos
-      } else if (len > 12) {
-        cssClass = 'scroll_short';  // Animación ligera para textos cortos
-      }
+      const skillWidth = getTextWidthCanvas(capitalizeWords(skill.name), "13px", "500");
+      // Pedimos la clase para tipo 'skill'
+      const skillClass = getScrollClass(skillWidth, "skill");
       // Genera el HTML para cada fila de skill
       skillsHTML += `
               <div class="skill_row">
                 <img src="${skill.icon}" alt="${skill.name}" class="skill_icon_preview">
                 <div class="skill_name" title="${skill.name}">
-                  <span id="input-skill-${index + 1}" class="skill_name_text ${cssClass}">
+                  <span id="input-skill-${index + 1}" class="skill_name_text ${skillClass}">
                       ${capitalizeWords(skill.name)}
                   </span>
                 </div>
@@ -248,6 +306,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               </div>
         `;
     });
+
     let npTypeDisplay = '';
     if (servant.np.type === '2') {
       npTypeDisplay = 'Buster';
@@ -256,6 +315,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else if (servant.np.type === '3') {
       npTypeDisplay = 'Quick';
     }
+
+    // Lógica para la clase de animación del nombre del NP
+    const npWidth = getTextWidthCanvas(servant.np.name, "13px", "500");
+    // Pedimos la clase para tipo 'np'
+    const npClass = getScrollClass(npWidth, "np");
+    let ascensionLevel = getAscensionLevel(servant.rarity, servant.level);
+    servant.face = servant.face[ascensionLevel.toString()] || servant.face['1'];
     return `
     <div class="servant_box_container" data-np="${servant.np.type}">
       <div class="servant_box" 
@@ -264,6 +330,7 @@ document.addEventListener("DOMContentLoaded", async () => {
          data-name="${(servant.name || '').toLowerCase()}" 
          data-face="${servant.face}" 
          data-type="${(servant.type || '').toLowerCase()}" 
+         data-np="${servant.np}"
          data-servant-id="${servant.id}" 
          data-skills="${skillsJSON}">
       <div class="box_name">
@@ -298,7 +365,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           <span class="np_card_type">${npTypeDisplay}</span>
           </div>
           <!-- Fila Central: Nombre del NP -->
-          <span class="np_name">${servant.name}</span>
+          <div class="np_name">
+            <span class="np_name_text ${npClass}">${servant.np.name}</span>
+          </div>
           <!-- Fila Inferior: Nivel -->
           <div class="np_level_row">
           <span class="np_lvl_label">Nivel:</span>
@@ -357,7 +426,7 @@ document.addEventListener("DOMContentLoaded", async () => {
          data-skills="${skillsJSON}">
          
       <a href="/servant/${servant.collectionNo}" class="details_link">
-        <img src="${servant.face}" alt="Icono de ${servant.name}" class="face_main" loading="lazy" />
+        <img src="${servant.face["1"]}" alt="Icono de ${servant.name}" class="face_main" loading="lazy" />
       </a>
       <img src="/static/classes/${(servant.className || 'unknown').toLowerCase()}.png"
            alt="${servant.className} class icon" class="class_icon_overlay">
