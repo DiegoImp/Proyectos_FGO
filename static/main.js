@@ -276,17 +276,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     return context.measureText(text).width;
   }
 
-  function getScrollClass(textWidth, type) {
-    const containerWidth = (type === "np") ? 174 : 96;
+  function getScrollClass(textWidth, containerWidth) {
     if (textWidth <= containerWidth) return "";
 
-    const hiddenRatio = (textWidth - containerWidth) / textWidth;
+    // Calcular el exceso como porcentaje del contenedor
+    const overflow = textWidth - containerWidth;
+    const overflowPercent = (overflow / containerWidth) * 100;
 
-    if (hiddenRatio <= 0.35) return "scroll_short";
-    if (hiddenRatio <= 0.40) return "scroll_medium";
-    if (hiddenRatio <= 0.60) return "scroll_long";
-    return "scroll_extreme";
+    // Umbrales basados en porcentaje de exceso
+    if (overflowPercent <= 50) return "scroll_short";      // Hasta 50% más largo
+    if (overflowPercent <= 120) return "scroll_medium";    // Hasta 120% más largo
+    if (overflowPercent <= 230) return "scroll_long";      // Hasta 230% más largo
+    return "scroll_extreme";                               // Más de 230% más largo
   }
+
   function generarHTMLmis_servants(servant) {
     // Generar las estrellas de rareza
     let estrellasHTML = '';
@@ -302,15 +305,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let skillsHTML = '';
     (servant.skills || []).slice(0, 3).forEach((skill, index) => {
-      const skillWidth = getTextWidthCanvas(capitalizeWords(skill.name), "13px", "500");
-      // Pedimos la clase para tipo 'skill'
-      const skillClass = getScrollClass(skillWidth, "skill");
-      // Genera el HTML para cada fila de skill
+      // Las clases de scroll se aplicarán dinámicamente después del render
       skillsHTML += `
               <div class="skill_row">
                 <img src="${skill.icon}" alt="${skill.name}" class="skill_icon_preview">
                 <div class="skill_name" title="${skill.name}">
-                  <span id="input-skill-${index + 1}" class="skill_name_text ${skillClass}">
+                  <span id="input-skill-${index + 1}" class="skill_name_text">
                       ${capitalizeWords(skill.name)}
                   </span>
                 </div>
@@ -328,10 +328,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       npTypeDisplay = 'Quick';
     }
 
-    // Lógica para la clase de animación del nombre del NP
-    const npWidth = getTextWidthCanvas(servant.np.name, "13px", "500");
-    // Pedimos la clase para tipo 'np'
-    const npClass = getScrollClass(npWidth, "np");
+    // La clase de scroll del NP se aplicará dinámicamente después del render
     let ascensionLevel = getAscensionLevel(servant.rarity, servant.level);
     servant.face = servant.face[ascensionLevel.toString()] || servant.face['1'];
 
@@ -339,6 +336,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const bondLevel = servant.bond_level || 0;
     const bondIconNumber = bondLevel > 10 ? 11 : bondLevel;
     const bondIconHTML = `<img src="${staticPath}/icons/mis-servants/img_bondsgage_${bondIconNumber}.png" alt="Bond ${bondLevel}" class="bond_level_icon">`;
+    const bondMaxLevel = bondLevel > 10 ? 15 : 10;
 
     return `
     <div class="servant_box_container" data-np="${servant.np.type}">
@@ -384,20 +382,20 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
           <!-- Fila Central: Nombre del NP -->
           <div class="np_name" title="${servant.np.name}">
-            <span class="np_name_text ${npClass}">${servant.np.name}</span>
+            <span class="np_name_text">${servant.np.name}</span>
           </div>
           <!-- Fila Inferior: Nivel -->
           <div class="np_level_row">
           <span class="np_lvl_label">Nivel:</span>
-          <span class="np_lvl_value">${servant.np_level}</span>
+          <span class="np_lvl_value" id="np-lvl-value">${servant.np_level}</span>
           </div>
         </div>
         <div class="Bond_info">
           <div class="bond_info_details">
           <span class="bond_label">Bond Level:</span>
+          ${bondIconHTML}
           <div class="bond_value_wrapper">
-            ${bondIconHTML}
-            <span class="bond_value">${servant.bond_level}</span>
+            <span class="bond_value" id="bond-value">${servant.bond_level}</span><span class="bond_max" id="bond-max">/${bondMaxLevel}</span>
           </div>
           </div>
         </div>
@@ -454,6 +452,69 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // ================================================
+  // MEDICIÓN Y APLICACIÓN DE SCROLL POR COLUMNA
+  // ================================================
+  function aplicarScrollDinamicoPorColumna() {
+    const currentPage = getCurrentPage();
+    if (currentPage !== 'mis-servants') return;
+
+    const allCards = document.querySelectorAll('.servant_box_container');
+    if (allCards.length === 0) return;
+
+    // Arrays para guardar anchos por columna [col0, col1, col2]
+    const skillContainerWidths = [null, null, null];
+    const npContainerWidths = [null, null, null];
+
+    // Medir las primeras 3 cartas (una por columna)
+    const maxMeasure = Math.min(3, allCards.length);
+    for (let i = 0; i < maxMeasure; i++) {
+      const card = allCards[i];
+      const skillContainer = card.querySelector('.skill_name');
+      const npContainer = card.querySelector('.np_name');
+
+      if (skillContainer) {
+        skillContainerWidths[i] = skillContainer.getBoundingClientRect().width;
+      }
+      if (npContainer) {
+        npContainerWidths[i] = npContainer.getBoundingClientRect().width;
+      }
+    }
+
+    // Aplicar clases a todas las cartas según su columna
+    allCards.forEach((card, index) => {
+      const columnIndex = index % 3;
+      const skillContainerWidth = skillContainerWidths[columnIndex];
+      const npContainerWidth = npContainerWidths[columnIndex];
+
+      // Aplicar clases a skills
+      if (skillContainerWidth) {
+        const skillTexts = card.querySelectorAll('.skill_name_text');
+        skillTexts.forEach(skillText => {
+          const textWidth = skillText.scrollWidth;
+          const scrollClass = getScrollClass(textWidth, skillContainerWidth);
+
+          // Remover clases anteriores
+          skillText.classList.remove('scroll_short', 'scroll_medium', 'scroll_long', 'scroll_extreme');
+          if (scrollClass) skillText.classList.add(scrollClass);
+        });
+      }
+
+      // Aplicar clases a NP
+      if (npContainerWidth) {
+        const npText = card.querySelector('.np_name_text');
+        if (npText) {
+          const textWidth = npText.scrollWidth;
+          const scrollClass = getScrollClass(textWidth, npContainerWidth);
+
+          // Remover clases anteriores
+          npText.classList.remove('scroll_short', 'scroll_medium', 'scroll_long', 'scroll_extreme');
+          if (scrollClass) npText.classList.add(scrollClass);
+        }
+      }
+    });
+  }
+
   function inicializarComponentesDinamicos() {
     servantCard = document.querySelectorAll(".servant_card");
 
@@ -473,6 +534,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       servantsContainer.dataset.listenerAttached = "true";
     }
+
+    // Aplicar scroll dinámico después de renderizar
+    aplicarScrollDinamicoPorColumna();
   }
 
   // ================================================

@@ -321,12 +321,13 @@
 .skill_row:hover .skill_name_text.scroll_extreme {
   animation: scroll-text-extreme 7s linear infinite;
 }
+/* Animaciones optimizadas según datos reales: Skills max 476px, NPs max 405px */
 @keyframes scroll-text-short {
   0% {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-35%);
+    transform: translateX(-25%);
   }
   100% {
     transform: translateX(0);
@@ -338,7 +339,7 @@
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-55%);
+    transform: translateX(-45%);
   }
   100% {
     transform: translateX(0);
@@ -350,7 +351,7 @@
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-75%);
+    transform: translateX(-68%);
   }
   100% {
     transform: translateX(0);
@@ -362,7 +363,7 @@
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-90%);
+    transform: translateX(-85%);
   }
 }
 
@@ -406,6 +407,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 .bond_label {
@@ -416,8 +418,8 @@
 
 .bond_value_wrapper {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: baseline;
+  gap: 2px;
 }
 
 .bond_level_icon {
@@ -429,10 +431,17 @@
   flex-shrink: 0;
 }
 
-.bond_value {
+#bond-value,
+#np-lvl-value {
   font-size: 0.9rem;
   color: #ffd700;
   font-weight: bold;
+}
+
+#bond-max {
+  font-size: 0.7rem;
+  color: #888;
+  font-weight: normal;
 }
 
 .NP_info {
