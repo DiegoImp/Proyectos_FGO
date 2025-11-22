@@ -16,358 +16,201 @@
     <link rel="stylesheet" href="static/css/components/auth.css" />
 
     <link rel="icon" href="static/icons/base-page/favicon.ico" sizes="any" />
-    <!-- Font Awesome Free 6.4.0 -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="icon" href="static/icons/base-page/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="static/icons/base-page/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      href="static/icons/base-page/favicon.svg"
+      type="image/svg+xml"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="static/icons/base-page/apple-touch-icon.png"
+    />
     <link rel="manifest" href="static/icons/base-page/site.webmanifest" />
   </head>
 
   <body>
-    <!-- Boton de iniciar sesión -->
-    <nav class="auth_container">
-      <button id="auth-open-button" class="auth_button">
-        <span>Iniciar Sesión</span>
-        <span class="input_separator input_separator--user"></span>
-        <img
-          src="static/icons/base-page/account-icon.svg"
-          alt="Icono de cuenta de usuario"
-        />
-      </button>
-      <!-- boton de cerrar sesion -->
-      <div id="user-profile" class="auth_user hidden">
-        <span id="user-profile-name"></span>
-        <span
-          id="user-input-separator"
-          class="input_separator input_separator--user"
-        ></span>
-        <div id="user-profile-icon" class="profile_icon">
-          <span></span>
-        </div>
-        <div class="user_menu">
-          <span id="user-email"></span>
-          <button id="logout-button" class="logout_button">
-            <span>Cerrar Sesión</span>
-            <img
-              src="static/icons/base-page/logout-icon.svg"
-              alt="Icono de cerrar sesión"
-              class="logout_icon"
-            />
-          </button>
-        </div>
-      </div>
-    </nav>
-    <!-- Modal de Autenticación -->
-    <div id="login-modal" class="modal_overlay">
-      <div id="auth-modal">
-        <button id="auth-close-button" class="modal_close">&times;</button>
-        <h2 id="auth-title">Iniciar Sesión</h2>
-        <hr class="login" />
-        <!-- Inicio de Sesión -->
-        <form id="login-form" class="auth_form">
-          <div class="login_input">
-            <img
-              src="static/icons/base-page/email-icon.svg"
-              alt="Icono de email"
-              class="auth_icon"
-            />
-            <span class="input_separator">|</span>
-            <input
-              id="login-email"
-              type="email"
-              placeholder="Correo electrónico"
-              class="auth_input"
-              required
-            />
-          </div>
-          <div class="login_input">
-            <img
-              src="static/icons/base-page/password-icon.svg"
-              alt="Icono de contraseña"
-              class="auth_icon"
-            />
-            <span class="input_separator">|</span>
-            <input
-              id="login-password"
-              type="password"
-              placeholder="Contraseña"
-              class="auth_input"
-              required
-            />
-          </div>
-
-          <button
-            id="auth-submit-login"
-            type="submit"
-            class="auth_submit_button"
-          >
-            Iniciar Sesión
-          </button>
-          <div class="auth_toggle_container">
-            <span id="auth-toggle-text">¿No tienes una cuenta?</span>
-            <button id="auth-toggle-login" class="auth_toggle_button">
-              Regístrate aquí
-            </button>
-          </div>
-        </form>
-        
-        <form id="register-form" class="auth_form hidden">
-          <div class="register_input">
-            <img
-              src="static/icons/base-page/email-icon.svg"
-              alt="Icono de email"
-              class="auth_icon"
-            />
-            <span class="input_separator">|</span>
-            <input
-              id="register-email"
-              type="email"
-              placeholder="Correo electrónico"
-              class="auth_input"
-              required
-            />
-          </div>
-          <div class="register_input">
-            <img
-              src="static/icons/base-page/password-icon.svg"
-              alt="Icono de contraseña"
-              class="auth_icon"
-            />
-            <span class="input_separator">|</span>
-            <input
-              id="register-password"
-              type="password"
-              placeholder="Contraseña"
-              class="auth_input"
-              required
-            />
-          </div>
-          <button
-            id="auth-submit-register"
-            type="submit"
-            class="auth_submit_button"
-          >
-            Registrarse
-          </button>
-          <div class="auth_toggle_container">
-            <span id="auth-toggle-text">¿Ya tienes una cuenta?</span>
-            <button id="auth-toggle-register" class="auth_toggle_button">
-              Inicia Sesión
-            </button>
-          </div>
-        </form>
-        <div class="auth_separator">
-          <span>O</span>
-        </div>
-        <!-- Google Login -->
-        <button id="google-login-button" class="auth_google_button">
-          <span>Iniciar sesión con Google</span>
-        </button>
-        <p id="auth-error" class="auth_error hidden"></p>
-      </div>
-      <div id="welcome-message" class="hidden">
-        <h2>¡Bienvenido de nuevo, Master!</h2>
-        <p style="color: white">Has iniciado sesión correctamente.</p>
-        <div id="web-guide">
-          <h2>Actividades:</h2>
-          <ul>
-            <li>Añade servants desde la página principal de búsqueda.</li>
-            <li>
-              Ver tus servants y sus stats en
-              <span style="color: #f7b731">Mis Servants</span>.
-            </li>
-          </ul>
-          <button id="welcome-close-button" class="auth_submit_button">
-            Comenzar
-          </button>
-        </div>
-      </div>
-    </div>
     <header>
       <h1>FGO Dashboard</h1>
     </header>
 
-    <!-- LA BARRA DE NAVEGACIÓN (GLOBAL) -->
-    <aside class="sidebar_index">
-      <header class="index_header">Menu</header>
-      <hr />
-      <ul class="index_list">
-        <li>
-          <a href="./index.html" class="index_element active">
-            <img
-              src="static/icons/base-page/search-icon.svg"
-              class="sidebar_icon"
-              alt="Icono Buscador"
-            />
-            <div class="sidebar_hide">
-              <span class="index_text">Buscador</span>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="./calculadora.html" class="index_element">
-            <img
-              src="static/icons/base-page/calculator-icon.svg"
-              class="sidebar_icon"
-              alt="Icono Calculadora"
-            />
-            <div class="sidebar_hide">
-              <span class="index_text">Calculadora</span>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="./mis-servants.html" class="index_element">
-            <img
-              src="static/icons/base-page/servants-icon.svg"
-              class="sidebar_icon sidebar_icon--servant"
-              alt="Icono Mis Servants"
-            />
-            <div class="sidebar_hide">
-              <span class="index_text index_text--servants">Mis Servants</span>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="./tierlist.html" class="index_element">
-            <img
-              src="static/icons/base-page/tier-icon.svg"
-              class="sidebar_icon sidebar_icon--tier"
-              alt="Icono de Tier List"
-            />
-            <div class="sidebar_hide">
-              <span class="index_text">Tier Lists</span>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="./fgodle.html" class="index_element">
-            <img
-              src="static/icons/base-page/game-icon.svg"
-              class="sidebar_icon sidebar_icon--game"
-              alt="Icono FGOdle"
-            />
-            <div class="sidebar_hide">
-              <span class="index_text">FGOdle</span>
-            </div>
-          </a>
-        </li>
-        <li>
-          <div class="index_element">
-            <img
-              src="static/icons/base-page/calendar-icon.svg"
-              class="sidebar_icon"
-              alt="Icono Misiones"
-            />
-            <div class="sidebar_hide">
-              <span class="index_text">Weekly Missions</span>
-            </div>
-          </div>
-        </li>
-        <li class="index_element index_element--music">
-          <div class="sound-column-icon">
-            <img
-              src="static/icons/base-page/sound-icon.svg"
-              class="sidebar_icon sidebar_icon--sound"
-            />
-            <span id="volume-display">30</span>
-          </div>
-          <div class="sidebar_hide sidebar_hide--music">
-            <span class="index_text index_text--music">ON/OFF<br />Music</span>
-            <div class="range-wrap">
-              <input
-                type="range"
-                id="volume-slider"
-                class="range"
-                min="0"
-                max="100"
-                value="30"
-              />
-            </div>
-          </div>
-        </li>
-      </ul>
-    </aside>
+    <main>
+      <!-- Barra de búsqueda y filtros -->
+      <div class="search_bar">
+        <input
+          type="text"
+          id="search-bar"
+          class="search-input"
+          placeholder="Buscar Servant..."
+        />
+        <button id="button-filter" class="filter_button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-sliders-horizontal"
+          >
+            <line x1="21" y1="4" x2="14" y2="4"></line>
+            <line x1="10" y1="4" x2="3" y2="4"></line>
+            <line x1="21" y1="12" x2="12" y2="12"></line>
+            <line x1="8" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="20" x2="16" y2="20"></line>
+            <line x1="12" y1="20" x2="3" y2="20"></line>
+            <line x1="14" y1="2" x2="14" y2="6"></line>
+            <line x1="8" y1="10" x2="8" y2="14"></line>
+            <line x1="16" y1="18" x2="16" y2="22"></line>
+          </svg>
+          <span>Filtrar</span>
+        </button>
+      </div>
 
-    <!-- ================================================
-         CONTENIDO ESPECÍFICO DE LA PÁGINA INDEX
-         ================================================ -->
+      <!-- Contenedor limpio para renderizado JS -->
+      <div class="servants_grid" id="servants-container">
+        <p class="loading-message">Consultando a Chaldea...</p>
+      </div>
+    </main>
 
-    <!-- La barra de filtros SÓLO existe en esta página -->
+    <!-- Sidebar de filtros (oculto por defecto) -->
     <aside id="sidebar-filtro">
       <h4>Filtros</h4>
       <hr />
       <div class="filtro_rarity">
-          <button id="rarity-0" data-value="0">★</button>
-          <button id="rarity-1" data-value="1">★</button>
-          <button id="rarity-2" data-value="2">★★</button>
-          <button id="rarity-3" data-value="3">★★★</button>
-          <button id="rarity-4" data-value="4">★★★★</button>
-          <button id="rarity-5" data-value="5">★★★★★</button>
-        </div>
+        <button id="rarity-0" data-value="0">★</button>
+        <button id="rarity-1" data-value="1">★</button>
+        <button id="rarity-2" data-value="2">★★</button>
+        <button id="rarity-3" data-value="3">★★★</button>
+        <button id="rarity-4" data-value="4">★★★★</button>
+        <button id="rarity-5" data-value="5">★★★★★</button>
+      </div>
       <hr />
       <div class="filtro_class">
         <button id="class-saber" data-value="saber">
-          <img src="static/classes/saber.png" alt="Icono Saber" class="filter-icon" />
+          <img
+            src="static/classes/saber.png"
+            alt="Icono Saber"
+            class="filter-icon"
+          />
           <span>Saber</span>
         </button>
         <button id="class-archer" data-value="archer">
-          <img src="static/classes/archer.png" alt="Icono Archer" class="filter-icon" />
+          <img
+            src="static/classes/archer.png"
+            alt="Icono Archer"
+            class="filter-icon"
+          />
           <span>Archer</span>
         </button>
         <button id="class-lancer" data-value="lancer">
-          <img src="static/classes/lancer.png" alt="Icono Lancer" class="filter-icon" />
+          <img
+            src="static/classes/lancer.png"
+            alt="Icono Lancer"
+            class="filter-icon"
+          />
           <span>Lancer</span>
         </button>
         <button id="class-rider" data-value="rider">
-          <img src="static/classes/rider.png" alt="Icono Rider" class="filter-icon" />
+          <img
+            src="static/classes/rider.png"
+            alt="Icono Rider"
+            class="filter-icon"
+          />
           <span>Rider</span>
         </button>
         <button id="class-caster" data-value="caster">
-          <img src="static/classes/caster.png" alt="Icono Caster" class="filter-icon" />
+          <img
+            src="static/classes/caster.png"
+            alt="Icono Caster"
+            class="filter-icon"
+          />
           <span>Caster</span>
         </button>
         <button id="class-assassin" data-value="assassin">
-          <img src="static/classes/assassin.png" alt="Icono Assassin" class="filter-icon" />
+          <img
+            src="static/classes/assassin.png"
+            alt="Icono Assassin"
+            class="filter-icon"
+          />
           <span>Assassin</span>
         </button>
         <button id="class-berserker" data-value="berserker">
-          <img src="static/classes/berserker.png" alt="Icono Berserker" class="filter-icon" />
+          <img
+            src="static/classes/berserker.png"
+            alt="Icono Berserker"
+            class="filter-icon"
+          />
           <span>Berserker</span>
         </button>
         <button id="class-shielder" data-value="shielder">
-          <img src="static/classes/shielder.png" alt="Icono Shielder" class="filter-icon" />
+          <img
+            src="static/classes/shielder.png"
+            alt="Icono Shielder"
+            class="filter-icon"
+          />
           <span>Shielder</span>
         </button>
         <button id="class-ruler" data-value="ruler">
-          <img src="static/classes/ruler.png" alt="Icono Ruler" class="filter-icon" />
+          <img
+            src="static/classes/ruler.png"
+            alt="Icono Ruler"
+            class="filter-icon"
+          />
           <span>Ruler</span>
         </button>
         <button id="class-alterEgo" data-value="alterEgo">
-          <img src="static/classes/alterego.png" alt="Icono Alter Ego" class="filter-icon" />
+          <img
+            src="static/classes/alterego.png"
+            alt="Icono Alter Ego"
+            class="filter-icon"
+          />
           <span>Alter Ego</span>
         </button>
         <button id="class-avenger" data-value="avenger">
-          <img src="static/classes/avenger.png" alt="Icono Avenger" class="filter-icon" />
+          <img
+            src="static/classes/avenger.png"
+            alt="Icono Avenger"
+            class="filter-icon"
+          />
           <span>Avenger</span>
         </button>
         <button id="class-foreigner" data-value="foreigner">
-          <img src="static/classes/foreigner.png" alt="Icono Foreigner" class="filter-icon" />
+          <img
+            src="static/classes/foreigner.png"
+            alt="Icono Foreigner"
+            class="filter-icon"
+          />
           <span>Foreigner</span>
         </button>
         <button id="class-beast" data-value="beast">
-          <img src="static/classes/beast.png" alt="Icono Beast" class="filter-icon" />
+          <img
+            src="static/classes/beast.png"
+            alt="Icono Beast"
+            class="filter-icon"
+          />
           <span>Beast</span>
         </button>
         <button id="class-pretender" data-value="pretender">
-          <img src="static/classes/pretender.png" alt="Icono Pretender" class="filter-icon" />
+          <img
+            src="static/classes/pretender.png"
+            alt="Icono Pretender"
+            class="filter-icon"
+          />
           <span>Pretender</span>
         </button>
         <button id="class-moonCancer" data-value="moonCancer">
-          <img src="static/classes/mooncancer.png" alt="Icono Moon Cancer" class="filter-icon" />
+          <img
+            src="static/classes/mooncancer.png"
+            alt="Icono Moon Cancer"
+            class="filter-icon"
+          />
           <span>Moon Cancer</span>
         </button>
       </div>
@@ -389,107 +232,26 @@
       </div>
     </aside>
 
-    <!-- El <main> también es único de esta página -->
-    <main>
-      <h2>Servants</h2>
-      <div class="search_bar">
-        <input type="text" id="search-bar" placeholder="Buscar Servant por nombre..." />
-        <button id="button-filter">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-sliders-horizontal">
-            <line x1="21" y1="4" x2="14" y2="4"></line>
-            <line x1="10" y1="4" x2="3" y2="4"></line>
-            <line x1="21" y1="12" x2="12" y2="12"></line>
-            <line x1="8" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="20" x2="16" y2="20"></line>
-            <line x1="12" y1="20" x2="3" y2="20"></line>
-            <line x1="14" y1="2" x2="14" y2="6"></line>
-            <line x1="8" y1="10" x2="8" y2="14"></line>
-            <line x1="16" y1="18" x2="16" y2="22"></line>
-          </svg>
-          <span>Filtrar</span>
-        </button>
-      </div>
-
-      <!-- Contenedor limpio para renderizado JS -->
-      <div class="servants_grid" id="servants-container">
-        <p class="loading-message">Consultando a Chaldea...</p>
-      </div>
-    </main>
-
-    <!-- Modal de agregar servant -->
-    <div id="add-servant-modal" class="modal_overlay">
-      <div id="add-window">
-        <button id="add-servant-close-button" class="modal_close">&times;</button>
-        <h2 id="add-title">Agregar Servant</h2>
-        <hr>
-        <!-- Contenedor para el Servant seleccionado (se llenará con JS) -->
-        <div id="servant-preview" class="servant_preview">
-          <img id="servant-face" src="" alt="Servant Face" class="face_main">
-          <div id="preview-details">
-            <h2 id="servant-name" class="servant_name">Nombre del Servant</h2>
-            <img id="servant-class-icon" src="" alt="Servant Class Icon" class="servant_icon">
-          </div>
-        </div>
-        <hr>
-        <!-- Formulario de Ingreso de Niveles -->
-        <form id="add-servant-form" class="add_form">
-          <!-- Campo oculto para guardar el ID del Servant -->
-          <input type="hidden" id="input-servant-id" name="servant_id">
-
-          <!-- 1. NIVEL DEL SERVANT (1-120) -->
-          <div id="level-img-wrapper" class="level_img">Lv</div>
-          <label for="input-level" class="add_input_label">Nivel Actual (1-120)</label>
-          <input id="input-level" type="number" class="add_input" name="level" min="1" max="120" value="1" required>
-
-          <!-- 2. NIVEL DE NP (1-5) -->
-          <img id="np-img-wrapper" class="np_img"></img>
-          <label for="input-np" class="add_input_label">Nivel de Noble Phantasm (1-5)</label>
-          <input id="input-np" type="number" class="add_input" name="np_level" min="1" max="5" value="1" required>
-
-          <!-- 3. NIVEL DE BOND (1-15) -->
-          <img id="bond-img-wrapper" class="bond_img" src="static/icons/main-page/bondxp.png"></img>
-          <label for="input-bond" class="add_input_label">Nivel de Vínculo (0-15)</label>
-          <input id="input-bond" type="number" class="add_input" name="bond_level" min="0" max="15" value="0" required>
-
-          <hr>
-
-          <!-- 4. NIVELES DE SKILLS (Usaremos un wrapper para Skills) -->
-          <div id="skills-wrapper" class="clase_skills_wrapper">
-            <!-- Los 3 inputs de skills se generarán con JavaScript -->
-          </div>
-
-          <button type="submit" class="auth_submit_button clase_submit_add">Guardar Servant</button>
-        </form>
-
-        <p id="add-error" class="auth_error hidden"></p>
-      </div>
-    </div>
-
     <!-- ================================================
          SCRIPTS GLOBALES
          ================================================ -->
-    <audio id="ost-player" loop>
-      <source src="static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg" />
-    </audio>
-    
+
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <!-- OK FASE 4: Inicializar Supabase con ES Module -->
     <script type="module">
-      import { CONFIG } from './static/js/config.js';
-      
+      import { CONFIG } from "./static/js/config.js";
+
       // Crear cliente global de Supabase
       window.clienteSupabase = supabase.createClient(
         CONFIG.SUPABASE_URL,
         CONFIG.SUPABASE_ANON_KEY
       );
-      
-      console.log('OK Supabase inicializado desde config.js');
+
+      console.log("OK Supabase inicializado desde config.js");
     </script>
-    
+
     <!-- Script principal -->
     <script type="module" src="./static/main.js"></script>
   </body>

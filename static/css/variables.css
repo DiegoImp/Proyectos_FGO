@@ -3,4 +3,16 @@
   --np-buster: #d32f2f;
   --np-quick: #43a047;
   --np-base: #000;
+
+  /* Palette */
+  --color-gold: #f7b731;
+  --color-gold-light: #ffde8a;
+  --color-dark-blue: #1a1a2e;
+  --color-dark-blue-secondary: #2a2a4e;
+  --color-brown-transparent: #36332c88;
+  --color-purple-border: #5a5a9e;
+  --color-text-gray: #7a73737a;
+  --color-text-light: #eaeaea;
+  --color-white: #ffffff;
+  --color-black: #000000;
 }

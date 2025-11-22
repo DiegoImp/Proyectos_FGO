@@ -19,7 +19,7 @@ export function getCurrentPage() {
 
 export function updateActiveNavLink(currentPage) {
     document.querySelectorAll('.sidebar_index a').forEach(link => link.classList.remove('active'));
-    
+
     const pageToFile = {
         'index': 'index.html',
         'calculadora': 'calculadora.html',
@@ -27,7 +27,7 @@ export function updateActiveNavLink(currentPage) {
         'fgodle': 'fgodle.html',
         'tierlist': 'tierlist.html'
     };
-    
+
     const targetFile = pageToFile[currentPage];
     const activeLink = document.querySelector(`.sidebar_index a[href$="${targetFile}"]`);
     if (activeLink) activeLink.classList.add('active');
@@ -66,5 +66,9 @@ export function getPageTitle(page) {
 }
 
 export function getStaticPath() {
-    return 'static';
+    const path = window.location.pathname;
+    if (path.includes('/pages/')) {
+        return '..';
+    }
+    return '.';
 }

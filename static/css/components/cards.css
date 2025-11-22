@@ -37,7 +37,7 @@
   height: 95%;
   margin: 10px 0;
   border: 3px solid black;
-  background-color: #36332c88;
+  background-color: var(--color-brown-transparent);
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 .servant_card:hover {
@@ -79,7 +79,7 @@
 .rarity_card {
   font-size: medium;
   font-weight: bold;
-  color: #f7b731;
+  color: var(--color-gold);
   cursor: default;
 }
 .rarity_card .rarity-0 {
@@ -94,13 +94,13 @@
   transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 .add-servant-button:hover {
-  background-color: #f7b731;
-  color: #1a1a2e;
+  background-color: var(--color-gold);
+  color: var(--color-dark-blue);
   transform: translateY(-3px);
   font-weight: bold;
 }
 .button-added {
-  color: #7a73737a;
+  color: var(--color-text-gray);
 }
 
 .servant_box_container {
@@ -136,7 +136,7 @@
 }
 
 .servant_box {
-  background-color: #36332c88;
+  background-color: var(--color-brown-transparent);
   border: 5px solid black;
   border-radius: 20px;
   padding: 16px;
@@ -153,7 +153,7 @@
 }
 .servant_box_container:hover .servant_box {
   cursor: pointer;
-  box-shadow: 0 -10px 15px -5px #f7b731;
+  box-shadow: 0 -10px 15px -5px var(--color-gold);
 
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -161,7 +161,7 @@
   border-bottom-color: transparent;
 }
 .box_name {
-  color: #f7b731;
+  color: var(--color-gold);
   text-wrap: nowrap;
   justify-content: center;
   align-items: center;
@@ -200,13 +200,13 @@
   height: 80px;
   align-self: center;
   border-radius: 50%;
-  border: 2px solid #f7b731;
+  border: 2px solid var(--color-gold);
   object-fit: cover;
   transition: 0.3s ease;
 }
 .box-imagen:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 10px #f7b731;
+  box-shadow: 0 0 10px var(--color-gold);
 }
 
 .box_details_overlay {
@@ -243,11 +243,11 @@
 .box_details_content {
   display: grid;
 
-  grid-template-columns: 1.8fr 1.2fr;
+  grid-template-columns: 1.52fr 1.4fr;
   gap: 15px;
   margin-bottom: 15px;
   text-align: left;
-  align-items: start;
+  align-items: stretch;
 }
 
 .skills_details h3,
@@ -282,6 +282,10 @@
   transition: background-color 0.2s;
 }
 
+.skill_row:last-child {
+  margin-bottom: 0;
+}
+
 .skill_row:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -313,13 +317,13 @@
   animation: scroll-text-short 4s linear infinite;
 }
 .skill_row:hover .skill_name_text.scroll_medium {
-  animation: scroll-text-medium 5s linear infinite;
+  animation: scroll-text-medium 7s linear infinite;
 }
 .skill_row:hover .skill_name_text.scroll_long {
-  animation: scroll-text-long 6s linear infinite;
+  animation: scroll-text-long 11s linear infinite;
 }
 .skill_row:hover .skill_name_text.scroll_extreme {
-  animation: scroll-text-extreme 7s linear infinite;
+  animation: scroll-text-extreme 14s linear infinite;
 }
 /* Animaciones optimizadas según datos reales: Skills max 476px, NPs max 405px */
 @keyframes scroll-text-short {
@@ -369,7 +373,7 @@
 
 .skill-level {
   font-size: 0.85rem;
-  color: #f7b731;
+  color: var(--color-gold);
   font-weight: bold;
   margin: 0;
 }
@@ -387,13 +391,19 @@
 .NP_info,
 .Bond_info {
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 8px 10px;
+  padding: 4px 10px;
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.Bond_info {
+  flex-grow: 1;
+  justify-content: center;
+  margin-bottom: 8px;
 }
 
 .NP_info span,
@@ -408,10 +418,11 @@
   justify-content: space-between;
   align-items: center;
   gap: 8px;
+  padding: 5px 0;
 }
 
 .bond_label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: white;
   font-weight: bold;
 }
@@ -423,8 +434,8 @@
 }
 
 .bond_level_icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   image-rendering: crisp-edges;
   display: block;
@@ -433,8 +444,8 @@
 
 #bond-value,
 #np-lvl-value {
-  font-size: 0.9rem;
-  color: #ffd700;
+  font-size: 1.1rem;
+  color: var(--color-gold);
   font-weight: bold;
 }
 
@@ -455,7 +466,7 @@
   border: 1px solid;
   border-color: var(--servant-theme);
 
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   min-height: 100px;
 }
 
@@ -505,13 +516,13 @@
   animation: scroll-text-short 4s linear infinite;
 }
 .NP_info:hover .np_name_text.scroll_medium {
-  animation: scroll-text-medium 5s linear infinite;
+  animation: scroll-text-medium 7s linear infinite;
 }
 .NP_info:hover .np_name_text.scroll_long {
-  animation: scroll-text-long 6s linear infinite;
+  animation: scroll-text-long 11s linear infinite;
 }
 .NP_info:hover .np_name_text.scroll_extreme {
-  animation: scroll-text-extreme 7s linear infinite;
+  animation: scroll-text-extreme 14s linear infinite;
 }
 
 .np_level_row {
@@ -529,12 +540,12 @@
 .np_lvl_value {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #f7b731;
+  color: var(--color-gold);
 }
 
 .redirect_buttons {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: 1.17fr 1fr;
   gap: 15px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -560,16 +571,16 @@
 
 .btn-calc {
   background-color: transparent;
-  border: 1px solid #f7b731;
-  color: #f7b731;
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
 }
 .btn-calc:hover {
   background-color: rgba(247, 183, 49, 0.1);
 }
 
 .btn-detail {
-  background-color: #f7b731;
-  color: #1a1a2e;
+  background-color: var(--color-gold);
+  color: var(--color-dark-blue);
 }
 .btn-detail:hover {
   background-color: #e5a50a;

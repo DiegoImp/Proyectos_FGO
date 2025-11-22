@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FGOdle - F/GO Dashboard</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
+    </style>
+
+    <link rel="stylesheet" href="../static/css/variables.css" />
+    <link rel="stylesheet" href="../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/css/components/sidebar.css" />
+    <link rel="stylesheet" href="../static/css/components/cards.css" />
+    <link rel="stylesheet" href="../static/css/components/auth.css" />
+
+    <link rel="icon" href="../static/icons/base-page/favicon.ico" sizes="any" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="../static/icons/base-page/favicon.svg"
+      type="image/svg+xml"
+    />
+  </head>
+  <body>
+    <!-- El layout (Sidebar, Auth, Audio) se inyecta vía JS -->
+
+    <header>
+      <h1>FGO Dashboard</h1>
+    </header>
+
+    <main>
+      <h2>FGOdle - Adivina el Servant</h2>
+      <div class="fgodle-container">
+        <p class="info-message">
+          🎮 FGOdle en construcción - Próximamente disponible
+        </p>
+      </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="../static/main.js"></script>
+  </body>
+</html>
