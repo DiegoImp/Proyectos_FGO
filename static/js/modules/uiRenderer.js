@@ -74,7 +74,7 @@ function createServantCard(servant) {
     link.appendChild(faceImg);
 
     const classIcon = createElement('img', {
-        src: `/static/classes/${(servant.className || 'unknown').toLowerCase()}.png`,
+        src: `static/classes/${(servant.className || 'unknown').toLowerCase()}.png`,
         alt: `${servant.className} class icon`,
         className: 'class_icon_overlay',
         loading: 'lazy',

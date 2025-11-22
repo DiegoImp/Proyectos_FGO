@@ -3,43 +3,37 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mis Servants - F/GO Dashboard</title>
+    <title>Calculadora - F/GO Dashboard</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap");
     </style>
 
-    <!-- CSS Modular: Variables > Reset > Componentes -->
-    <link rel="stylesheet" href="../static/css/variables.css" />
-    <link rel="stylesheet" href="../static/css/reset.css" />
-    <link rel="stylesheet" href="../static/css/components/sidebar.css" />
-    <link rel="stylesheet" href="../static/css/components/cards.css" />
-    <link rel="stylesheet" href="../static/css/components/auth.css" />
+    <!-- CSS Modular -->
+    <link rel="stylesheet" href="static/css/variables.css" />
+    <link rel="stylesheet" href="static/css/reset.css" />
+    <link rel="stylesheet" href="static/css/components/sidebar.css" />
+    <link rel="stylesheet" href="static/css/components/cards.css" />
+    <link rel="stylesheet" href="static/css/components/auth.css" />
 
-    <link rel="icon" href="../static/icons/base-page/favicon.ico" sizes="any" />
+    <link rel="icon" href="static/icons/base-page/favicon.ico" sizes="any" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
       rel="icon"
-      href="../static/icons/base-page/favicon.svg"
+      href="static/icons/base-page/favicon.svg"
       type="image/svg+xml"
     />
-    <link
-      rel="apple-touch-icon"
-      href="../static/icons/base-page/apple-touch-icon.png"
-    />
-    <link rel="manifest" href="../static/icons/base-page/site.webmanifest" />
   </head>
 
   <body>
-    <!-- Boton de iniciar sesión -->
     <nav class="auth_container">
       <button id="auth-open-button" class="auth_button">
         <span>Iniciar Sesión</span>
         <span class="input_separator input_separator--user"></span>
         <img
-          src="../static/icons/base-page/account-icon.svg"
+          src="static/icons/base-page/account-icon.svg"
           alt="Icono de cuenta de usuario"
         />
       </button>
@@ -49,15 +43,13 @@
           id="user-input-separator"
           class="input_separator input_separator--user"
         ></span>
-        <div id="user-profile-icon" class="profile_icon">
-          <span></span>
-        </div>
+        <div id="user-profile-icon" class="profile_icon"><span></span></div>
         <div class="user_menu">
           <span id="user-email"></span>
           <button id="logout-button" class="logout_button">
             <span>Cerrar Sesión</span>
             <img
-              src="../static/icons/base-page/logout-icon.svg"
+              src="static/icons/base-page/logout-icon.svg"
               alt="Icono de cerrar sesión"
               class="logout_icon"
             />
@@ -66,7 +58,6 @@
       </div>
     </nav>
 
-    <!-- Modal de Autenticación -->
     <div id="login-modal" class="modal_overlay">
       <div id="auth-modal">
         <button id="auth-close-button" class="modal_close">&times;</button>
@@ -75,7 +66,7 @@
         <form id="login-form" class="auth_form">
           <div class="login_input">
             <img
-              src="../static/icons/base-page/email-icon.svg"
+              src="static/icons/base-page/email-icon.svg"
               alt="Icono de email"
               class="auth_icon"
             />
@@ -90,7 +81,7 @@
           </div>
           <div class="login_input">
             <img
-              src="../static/icons/base-page/password-icon.svg"
+              src="static/icons/base-page/password-icon.svg"
               alt="Icono de contraseña"
               class="auth_icon"
             />
@@ -120,7 +111,7 @@
         <form id="register-form" class="auth_form hidden">
           <div class="register_input">
             <img
-              src="../static/icons/base-page/email-icon.svg"
+              src="static/icons/base-page/email-icon.svg"
               alt="Icono de email"
               class="auth_icon"
             />
@@ -135,7 +126,7 @@
           </div>
           <div class="register_input">
             <img
-              src="../static/icons/base-page/password-icon.svg"
+              src="static/icons/base-page/password-icon.svg"
               alt="Icono de contraseña"
               class="auth_icon"
             />
@@ -168,30 +159,10 @@
         </button>
         <p id="auth-error" class="auth_error hidden"></p>
       </div>
-      <div id="welcome-message" class="hidden">
-        <h2>¡Bienvenido de nuevo, Master!</h2>
-        <p style="color: white">Has iniciado sesión correctamente.</p>
-        <div id="web-guide">
-          <h2>Actividades:</h2>
-          <ul>
-            <li>Añade servants desde la página principal de búsqueda.</li>
-            <li>
-              Ver tus servants y sus stats en
-              <span style="color: #f7b731">Mis Servants</span>.
-            </li>
-          </ul>
-          <button id="welcome-close-button" class="auth_submit_button">
-            Comenzar
-          </button>
-        </div>
-      </div>
     </div>
 
-    <header>
-      <h1>FGO Dashboard</h1>
-    </header>
+    <header><h1>FGO Dashboard</h1></header>
 
-    <!-- Barra de navegación -->
     <aside class="sidebar_index">
       <header class="index_header">Menu</header>
       <hr />
@@ -199,7 +170,7 @@
         <li>
           <a href="./index.html" class="index_element">
             <img
-              src="../static/icons/base-page/search-icon.svg"
+              src="static/icons/base-page/search-icon.svg"
               class="sidebar_icon"
               alt="Icono Buscador"
             />
@@ -209,9 +180,9 @@
           </a>
         </li>
         <li>
-          <a href="./calculadora.html" class="index_element">
+          <a href="./calculadora.html" class="index_element active">
             <img
-              src="../static/icons/base-page/calculator-icon.svg"
+              src="static/icons/base-page/calculator-icon.svg"
               class="sidebar_icon"
               alt="Icono Calculadora"
             />
@@ -221,9 +192,9 @@
           </a>
         </li>
         <li>
-          <a href="./mis-servants.html" class="index_element active">
+          <a href="./mis-servants.html" class="index_element">
             <img
-              src="../static/icons/base-page/servants-icon.svg"
+              src="static/icons/base-page/servants-icon.svg"
               class="sidebar_icon sidebar_icon--servant"
               alt="Icono Mis Servants"
             />
@@ -235,7 +206,7 @@
         <li>
           <a href="./tierlist.html" class="index_element">
             <img
-              src="../static/icons/base-page/tier-icon.svg"
+              src="static/icons/base-page/tier-icon.svg"
               class="sidebar_icon sidebar_icon--tier"
               alt="Icono de Tier List"
             />
@@ -247,7 +218,7 @@
         <li>
           <a href="./fgodle.html" class="index_element">
             <img
-              src="../static/icons/base-page/game-icon.svg"
+              src="static/icons/base-page/game-icon.svg"
               class="sidebar_icon sidebar_icon--game"
               alt="Icono FGOdle"
             />
@@ -259,7 +230,7 @@
         <li>
           <div class="index_element">
             <img
-              src="../static/icons/base-page/calendar-icon.svg"
+              src="static/icons/base-page/calendar-icon.svg"
               class="sidebar_icon"
               alt="Icono Misiones"
             />
@@ -271,7 +242,7 @@
         <li class="index_element index_element--music">
           <div class="sound-column-icon">
             <img
-              src="../static/icons/base-page/sound-icon.svg"
+              src="static/icons/base-page/sound-icon.svg"
               class="sidebar_icon sidebar_icon--sound"
             />
             <span id="volume-display">30</span>
@@ -293,30 +264,28 @@
       </ul>
     </aside>
 
-    <!-- Contenido principal -->
-    <main class="mis_servants_page">
-      <h2>Mis Servants</h2>
-      <div class="servants_grid mis_servants_container" id="servants-container">
-        <p class="loading-message">Consultando a Chaldea...</p>
+    <main>
+      <h2>Calculadora de Recursos</h2>
+      <div class="calculator-container">
+        <p class="info-message">
+          🚧 Calculadora en construcción - Próximamente disponible
+        </p>
       </div>
     </main>
 
-    
     <audio id="ost-player" loop>
-      <source src="../static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg" />
+      <source src="static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg" />
     </audio>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script type="module">
-      import { CONFIG } from "../static/js/config.js";
+      import { CONFIG } from "./static/js/config.js";
       window.clienteSupabase = supabase.createClient(
         CONFIG.SUPABASE_URL,
         CONFIG.SUPABASE_ANON_KEY
       );
       console.log("OK Supabase inicializado desde config.js");
     </script>
-
-    <script type="module" src="../static/main.js"></script>
+    <script type="module" src="./static/main.js"></script>
   </body>
 </html>

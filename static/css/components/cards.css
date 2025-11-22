@@ -408,6 +408,33 @@
   align-items: center;
 }
 
+.bond_label {
+  font-size: 0.9rem;
+  color: white;
+  font-weight: bold;
+}
+
+.bond_value_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bond_level_icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  image-rendering: crisp-edges;
+  display: block;
+  flex-shrink: 0;
+}
+
+.bond_value {
+  font-size: 0.9rem;
+  color: #ffd700;
+  font-weight: bold;
+}
+
 .NP_info {
   display: flex;
   flex-direction: column;

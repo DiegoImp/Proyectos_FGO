@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ============================================================
  * MAIN.JS - FGO Dashboard
  * ============================================================
@@ -334,6 +334,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const npClass = getScrollClass(npWidth, "np");
     let ascensionLevel = getAscensionLevel(servant.rarity, servant.level);
     servant.face = servant.face[ascensionLevel.toString()] || servant.face['1'];
+
+    // Icono de bond dinámico
+    const bondLevel = servant.bond_level || 0;
+    const bondIconNumber = bondLevel > 10 ? 11 : bondLevel;
+    const bondIconHTML = `<img src="${staticPath}/icons/mis-servants/img_bondsgage_${bondIconNumber}.png" alt="Bond ${bondLevel}" class="bond_level_icon">`;
+
     return `
     <div class="servant_box_container" data-np="${servant.np.type}">
       <div class="servant_box" 
@@ -388,8 +394,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         <div class="Bond_info">
           <div class="bond_info_details">
-          <span>Bond Level:</span>
-          <span>${servant.bond_level}</span>
+          <span class="bond_label">Bond Level:</span>
+          <div class="bond_value_wrapper">
+            ${bondIconHTML}
+            <span class="bond_value">${servant.bond_level}</span>
+          </div>
           </div>
         </div>
         </div>
@@ -566,6 +575,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       } else {
         welcomeMessage.classList.remove('hidden');
         AuthModal.classList.add('hidden');
+      }
+    });
+  }
+
+  const googleLoginButton = document.getElementById('google-login-button');
+  if (googleLoginButton) {
+    googleLoginButton.addEventListener('click', async () => {
+      const { data, error } = await window.clienteSupabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + window.location.pathname
+        }
+      });
+
+      if (error) {
+        const authError = document.getElementById('auth-error');
+        authError.textContent = 'Error al iniciar sesión con Google.';
+        authError.classList.remove('hidden');
+        console.error('Error Google OAuth:', error);
       }
     });
   }
