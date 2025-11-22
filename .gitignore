@@ -5,15 +5,10 @@
 
 # Python
 venv/
-__pycache__/
-*.pyc
 
 # macOS
 .DS_Store
 
 # Config con credenciales (se genera en CI/CD)
 static/js/config.js
-
-# GitHub Actions genera este archivo
-.github
 
