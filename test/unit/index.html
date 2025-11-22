@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FGO Dashboard Unit Tests</title>
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+    <style>
+      body {
+        background-color: #1a1a2e;
+        color: #e0e0e0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #mocha .test h2 {
+        color: #e0e0e0;
+        font-size: 0.9em;
+        font-weight: normal;
+      }
+      #mocha .test pre {
+        background-color: #2a2a4e;
+        border: 1px solid #5a5a9e;
+        color: #a0a0ff;
+      }
+      #mocha .suite h1 {
+        color: #fff;
+        font-size: 1.2em;
+        border-bottom: 1px solid #5a5a9e;
+        padding-bottom: 5px;
+      }
+      .controls {
+        padding: 10px 50px;
+        margin-bottom: 10px;
+      }
+      button {
+        background-color: #5a5a9e;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+      button:hover {
+        background-color: #6a6ab0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <button onclick="togglePasses(false)">Hide Passed</button>
+      <button onclick="togglePasses(true)">Show Passed</button>
+    </div>
+    <div id="mocha"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/10.2.0/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.3.7/chai.min.js"></script>
+
+    <script class="mocha-init">
+      mocha.setup("bdd");
+      mocha.checkLeaks();
+      window.expect = chai.expect;
+
+      function togglePasses(show) {
+        const passes = document.querySelectorAll(".test.pass");
+        passes.forEach((el) => (el.style.display = show ? "block" : "none"));
+      }
+    </script>
+
+    <!-- Import Tests -->
+    <script type="module" src="./format.test.js"></script>
+    <script type="module" src="./cards.test.js"></script>
+
+    <script class="mocha-exec" type="module">
+      mocha.run();
+    </script>
+  </body>
+</html>

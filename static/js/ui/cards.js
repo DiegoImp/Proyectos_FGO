@@ -8,7 +8,7 @@ const staticPath = getStaticPath();
 const canvas = document.createElement("canvas");
 const context = canvas.getContext("2d");
 
-function getAscensionLevel(rarity, currentLevel) {
+export function getAscensionLevel(rarity, currentLevel) {
     const caps = {
         5: [50, 60, 70, 80],
         4: [40, 50, 60, 70],
@@ -28,7 +28,7 @@ function getAscensionLevel(rarity, currentLevel) {
     return 4;
 }
 
-function getScrollClass(textWidth, containerWidth) {
+export function getScrollClass(textWidth, containerWidth) {
     if (textWidth <= containerWidth) return "";
 
     const overflow = textWidth - containerWidth;
