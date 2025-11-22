@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "id": 100100,
     "collectionNo": 2,
@@ -17987,7 +17987,7 @@
     "className": "caster",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_17001000.png",
       "2": null,
       "3": null,
       "4": null
@@ -18424,7 +18424,7 @@
         "icon": "https://static.atlasacademy.io/JP/SkillIcons/skill_00700.png"
       },
       {
-        "name": "Moon Rabbit EX",
+        "name": "Moon Rabbit​ EX",
         "icon": "https://static.atlasacademy.io/JP/SkillIcons/skill_00316.png"
       }
     ]
@@ -19760,7 +19760,7 @@
     "className": "beast",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99354000.png",
       "2": null,
       "3": null,
       "4": null
@@ -19787,7 +19787,7 @@
     "className": "beast",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99355000.png",
       "2": null,
       "3": null,
       "4": null
@@ -19815,7 +19815,7 @@
     "className": "caster",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99355300.png",
       "2": null,
       "3": null,
       "4": null
@@ -19843,7 +19843,7 @@
     "className": "beast",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99391300.png",
       "2": null,
       "3": null,
       "4": null
@@ -19871,7 +19871,7 @@
     "className": "beast",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99417300.png",
       "2": null,
       "3": null,
       "4": null
@@ -19899,7 +19899,7 @@
     "className": "beast",
     "rarity": 5,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99436100.png",
       "2": null,
       "3": null,
       "4": null
@@ -19926,7 +19926,7 @@
     "className": "beast",
     "rarity": 0,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99455900.png",
       "2": null,
       "3": null,
       "4": null
@@ -19953,7 +19953,7 @@
     "className": "beast",
     "rarity": 0,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99456000.png",
       "2": null,
       "3": null,
       "4": null
@@ -19980,7 +19980,7 @@
     "className": "beast",
     "rarity": 0,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99462800.png",
       "2": null,
       "3": null,
       "4": null
@@ -20007,7 +20007,7 @@
     "className": "beast",
     "rarity": 0,
     "face": {
-      "1": null,
+      "1": "https://static.atlasacademy.io/JP/Faces/f_99467600.png",
       "2": null,
       "3": null,
       "4": null

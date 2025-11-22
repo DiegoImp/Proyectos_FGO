@@ -135,9 +135,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     skills.slice(0, 3).forEach((skill, index) => {
       const skillHTML = `
-        <div class="skill-input-group">
-          <img src="${skill.icon}" alt="${skill.name}" class="skill-icon-preview">
-          <label for="input-skill-${index + 1}">${capitalizeWords(skill.name)}</label>
+          <img src="${skill.icon}" alt="${skill.name}" class="skill_icon_preview">
+          <label for="input-skill-${index + 1}" class="add_input_label">${capitalizeWords(skill.name)}</label>
           <input 
             id="input-skill-${index + 1}" 
             name="skill_${index + 1}" 
@@ -146,8 +145,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             max="10" 
             value="1" 
             required
+            class="add_input"
           >
-        </div>
       `;
       servantSkillsWrapper.innerHTML += skillHTML;
     });
@@ -291,8 +290,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   function generarHTMLmis_servants(servant) {
     // Generar las estrellas de rareza
     let estrellasHTML = '';
-    for (let i = 0; i < servant.rarity; i++) {
-      estrellasHTML += '<span>★</span>';
+    if (servant.rarity === 0 && servant.type !== 'enemyCollectionDetail') {
+      estrellasHTML = '<span class="rarity-0">★</span>';
+    } else {
+      for (let i = 0; i < servant.rarity; i++) {
+        estrellasHTML += '<span>★</span>';
+      }
     }
     const skillsJSON = JSON.stringify(servant.skills || [])
       .replace(/"/g, '&quot;');

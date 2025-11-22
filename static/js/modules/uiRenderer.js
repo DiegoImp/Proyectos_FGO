@@ -36,7 +36,11 @@ function createElement(tag, attrs = {}, children = []) {
     return element;
 }
 
-function createRarityStars(rarity) {
+function createRarityStars(rarity, servantType) {
+    // Caso especial: Servants 0★ que NO sean enemigos
+    if (rarity === 0 && servantType !== 'enemyCollectionDetail') {
+        return [createElement('span', { className: 'rarity-0' }, '★')];
+    }
     return Array(rarity).fill(null).map(() => createElement('span', {}, '★'));
 }
 
@@ -79,7 +83,7 @@ function createServantCard(servant) {
 
     const detailsContainer = createElement('div', { className: 'see_details_servant' });
     const rarityDiv = createElement('div', { className: 'rarity_card' });
-    createRarityStars(servant.rarity || 0).forEach(star => rarityDiv.appendChild(star));
+    createRarityStars(servant.rarity || 0, servant.type).forEach(star => rarityDiv.appendChild(star));
 
     const nameH3 = createElement('h3', { className: 'text_container' }, servant.name || 'Unknown Servant');
 

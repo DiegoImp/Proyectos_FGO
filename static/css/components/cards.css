@@ -82,6 +82,10 @@
   color: #f7b731;
   cursor: default;
 }
+.rarity_card .rarity-0 {
+  border-color: #606068;
+  color: black;
+}
 .add-servant-button {
   max-height: fit-content;
   margin-top: auto;
@@ -186,6 +190,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.card_rareza .rarity-0 {
+  border-color: #606068;
+  color: black;
 }
 .box-imagen {
   width: 80px;
