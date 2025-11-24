@@ -12,3 +12,4 @@ venv/
 # Config con credenciales (se genera en CI/CD)
 static/js/config.js
 
+.github/prompts/.prompt.md

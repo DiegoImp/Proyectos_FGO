@@ -13,7 +13,7 @@ function inicializarComponentesDinamicos() {
 
     if (servantsContainer && !servantsContainer.dataset.listenerAttached) {
         servantsContainer.addEventListener("click", (event) => {
-            const button = event.target.closest('.add-servant-button');
+            const button = event.target.closest('.add_servant_button');
             if (!button) return;
 
             currentAddButton = button;

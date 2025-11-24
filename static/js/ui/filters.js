@@ -42,7 +42,7 @@ export function initFilters() {
 
     if (filterbutton) {
         filterbutton.addEventListener("click", () => {
-            sidebar.classList.toggle("sidebar-filtro-visible");
+            sidebar.classList.toggle("sidebar_filtro_visible");
         });
     }
 

@@ -50,7 +50,7 @@ hr {
   margin: 20px 0;
 }
 
-main {
+.main_container {
   width: 100%;
   max-width: 1000px;
   background-color: var(--color-dark-blue-secondary);

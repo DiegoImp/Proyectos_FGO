@@ -39,7 +39,7 @@ function createElement(tag, attrs = {}, children = []) {
 function createRarityStars(rarity, servantType) {
     // Caso especial: Servants 0★ que NO sean enemigos
     if (rarity === 0 && servantType !== 'enemyCollectionDetail') {
-        return [createElement('span', { className: 'rarity-0' }, '★')];
+        return [createElement('span', { className: 'rarity_0' }, '★')];
     }
     return Array(rarity).fill(null).map(() => createElement('span', {}, '★'));
 }
@@ -90,7 +90,7 @@ function createServantCard(servant) {
     let addButton = null;
     if (servant.type === 'normal' || servant.type === 'heroine') {
         addButton = createElement('button', {
-            className: 'add_button add-servant-button hidden'
+            className: 'add_button add_servant_button hidden'
         }, 'Agregar');
     }
 
@@ -125,6 +125,6 @@ export function renderServants(servants, container) {
 
 export function renderMessage(container, message, type = 'loading') {
     if (!container) return;
-    const className = type === 'error' ? 'error_message' : 'loading-message';
+    const className = type === 'error' ? 'error_message' : 'loading_message';
     container.innerHTML = `<p class="${className}">${message}</p>`;
 }

@@ -37,13 +37,13 @@
       <h1>FGO Dashboard</h1>
     </header>
 
-    <main>
+    <main class="main_container index_page">
       <!-- Barra de búsqueda y filtros -->
       <div class="search_bar">
         <input
           type="text"
           id="search-bar"
-          class="search-input"
+          class="search_input"
           placeholder="Buscar Servant..."
         />
         <button id="button-filter" class="filter_button">
@@ -75,7 +75,7 @@
 
       <!-- Contenedor limpio para renderizado JS -->
       <div class="servants_grid" id="servants-container">
-        <p class="loading-message">Consultando a Chaldea...</p>
+        <p class="loading_message">Consultando a Chaldea...</p>
       </div>
     </main>
 
@@ -97,7 +97,7 @@
           <img
             src="static/classes/saber.png"
             alt="Icono Saber"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Saber</span>
         </button>
@@ -105,7 +105,7 @@
           <img
             src="static/classes/archer.png"
             alt="Icono Archer"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Archer</span>
         </button>
@@ -113,7 +113,7 @@
           <img
             src="static/classes/lancer.png"
             alt="Icono Lancer"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Lancer</span>
         </button>
@@ -121,7 +121,7 @@
           <img
             src="static/classes/rider.png"
             alt="Icono Rider"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Rider</span>
         </button>
@@ -129,7 +129,7 @@
           <img
             src="static/classes/caster.png"
             alt="Icono Caster"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Caster</span>
         </button>
@@ -137,7 +137,7 @@
           <img
             src="static/classes/assassin.png"
             alt="Icono Assassin"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Assassin</span>
         </button>
@@ -145,7 +145,7 @@
           <img
             src="static/classes/berserker.png"
             alt="Icono Berserker"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Berserker</span>
         </button>
@@ -153,7 +153,7 @@
           <img
             src="static/classes/shielder.png"
             alt="Icono Shielder"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Shielder</span>
         </button>
@@ -161,7 +161,7 @@
           <img
             src="static/classes/ruler.png"
             alt="Icono Ruler"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Ruler</span>
         </button>
@@ -169,7 +169,7 @@
           <img
             src="static/classes/alterego.png"
             alt="Icono Alter Ego"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Alter Ego</span>
         </button>
@@ -177,7 +177,7 @@
           <img
             src="static/classes/avenger.png"
             alt="Icono Avenger"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Avenger</span>
         </button>
@@ -185,7 +185,7 @@
           <img
             src="static/classes/foreigner.png"
             alt="Icono Foreigner"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Foreigner</span>
         </button>
@@ -193,7 +193,7 @@
           <img
             src="static/classes/beast.png"
             alt="Icono Beast"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Beast</span>
         </button>
@@ -201,7 +201,7 @@
           <img
             src="static/classes/pretender.png"
             alt="Icono Pretender"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Pretender</span>
         </button>
@@ -209,20 +209,20 @@
           <img
             src="static/classes/mooncancer.png"
             alt="Icono Moon Cancer"
-            class="filter-icon"
+            class="filter_icon"
           />
           <span>Moon Cancer</span>
         </button>
       </div>
       <hr />
       <div class="filtro_NP">
-        <button id="NP_Arts" data-value="1">
+        <button id="NP-Arts" data-value="1">
           <span>Arts</span>
         </button>
-        <button id="NP_Quick" data-value="3">
+        <button id="NP-Quick" data-value="3">
           <span>Quick</span>
         </button>
-        <button id="NP_Buster" data-value="2">
+        <button id="NP-Buster" data-value="2">
           <span>Buster</span>
         </button>
       </div>
@@ -248,8 +248,6 @@
         CONFIG.SUPABASE_URL,
         CONFIG.SUPABASE_ANON_KEY
       );
-
-      console.log("OK Supabase inicializado desde config.js");
     </script>
 
     <!-- Script principal -->

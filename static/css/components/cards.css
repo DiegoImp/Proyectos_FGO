@@ -10,7 +10,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
 }
-.loading-message {
+.loading_message {
   text-align: center;
   color: white;
   grid-column: 1 / -1;
@@ -82,24 +82,24 @@
   color: var(--color-gold);
   cursor: default;
 }
-.rarity_card .rarity-0 {
+.rarity_card .rarity_0 {
   border-color: #606068;
   color: black;
 }
-.add-servant-button {
+.add_servant_button {
   max-height: fit-content;
   margin-top: auto;
   margin-bottom: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
-.add-servant-button:hover {
+.add_servant_button:hover {
   background-color: var(--color-gold);
   color: var(--color-dark-blue);
   transform: translateY(-3px);
   font-weight: bold;
 }
-.button-added {
+.button_added {
   color: var(--color-text-gray);
 }
 
@@ -195,7 +195,7 @@
   border-color: #606068;
   color: black;
 }
-.box-imagen {
+.box_imagen {
   width: 80px;
   height: 80px;
   align-self: center;
@@ -204,7 +204,7 @@
   object-fit: cover;
   transition: 0.3s ease;
 }
-.box-imagen:hover {
+.box_imagen:hover {
   transform: scale(1.1);
   box-shadow: 0 0 10px var(--color-gold);
 }
@@ -371,7 +371,7 @@
   }
 }
 
-.skill-level {
+.skill_level {
   font-size: 0.85rem;
   color: var(--color-gold);
   font-weight: bold;
@@ -554,7 +554,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.btn-custom {
+.btn_custom {
   padding: 8px 12px;
   border-radius: 6px;
   font-weight: 600;
@@ -569,20 +569,20 @@
   gap: 8px;
 }
 
-.btn-calc {
+.btn_calc {
   background-color: transparent;
   border: 1px solid var(--color-gold);
   color: var(--color-gold);
 }
-.btn-calc:hover {
+.btn_calc:hover {
   background-color: rgba(247, 183, 49, 0.1);
 }
 
-.btn-detail {
+.btn_detail {
   background-color: var(--color-gold);
   color: var(--color-dark-blue);
 }
-.btn-detail:hover {
+.btn_detail:hover {
   background-color: #e5a50a;
   transform: translateY(-2px);
 }

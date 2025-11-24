@@ -123,7 +123,7 @@
   height: 55px;
   padding-left: 10px;
 }
-.sound-column-icon {
+.sound_column_icon {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -142,7 +142,7 @@
   font-size: 0.9rem;
   font-weight: bold;
 }
-.range-wrap {
+.range_wrap {
   width: 100%;
   display: flex;
   align-items: center;
@@ -195,7 +195,7 @@
   transition: transform 0.5s ease-in-out;
   z-index: 90;
 }
-#sidebar-filtro.sidebar-filtro-visible {
+#sidebar-filtro.sidebar_filtro_visible {
   transform: translateX(0);
 }
 
@@ -239,7 +239,7 @@
 .filtro_class button:last-child {
   grid-column: span 2;
 }
-.filter-icon {
+.filter_icon {
   margin-left: 5px;
   width: 20px;
   height: 20px;
@@ -317,7 +317,7 @@
   color: gold;
 }
 
-#NP_Arts.active {
+#NP-Arts.active {
   color: black;
   background: linear-gradient(
     to bottom,
@@ -325,7 +325,7 @@
     rgb(13, 80, 180) 100%
   );
 }
-#NP_Quick.active {
+#NP-Quick.active {
   color: rgb(17, 16, 16);
   background: linear-gradient(
     to bottom,
@@ -333,7 +333,7 @@
     rgb(14, 185, 14) 100%
   );
 }
-#NP_Buster.active {
+#NP-Buster.active {
   color: rgb(17, 16, 16);
   background: linear-gradient(to bottom, rgb(177, 4, 4) 0%, red 100%);
 }

@@ -22,17 +22,11 @@ class QuietHandler(SimpleHTTPRequestHandler):
         pass
 
 
-class SilentHTTPServer(HTTPServer):
-    def handle_error(self, request, client_address):
-        """Suppress socket errors during shutdown."""
-        pass
-
-
 def start_server():
     """Starts a simple HTTP server to serve the project files."""
     try:
         os.chdir(ROOT_DIR)
-        httpd = SilentHTTPServer(('localhost', PORT), QuietHandler)
+        httpd = HTTPServer(('localhost', PORT), QuietHandler)
         httpd.serve_forever()
     except Exception as e:  # pylint: disable=broad-except
         print(f"Server error: {e}")

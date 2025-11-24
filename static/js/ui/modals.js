@@ -185,8 +185,8 @@ export async function updateAddButtonsState() {
 export function markAsAdded(button) {
     if (!button) return;
     button.textContent = "Invocado";
-    button.classList.remove("add-servant-button");
-    button.classList.add("button-added");
+    button.classList.remove("add_servant_button");
+    button.classList.add("button_added");
     button.classList.remove("hidden");
     button.disabled = true;
 }
@@ -194,8 +194,8 @@ export function markAsAdded(button) {
 export function markAsNotAdded(button) {
     if (!button) return;
     button.textContent = "Agregar";
-    button.classList.add("add-servant-button");
-    button.classList.remove("button-added");
+    button.classList.add("add_servant_button");
+    button.classList.remove("button_added");
     button.classList.remove("hidden");
     button.disabled = false;
 }

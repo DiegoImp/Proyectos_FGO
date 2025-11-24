@@ -1,11 +1,11 @@
 import { getStaticPath, getCurrentPage } from '../utils/routing.js';
 
 export function renderLayout() {
-    const staticPath = getStaticPath();
-    const currentPage = getCurrentPage();
+  const staticPath = getStaticPath();
+  const currentPage = getCurrentPage();
 
-    // 1. Sidebar
-    const sidebarHTML = `
+  // 1. Sidebar
+  const sidebarHTML = `
     <aside class="sidebar_index">
       <header class="index_header">Menu</header>
       <hr />
@@ -42,13 +42,13 @@ export function renderLayout() {
         </li>
         <li>
           <div class="index_element index_element--music">
-            <div class="sound-column-icon">
+            <div class="sound_column_icon">
               <img src="${staticPath}/static/icons/base-page/sound-icon.svg" class="sidebar_icon sidebar_icon--music" alt="Icono de Música" />
               <span id="volume-display">20</span>
             </div>
             <div class="sidebar_hide sidebar_hide--music">
               <span class="index_text index_text--music">ON/OFF Music</span>
-              <div class="range-wrap">
+              <div class="range_wrap">
                 <input type="range" id="volume-slider" min="0" max="100" value="20" class="range" />
               </div>
             </div>
@@ -58,8 +58,8 @@ export function renderLayout() {
     </aside>
     `;
 
-    // 2. Auth Nav
-    const authHTML = `
+  // 2. Auth Nav
+  const authHTML = `
     <nav class="auth_container">
       <button id="auth-open-button" class="auth_button">
         <span>Iniciar Sesión</span>
@@ -81,8 +81,8 @@ export function renderLayout() {
     </nav>
     `;
 
-    // 3. Modales (Auth + Add Servant)
-    const modalsHTML = `
+  // 3. Modales (Auth + Add Servant)
+  const modalsHTML = `
     <!-- Modal de Autenticación -->
     <div id="login-modal" class="modal_overlay">
       <div id="auth-modal">
@@ -175,16 +175,16 @@ export function renderLayout() {
     </div>
     `;
 
-    // 4. Audio
-    const audioHTML = `
+  // 4. Audio
+  const audioHTML = `
     <audio id="ost-player" loop>
       <source src="${staticPath}/static/audio/mi-ost-de-fgo.mp3" type="audio/mpeg" />
     </audio>
     `;
 
-    // Inyectar en el DOM
-    document.body.insertAdjacentHTML('afterbegin', authHTML);
-    document.body.insertAdjacentHTML('afterbegin', sidebarHTML);
-    document.body.insertAdjacentHTML('beforeend', modalsHTML);
-    document.body.insertAdjacentHTML('beforeend', audioHTML);
+  // Inyectar en el DOM
+  document.body.insertAdjacentHTML('afterbegin', authHTML);
+  document.body.insertAdjacentHTML('afterbegin', sidebarHTML);
+  document.body.insertAdjacentHTML('beforeend', modalsHTML);
+  document.body.insertAdjacentHTML('beforeend', audioHTML);
 }
