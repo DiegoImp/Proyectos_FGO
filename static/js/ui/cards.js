@@ -95,6 +95,11 @@ export function generarHTMLmis_servants(servant) {
          data-servant-id="${servant.id}" 
          data-skills="${skillsJSON}"
          data-level="${servant.level}"
+         data-np-level="${servant.np_level || 1}"
+         data-bond-level="${servant.bond_level || 0}"
+         data-skill-1="${servant.skill_1 || 1}"
+         data-skill-2="${servant.skill_2 || 1}"
+         data-skill-3="${servant.skill_3 || 1}"
          data-atk="${servant.atk}"
           data-hp="${servant.hp}">
       <div class="servant_box">

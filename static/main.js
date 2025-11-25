@@ -15,6 +15,7 @@ import { initFilters } from './js/ui/filters.js';
 import { initAudio } from './js/ui/audio.js';
 import { initModals } from './js/ui/modals.js';
 import { initCustomSelect } from './js/ui/customSelect.js';
+import { initUpdateMode } from './js/ui/updateMode.js';
 import { getStaticPath } from './js/utils/routing.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -42,6 +43,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         window.servantFilterManager.setSortBy(value);
       }
     });
+  }
+
+  // 3.2 Inicializar Update Mode (solo en página mis-servants)
+  if (document.getElementById('ms-update-button')) {
+    initUpdateMode();
   }
 
   // 4. Manejar Estado de Autenticación y Carga de Datos

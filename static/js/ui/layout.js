@@ -173,6 +173,39 @@ export function renderLayout() {
         <p id="add-error" class="auth_error hidden"></p>
       </div>
     </div>
+
+    <!-- Modal de editar servant -->
+    <div id="edit-servant-modal" class="modal_overlay">
+      <div id="edit-window">
+        <button id="edit-servant-close-button" class="modal_close">&times;</button>
+        <h2 id="edit-title">Editar Servant</h2>
+        <hr>
+        <div id="edit-servant-preview" class="servant_preview">
+          <img id="edit-servant-face" src="" alt="Servant Face" class="face_main">
+          <div id="edit-preview-details">
+            <h2 id="edit-servant-name" class="servant_name">Nombre del Servant</h2>
+            <img id="edit-servant-class-icon" src="" alt="Servant Class Icon" class="servant_icon">
+          </div>
+        </div>
+        <hr>
+        <form id="edit-servant-form" class="add_form">
+          <input type="hidden" id="edit-input-servant-id" name="servant_id">
+          <div id="edit-level-img-wrapper" class="level_img">Lv</div>
+          <label for="edit-input-level" class="add_input_label">Nivel Actual (1-120)</label>
+          <input id="edit-input-level" type="number" class="add_input" name="level" min="1" max="120" value="1" required>
+          <img id="edit-np-img-wrapper" class="np_img"></img>
+          <label for="edit-input-np" class="add_input_label">Nivel de Noble Phantasm (1-5)</label>
+          <input id="edit-input-np" type="number" class="add_input" name="np_level" min="1" max="5" value="1" required>
+          <img id="edit-bond-img-wrapper" class="bond_img" src="${staticPath}/static/icons/main-page/bondxp.png"></img>
+          <label for="edit-input-bond" class="add_input_label">Nivel de Vínculo (0-15)</label>
+          <input id="edit-input-bond" type="number" class="add_input" name="bond_level" min="0" max="15" value="0" required>
+          <hr>
+          <div id="edit-skills-wrapper" class="clase_skills_wrapper"></div>
+          <button type="submit" class="auth_submit_button clase_submit_add">Actualizar Servant</button>
+        </form>
+        <p id="edit-error" class="auth_error hidden"></p>
+      </div>
+    </div>
     `;
 
   // 4. Audio

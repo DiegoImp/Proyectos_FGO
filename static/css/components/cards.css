@@ -158,7 +158,7 @@
 .servant_box_container:hover .servant_box {
   cursor: pointer;
   box-shadow: 0 -10px 15px -5px var(--color-gold);
-
+  border-color: var(--servant-theme);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 

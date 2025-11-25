@@ -380,6 +380,32 @@
 
 .ms_option:hover {
   background-color: var(--color-brown-transparent);
+}
+
+/* ============================================================
+   UPDATE MODE
+   ============================================================ */
+
+/* Update button active state */
+#ms-update-button.active {
+  background-color: var(--color-gold);
+  color: black;
+  font-weight: 600;
+}
+
+#ms-update-button.active:hover {
+  background-color: var(--color-gold-hover);
+}
+
+/* Servant cards in update mode */
+.servant_box_container.update-mode-active {
+  cursor: pointer;
+}
+
+/* Disable overlay in update mode */
+.box_details_overlay.disabled {
+  display: none !important;
+}
   color: var(--color-gold);
   padding-left: 20px;
 }
