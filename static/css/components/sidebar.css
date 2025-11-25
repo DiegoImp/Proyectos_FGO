@@ -310,6 +310,7 @@
 #rarity-4,
 #rarity-5 {
   border-color: var(--color-gold);
+  color: var(--color-gold);
 }
 #rarity-4.active,
 #rarity-5.active {

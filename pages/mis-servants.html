@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../static/css/components/sidebar.css" />
     <link rel="stylesheet" href="../static/css/components/cards.css" />
     <link rel="stylesheet" href="../static/css/components/auth.css" />
+    <link rel="stylesheet" href="../static/css/pages/mis-servants.css" />
 
     <link rel="icon" href="../static/icons/base-page/favicon.ico" sizes="any" />
     <link
@@ -38,6 +39,176 @@
     </header>
 
     <main class="main_container mis_servants_page">
+      <div class="utility_mis_servants_container">
+        <input
+          class="ms_search"
+          type="text"
+          id="search-servant-input"
+          placeholder="Buscar Servant..."
+        />
+        <button class="ms_black_bttn ms_btn" id="ms-filter-button">
+          <i class="fa-solid fa-filter"></i>Filtros
+        </button>
+        <div class="ms_black_bttn ms_btn ms_custom_select_wrapper">
+          <i class="fa-solid fa-up-down"></i>
+          <label style="text-wrap: nowrap"> Ordenar por : </label>
+          <!-- Custom Select Dropdown -->
+          <div class="ms_custom_select" id="ms-custom-select">
+            <div class="ms_select_trigger" id="ms-select-trigger">
+              <span id="ms-selected-text">Nivel</span>
+              <i class="fa-solid fa-chevron-down ms_select_arrow"></i>
+            </div>
+            <div class="ms_options_list" id="ms-options-list">
+              <div class="ms_option" data-value="level">Nivel</div>
+              <div class="ms_option" data-value="atk">ATK</div>
+              <div class="ms_option" data-value="hp">HP</div>
+              <div class="ms_option" data-value="np">Noble Phantasm</div>
+              <div class="ms_option" data-value="class">Clase</div>
+              <div class="ms_option" data-value="rarity">Rareza</div>
+            </div>
+          </div>
+        </div>
+        <button class="ms_btn" id="ms-update-button">
+          <i class="fa-regular fa-pen-to-square"></i>
+          <span>Actualizar Datos</span>
+        </button>
+        <button class="ms_btn" id="ms-delete-button">
+          <i class="fa-regular fa-trash-can"></i>
+          <span>Eliminar Servant</span>
+        </button>
+        <div class="ms_filters">
+          <!-- Primera fila: Títulos -->
+          <div class="ms_filters_row ms_filters_titles">
+            <span class="ms_filter_title">Rareza</span>
+            <span class="ms_filter_title">Clase</span>
+            <span class="ms_filter_title">Noble Phantasm</span>
+          </div>
+          <!-- Segunda fila: Botones -->
+          <div class="ms_filters_row ms_filters_buttons">
+            <!-- Grupo Rareza -->
+            <div class="ms_filter_group">
+              <button class="ms_rarity" id="rarity-0" data-value="0">
+                0 ★
+              </button>
+              <button class="ms_rarity" id="rarity-1" data-value="1">
+                1 ★
+              </button>
+              <button class="ms_rarity" id="rarity-2" data-value="2">
+                2 ★
+              </button>
+              <button class="ms_rarity" id="rarity-3" data-value="3">
+                3 ★
+              </button>
+              <button class="ms_rarity" id="rarity-4" data-value="4">
+                4 ★
+              </button>
+              <button class="ms_rarity" id="rarity-5" data-value="5">
+                5 ★
+              </button>
+            </div>
+            <!-- Grupo Clase -->
+            <div class="ms_filter_group">
+              <button class="ms_class" id="class-saber" data-value="saber">
+                <img src="../static/classes/saber.png" class="filter_icon" />
+              </button>
+              <button class="ms_class" id="class-archer" data-value="archer">
+                <img src="../static/classes/archer.png" class="filter_icon" />
+              </button>
+              <button class="ms_class" id="class-lancer" data-value="lancer">
+                <img src="../static/classes/lancer.png" class="filter_icon" />
+              </button>
+              <button class="ms_class" id="class-rider" data-value="rider">
+                <img src="../static/classes/rider.png" class="filter_icon" />
+              </button>
+              <button class="ms_class" id="class-caster" data-value="caster">
+                <img src="../static/classes/caster.png" class="filter_icon" />
+              </button>
+              <button
+                class="ms_class"
+                id="class-assassin"
+                data-value="assassin"
+              >
+                <img src="../static/classes/assassin.png" class="filter_icon" />
+              </button>
+              <button
+                class="ms_class"
+                id="class-berserker"
+                data-value="berserker"
+              >
+                <img
+                  src="../static/classes/berserker.png"
+                  class="filter_icon"
+                />
+              </button>
+              <button
+                class="ms_class"
+                id="class-shielder"
+                data-value="shielder"
+              >
+                <img src="../static/classes/shielder.png" class="filter_icon" />
+              </button>
+              <button class="ms_class" id="class-ruler" data-value="ruler">
+                <img src="../static/classes/ruler.png" class="filter_icon" />
+              </button>
+              <button
+                class="ms_class"
+                id="class-alterEgo"
+                data-value="alterEgo"
+              >
+                <img src="../static/classes/alterego.png" class="filter_icon" />
+              </button>
+              <button class="ms_class" id="class-avenger" data-value="avenger">
+                <img src="../static/classes/avenger.png" class="filter_icon" />
+              </button>
+              <button
+                class="ms_class"
+                id="class-foreigner"
+                data-value="foreigner"
+              >
+                <img
+                  src="../static/classes/foreigner.png"
+                  class="filter_icon"
+                />
+              </button>
+              <button class="ms_class" id="class-beast" data-value="beast">
+                <img src="../static/classes/beast.png" class="filter_icon" />
+              </button>
+              <button
+                class="ms_class"
+                id="class-pretender"
+                data-value="pretender"
+              >
+                <img
+                  src="../static/classes/pretender.png"
+                  class="filter_icon"
+                />
+              </button>
+              <button
+                class="ms_class"
+                id="class-moonCancer"
+                data-value="moonCancer"
+              >
+                <img
+                  src="../static/classes/mooncancer.png"
+                  class="filter_icon"
+                />
+              </button>
+            </div>
+            <!-- Grupo Noble Phantasm -->
+            <div class="ms_filter_group">
+              <button class="ms_np ms_np_arts" id="NP-Arts" data-value="1">
+                <span>Arts</span>
+              </button>
+              <button class="ms_np ms_np_quick" id="NP-Quick" data-value="3">
+                <span>Quick</span>
+              </button>
+              <button class="ms_np ms_np_buster" id="NP-Buster" data-value="2">
+                <span>Buster</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="mis_servants_container" id="servants-container">
         <p class="loading_message">Consultando a Chaldea...</p>
       </div>

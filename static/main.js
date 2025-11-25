@@ -14,6 +14,7 @@ import { cargarDatosDePagina } from './js/controllers/pageController.js';
 import { initFilters } from './js/ui/filters.js';
 import { initAudio } from './js/ui/audio.js';
 import { initModals } from './js/ui/modals.js';
+import { initCustomSelect } from './js/ui/customSelect.js';
 import { getStaticPath } from './js/utils/routing.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -30,6 +31,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   initAudio();
   initModals();
   initAuthUI();
+
+  // 3.1 Inicializar Custom Select integrado con filtros (solo en página mis-servants)
+  if (document.getElementById('ms-custom-select')) {
+    initCustomSelect((value, text) => {
+      console.log(`🔄 Ordenar servants por: ${text} (${value})`);
+
+      // Integrar con el filter manager
+      if (window.servantFilterManager) {
+        window.servantFilterManager.setSortBy(value);
+      }
+    });
+  }
 
   // 4. Manejar Estado de Autenticación y Carga de Datos
   onAuthStateChange((evento, sesion) => {

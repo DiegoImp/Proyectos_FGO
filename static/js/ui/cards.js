@@ -85,16 +85,19 @@ export function generarHTMLmis_servants(servant) {
   const bondMaxLevel = bondLevel > 10 ? 15 : 10;
 
   return `
-    <div class="servant_box_container" data-np="${servant.np.type}">
-      <div class="servant_box" 
-         data-class="${(servant.className || 'unknown').toLowerCase()}" 
+    <div class="servant_box_container" data-np-type="${servant.np.type}"
+    data-class="${(servant.className || 'unknown').toLowerCase()}" 
          data-rarity="${servant.rarity}" 
          data-name="${(servant.name || '').toLowerCase()}" 
          data-face="${faceUrl}" 
          data-type="${(servant.type || '').toLowerCase()}" 
          data-np="${servant.np}"
          data-servant-id="${servant.id}" 
-         data-skills="${skillsJSON}">
+         data-skills="${skillsJSON}"
+         data-level="${servant.level}"
+         data-atk="${servant.atk}"
+          data-hp="${servant.hp}">
+      <div class="servant_box">
       <div class="box_name">
         <span>${servant.name}</span>
         <div class="box_stats">

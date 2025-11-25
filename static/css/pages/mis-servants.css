@@ -1,0 +1,432 @@
+.utility_mis_servants_container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  border: 3px solid black;
+  background-color: var(--color-brown-transparent);
+  border-radius: 15px;
+  gap: 20px;
+  padding: 20px 30px;
+  transition: border-radius 0.3s ease;
+}
+
+/* Cuando el filtro está abierto, quitar border-radius inferior */
+.utility_mis_servants_container.filters-open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* ============================================================
+   PANEL DE FILTROS
+   ============================================================ */
+.ms_filters {
+  position: absolute;
+  width: calc(100% + 6px);
+  top: 100%;
+  left: -3px;
+  background-color: rgb(32, 30, 30);
+  border: 3px solid black;
+  border-top: none;
+  border-radius: 0 0 15px 15px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+
+  /* Estado inicial: oculto */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+
+  /* Animación suave basada en MDN CSS Transitions */
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease,
+    visibility 0.3s ease, padding 0.3s ease;
+}
+
+/* Estado abierto del panel de filtros */
+.ms_filters.open {
+  max-height: 500px;
+  opacity: 1;
+  visibility: visible;
+  padding: 15px 20px;
+}
+
+/* Filas del panel de filtros */
+.ms_filters_row {
+  display: flex;
+  width: 100%;
+  gap: 30px;
+}
+
+/* Primera fila: Títulos */
+.ms_filters_titles {
+  justify-content: flex-start;
+  padding-bottom: 5px;
+}
+
+.ms_filter_title {
+  color: #808080;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ms_filter_title:nth-child(1) {
+  min-width: 310px;
+}
+
+.ms_filter_title:nth-child(2) {
+  min-width: 760px;
+}
+
+.ms_filter_title:nth-child(3) {
+  flex: 1;
+}
+
+/* Segunda fila: Botones */
+.ms_filters_buttons {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Grupos de filtros */
+.ms_filter_group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Grupo de rareza */
+.ms_filter_group:nth-child(1) {
+  min-width: 310px;
+}
+
+/* Grupo de clase */
+.ms_filter_group:nth-child(2) {
+  min-width: 760px;
+}
+
+/* Grupo de NP */
+.ms_filter_group:nth-child(3) {
+  flex: 1;
+  gap: 10px;
+}
+
+/* Botones de rareza */
+.ms_rarity {
+  text-align: center;
+  font-weight: bold;
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ms_rarity:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-10%);
+  box-shadow: 0 0 8px rgba(247, 183, 49, 0.4);
+}
+
+.ms_rarity.active {
+  background-color: var(--color-gold);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 10px rgba(247, 183, 49, 0.6);
+}
+
+/* Botones de clase */
+.ms_class {
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ms_class:hover {
+  border-color: var(--color-gold);
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(247, 183, 49, 0.4);
+}
+
+.ms_class.active {
+  background-color: rgba(212, 175, 55, 0.3);
+  border-color: var(--color-gold);
+  border-width: 3px;
+  box-shadow: 0 0 10px rgba(247, 183, 49, 0.6);
+}
+
+.filter_icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+  margin: auto;
+}
+
+/* Botones de Noble Phantasm */
+.ms_np {
+  height: 40px;
+  padding: 0 24px;
+  border: 2px solid black;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Colores específicos de NP según variables globales */
+.ms_np_arts {
+  background-color: var(--np-arts);
+}
+
+.ms_np_quick {
+  background-color: var(--np-quick);
+}
+
+.ms_np_buster {
+  background-color: var(--np-buster);
+}
+
+.ms_np:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.2);
+}
+
+.ms_np.active {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 12px rgba(247, 183, 49, 0.8);
+  font-weight: bold;
+}
+
+.ms_search {
+  flex-grow: 1;
+  position: sticky;
+  top: 10px;
+  font-size: 1em;
+  color: var(--color-text-gray);
+  background-color: var(--color-brown-transparent);
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 10px 15px;
+}
+.ms_btn {
+  height: 50px;
+  width: auto;
+}
+.ms_search:focus {
+  background-color: black;
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 8px var(--color-gold);
+  color: whitesmoke;
+}
+.ms_black_bttn {
+  display: flex;
+  align-items: center;
+  background-color: black;
+  border: 2px solid var(--color-text-light);
+  border-radius: 15px;
+  padding: 10px 15px;
+  gap: 5px;
+  color: var(--color-text-light);
+  font-size: 15px;
+}
+#ms-filter-button:hover {
+  cursor: pointer;
+  border-color: var(--color-gold);
+}
+.ms_black_bttn.active {
+  background-color: var(--color-gold);
+  color: black;
+  border-color: black;
+  cursor: pointer;
+}
+
+/* ============================================================
+   CONTENEDOR DE SERVANTS
+   ============================================================ */
+.mis_servants_container {
+  transition: margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 20px;
+}
+
+/* Cuando los filtros están abiertos, desplazar el contenedor hacia abajo */
+.utility_mis_servants_container.filters-open ~ .mis_servants_container {
+  margin-top: 140px;
+}
+
+/* ============================================================
+   CUSTOM SELECT DROPDOWN
+   ============================================================ */
+
+/* Wrapper del custom select */
+.ms_custom_select_wrapper {
+  position: relative;
+}
+
+/* Contenedor principal del custom select */
+.ms_custom_select {
+  position: relative;
+  min-width: 120px;
+}
+
+/* Trigger (elemento clickeable que muestra la opción seleccionada) */
+.ms_select_trigger {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+  background-color: var(--color-brown-transparent);
+  border: 2px solid var(--color-text-light);
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.ms_select_trigger:hover {
+  background-color: rgba(212, 175, 55, 0.1);
+  border-color: var(--color-gold);
+}
+
+.ms_select_trigger.active {
+  border-color: var(--color-gold);
+  background-color: rgba(212, 175, 55, 0.15);
+}
+
+/* Texto seleccionado */
+#ms-selected-text {
+  color: var(--color-text-light);
+  font-size: 1em;
+  flex: 1;
+}
+
+/* Flecha del dropdown */
+.ms_select_arrow {
+  color: var(--color-text-light);
+  font-size: 12px;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+.ms_select_trigger.active .ms_select_arrow {
+  transform: rotate(180deg);
+}
+
+/* Lista de opciones (dropdown) */
+.ms_options_list {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  background-color: black;
+  border: 2px solid var(--color-text-light);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.ms_options_list.open {
+  max-height: 300px;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Opción individual */
+.ms_option {
+  padding: 10px 15px;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 15px;
+}
+
+.ms_option:last-child {
+  border-bottom: none;
+}
+
+.ms_option:hover {
+  background-color: var(--color-brown-transparent);
+  color: var(--color-gold);
+  padding-left: 20px;
+}
+
+.ms_option.selected {
+  background-color: var(--color-gold);
+  color: black;
+  font-weight: bold;
+}
+
+/* Estado deshabilitado */
+.ms_custom_select.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ms_custom_select {
+    min-width: 100px;
+  }
+
+  .ms_options_list {
+    width: 100%;
+  }
+}
+#ms-update-button {
+  display: flex;
+  align-items: center;
+  color: black;
+  background-color: var(--color-gold);
+  border: 3px solid black;
+  border-radius: 15px;
+  padding: 10px 15px;
+  gap: 5px;
+  font-weight: bolder;
+  font-size: 15px;
+}
+#ms-delete-button {
+  display: flex;
+  align-items: center;
+  color: black;
+  background-color: var(--np-buster);
+  border: 3px solid black;
+  border-radius: 15px;
+  padding: 10px 15px;
+  gap: 5px;
+  font-weight: bolder;
+  font-size: 15px;
+}
