@@ -11,17 +11,17 @@ import { populateEditServantModal } from './modals.js';
 let isUpdateModeActive = false;
 
 export function initUpdateMode() {
-    const updateButton = document.getElementById('ms-update-button');
+    // This function is kept for compatibility if needed, 
+    // but the event listener is now handled in pageController.js 
+    // or via the exported toggle function.
+}
 
-    if (!updateButton) return;
-
-    updateButton.addEventListener('click', () => {
-        if (isUpdateModeActive) {
-            deactivateUpdateMode();
-        } else {
-            activateUpdateMode();
-        }
-    });
+export function toggleUpdateMode() {
+    if (isUpdateModeActive) {
+        deactivateUpdateMode();
+    } else {
+        activateUpdateMode();
+    }
 }
 
 function activateUpdateMode() {
@@ -58,7 +58,9 @@ function activateUpdateMode() {
     });
 }
 
-function deactivateUpdateMode() {
+export function deactivateUpdateMode() {
+    if (!isUpdateModeActive) return; // Idempotent check
+
     isUpdateModeActive = false;
     const updateButton = document.getElementById('ms-update-button');
     const servantCards = document.querySelectorAll('.servant_box_container');

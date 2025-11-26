@@ -406,9 +406,6 @@
 .box_details_overlay.disabled {
   display: none !important;
 }
-  color: var(--color-gold);
-  padding-left: 20px;
-}
 
 .ms_option.selected {
   background-color: var(--color-gold);
@@ -432,27 +429,215 @@
     width: 100%;
   }
 }
-#ms-update-button {
-  display: flex;
-  align-items: center;
-  color: black;
-  background-color: var(--color-gold);
-  border: 3px solid black;
-  border-radius: 15px;
-  padding: 10px 15px;
-  gap: 5px;
-  font-weight: bolder;
-  font-size: 15px;
-}
+#ms-update-button,
 #ms-delete-button {
   display: flex;
   align-items: center;
   color: black;
-  background-color: var(--np-buster);
+
   border: 3px solid black;
   border-radius: 15px;
   padding: 10px 15px;
   gap: 5px;
   font-weight: bolder;
   font-size: 15px;
+  cursor: pointer;
+}
+#ms-update-button {
+  background-color: var(--color-gold);
+}
+#ms-delete-button {
+  background-color: var(--np-buster);
+}
+
+/* =========================================
+   DELETE MODE STYLES
+   ========================================= */
+
+/* Estado activo del modo eliminación */
+.servant_box_container.delete-mode-active {
+  cursor: not-allowed;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Efecto Hover en la tarjeta */
+.servant_box_container.delete-mode-active:hover .servant_box {
+  opacity: 0.4;
+  filter: grayscale(80%);
+  transform: scale(0.98);
+}
+
+/* Línea punteada horizontal con hueco central */
+.servant_box_container.delete-mode-active:hover::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  width: 90%;
+  height: 4px;
+  background-image: linear-gradient(
+    to right,
+    #ff4444 50%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: bottom;
+  background-size: 20px 4px;
+  background-repeat: repeat-x;
+  z-index: 10;
+  pointer-events: none;
+  mask-image: linear-gradient(
+    to right,
+    black 40%,
+    transparent 40%,
+    transparent 60%,
+    black 60%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black 40%,
+    transparent 40%,
+    transparent 60%,
+    black 60%
+  );
+}
+
+/* Icono de Prohibido (Google Icons) */
+.servant_box_container.delete-mode-active:hover::after {
+  content: "block";
+  font-family: "Material Icons";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 64px;
+  color: #ff4444;
+  z-index: 11;
+  pointer-events: none;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================
+   DELETE MODAL STYLES
+   ========================================= */
+
+.delete_modal {
+  border: 2px solid #ff4444;
+  text-align: center;
+  max-width: 450px;
+  width: 90%;
+  background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+  color: var(--text-primary);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.delete_modal h3 {
+  color: #ff4444;
+  margin-bottom: 1.5rem;
+  font-family: "MedievalSharp", cursive;
+  font-size: 1.8rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.delete_servant_preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 25px 0;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 68, 68, 0.3);
+}
+
+.delete_face_img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 3px solid var(--servant-theme);
+  object-fit: cover;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.delete_preview_info {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.servant_name_preview {
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: var(--color-gold);
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+}
+
+.servant_class_preview {
+  display: flex;
+  justify-content: center; /* Centrar icono si el contenedor es flex */
+  align-items: center;
+  margin-top: 5px;
+}
+
+.delete_class_icon {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.warning_text {
+  color: #ff6b6b;
+  font-style: italic;
+  margin-bottom: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.modal_actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.ms_btn {
+  border-radius: 15px; /* Aplicar a todos los botones del modal */
+  cursor: pointer;
+}
+
+#cancel-delete-btn {
+  background-color: var(--color-dark-blue);
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: 10px 25px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+#cancel-delete-btn:hover {
+  background-color: var(--color-gold);
+  color: var(--color-dark-blue);
+  box-shadow: 0 0 10px rgba(247, 183, 49, 0.4);
+}
+
+.ms_btn_danger {
+  background-color: rgba(255, 68, 68, 0.15);
+  color: #ff4444;
+  border: 1px solid #ff4444;
+  transition: all 0.3s ease;
+  padding: 10px 25px;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.ms_btn_danger:hover {
+  background-color: #ff4444;
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+  transform: translateY(-2px);
 }

@@ -31,6 +31,11 @@
       href="../static/icons/base-page/apple-touch-icon.png"
     />
     <link rel="manifest" href="../static/icons/base-page/site.webmanifest" />
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
@@ -226,6 +231,38 @@
       );
     </script>
 
+    <!-- Modals -->
+    <div id="auth-modal" class="modal_overlay hidden">
+      <!-- ...existing code... -->
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirm-modal" class="modal_overlay hidden">
+      <div class="modal_content delete_modal">
+        <h3>¿Eliminar Servant?</h3>
+        <div class="delete_servant_preview">
+          <img
+            id="delete-preview-img"
+            src=""
+            alt="Servant Face"
+            class="delete_face_img"
+          />
+          <div class="delete_preview_info">
+            <p id="delete-preview-name" class="servant_name_preview"></p>
+            <p id="delete-preview-class" class="servant_class_preview"></p>
+          </div>
+        </div>
+        <p class="warning_text">Esta acción no se puede deshacer.</p>
+        <div class="modal_actions">
+          <button id="cancel-delete-btn" class="ms_btn">Cancelar</button>
+          <button id="confirm-delete-btn" class="ms_btn ms_btn_danger">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="../static/js/config.js"></script>
     <script type="module" src="../static/main.js"></script>
   </body>
 </html>

@@ -4,8 +4,31 @@ import { fetchAllServants, fetchUserServants } from '../services/data.js';
 import { renderServants, renderMessage } from '../modules/uiRenderer.js';
 import { generarHTMLmis_servants, aplicarScrollDinamicoPorColumna } from '../ui/cards.js';
 import { populateAddServantModal } from '../ui/modals.js';
+import { toggleUpdateMode, deactivateUpdateMode } from '../ui/updateMode.js';
+import { toggleDeleteMode, deactivateDeleteMode } from '../ui/deleteMode.js';
 
 let currentAddButton = null;
+
+function inicializarControladoresDeModo() {
+    const updateBtn = document.getElementById('ms-update-button');
+    const deleteBtn = document.getElementById('ms-delete-button');
+
+    if (updateBtn) {
+        updateBtn.onclick = (e) => {
+            e.stopPropagation();
+            deactivateDeleteMode();
+            toggleUpdateMode();
+        };
+    }
+
+    if (deleteBtn) {
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation();
+            deactivateUpdateMode();
+            toggleDeleteMode();
+        };
+    }
+}
 
 function inicializarComponentesDinamicos() {
     const servantsContainer = document.getElementById("servants-container");
@@ -67,6 +90,8 @@ export async function cargarDatosDePagina(session) {
             servantsContainer.innerHTML = misServantsCompletos
                 .map(s => generarHTMLmis_servants(s))
                 .join('');
+
+            inicializarControladoresDeModo();
         }
 
         inicializarComponentesDinamicos();

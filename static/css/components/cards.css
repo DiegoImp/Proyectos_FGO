@@ -146,9 +146,9 @@
   padding: 16px;
   box-shadow: 10px 10px 8px rgba(0, 0, 0, 0.3);
   display: grid;
-  grid-template-columns: 1fr max-content 80px auto;
+  grid-template-columns: 1fr max-content 90px auto;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
   position: relative;
   overflow: visible;
   z-index: 2;
@@ -185,6 +185,8 @@
 .box_class_icon {
   width: 50px;
   height: 50px;
+  margin-right: 5px;
+  transform: translateX(-5px);
 }
 .card_rareza {
   color: white;
@@ -247,8 +249,8 @@
 .box_details_content {
   display: grid;
 
-  grid-template-columns: 1.52fr 1.4fr;
-  gap: 15px;
+  grid-template-columns: 50% 1fr;
+  gap: 10px;
   margin-bottom: 15px;
   text-align: left;
   align-items: stretch;
@@ -269,7 +271,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding-top: 12px;
+  padding: 12px 5px 0px;
 }
 
 .skill_row {
@@ -422,7 +424,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  padding: 5px 0;
+  padding: 4px 0;
 }
 
 .bond_label {
