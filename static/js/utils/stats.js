@@ -21,7 +21,13 @@ async function loadExpData() {
     }
 
     try {
-        const staticPath = getStaticPath();
+        let staticPath = getStaticPath();
+
+        // Fix for GitHub Pages: Ensure correct path resolution when in subdirectories
+        if (window.location.pathname.includes('/pages/') && (!staticPath || staticPath === '.')) {
+            staticPath = '..';
+        }
+
         const response = await fetch(`${staticPath}/static/data/mstSvtExp.json`);
         if (!response.ok) {
             throw new Error(`Failed to load exp data: ${response.statusText}`);

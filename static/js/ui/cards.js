@@ -3,7 +3,12 @@ import { getStaticPath, getCurrentPage } from '../utils/routing.js';
 import { capitalizeWords } from '../utils/format.js';
 import { loadExpData, calculateServantStats } from '../utils/stats.js';
 
-const staticPath = getStaticPath();
+let staticPath = getStaticPath();
+
+// Fix for GitHub Pages: Ensure correct path resolution when in subdirectories
+if (window.location.pathname.includes('/pages/') && (!staticPath || staticPath === '.')) {
+  staticPath = '..';
+}
 
 // Canvas global para mediciones de texto
 const canvas = document.createElement("canvas");
