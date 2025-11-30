@@ -3,6 +3,8 @@
  * Calculates HP and ATK for FGO servants at any level (1-120) using growth curve data
  */
 
+import { getStaticPath } from './routing.js';
+
 /**
  * Cached experience/curve data indexed by type and level
  * Structure: { [type]: { [level]: curveValue } }
@@ -19,7 +21,8 @@ async function loadExpData() {
     }
 
     try {
-        const response = await fetch('/static/data/mstSvtExp.json');
+        const staticPath = getStaticPath();
+        const response = await fetch(`${staticPath}/static/data/mstSvtExp.json`);
         if (!response.ok) {
             throw new Error(`Failed to load exp data: ${response.statusText}`);
         }
