@@ -19,6 +19,7 @@ class ServantFilterManager {
         this.container = document.getElementById("servants-container");
         this.searchInput = document.getElementById("search-servant-input");
         this.filterButton = document.getElementById("ms-filter-button");
+        this.favoritesToggle = document.getElementById("ms-favorites-toggle");
         this.filtersPanel = document.querySelector(".ms_filters");
         this.utilityContainer = document.querySelector(".utility_mis_servants_container");
 
@@ -34,7 +35,8 @@ class ServantFilterManager {
             activeClasses: [],
             activeNPs: [],
             sortBy: "level", // Por defecto ordenar por nivel
-            isFiltersOpen: false
+            isFiltersOpen: false,
+            showOnlyFavorites: false
         };
 
         // Cache de servants
@@ -46,11 +48,11 @@ class ServantFilterManager {
      */
     init() {
         this.setupFilterToggle();
+        this.setupFavoritesToggle();
         this.setupSearchInput();
         this.setupFilterButtons();
 
-        // Aplicar filtros iniciales
-        this.updateServantsList();
+        // Note: Initial sort is applied after servants are loaded in pageController
     }
 
     /**
@@ -75,6 +77,33 @@ class ServantFilterManager {
                     this.resetFilters();
                 }
             });
+        }
+    }
+
+    /**
+     * Configura el toggle de favoritos
+     */
+    setupFavoritesToggle() {
+        if (this.favoritesToggle) {
+            this.favoritesToggle.addEventListener("click", () => {
+                this.state.showOnlyFavorites = !this.state.showOnlyFavorites;
+
+                // Toggle visual state
+                if (this.state.showOnlyFavorites) {
+                    this.favoritesToggle.classList.remove("inactive");
+                    this.favoritesToggle.classList.add("active");
+                    this.favoritesToggle.title = "Mostrar todos los servants";
+                } else {
+                    this.favoritesToggle.classList.remove("active");
+                    this.favoritesToggle.classList.add("inactive");
+                    this.favoritesToggle.title = "Mostrar solo favoritos";
+                }
+
+                this.applyFiltersAndSort();
+            });
+
+            // Set initial state to inactive
+            this.favoritesToggle.classList.add("inactive");
         }
     }
 
@@ -154,7 +183,8 @@ class ServantFilterManager {
             npType: element.dataset.npType || "",
             level: parseInt(element.dataset.level) || 0,
             atk: parseInt(element.dataset.atk) || 0,
-            hp: parseInt(element.dataset.hp) || 0
+            hp: parseInt(element.dataset.hp) || 0,
+            favorite: element.dataset.favorite === 'true'
         }));
     }
 
@@ -166,6 +196,11 @@ class ServantFilterManager {
      */
     filterServants(servants) {
         return servants.filter(servant => {
+            // Filtro de favoritos (si está activo, solo mostrar favoritos)
+            if (this.state.showOnlyFavorites && !servant.favorite) {
+                return false;
+            }
+
             // Filtro de búsqueda por nombre (compara desde el inicio del string)
             const matchesSearch = this.state.searchText === "" ||
                 servant.name.startsWith(this.state.searchText);
@@ -197,6 +232,11 @@ class ServantFilterManager {
         const sortedServants = [...servants]; // Crear copia para no mutar original
 
         sortedServants.sort((a, b) => {
+            // Priority 1: Favorites always come first
+            if (a.favorite && !b.favorite) return -1;
+            if (!a.favorite && b.favorite) return 1;
+
+            // Priority 2: Apply selected sort criteria
             switch (this.state.sortBy) {
                 case "level":
                     return b.level - a.level; // Descendente

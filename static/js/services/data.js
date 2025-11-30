@@ -11,7 +11,7 @@ export async function fetchAllServants() {
 export async function fetchUserServants() {
     return await window.clienteSupabase
         .from('user_servants')
-        .select('servant_id, level, skill_1, skill_2, skill_3, np_level, bond_level');
+        .select('servant_id, level, skill_1, skill_2, skill_3, np_level, bond_level, is_favorite');
 }
 
 export async function fetchUserServantIds() {

@@ -86,6 +86,10 @@
 }
 
 .ms_filter_title:nth-child(3) {
+  min-width: 200px;
+}
+
+.ms_filter_title:nth-child(4) {
   flex: 1;
 }
 
@@ -114,8 +118,13 @@
 
 /* Grupo de NP */
 .ms_filter_group:nth-child(3) {
-  flex: 1;
+  min-width: 200px;
   gap: 10px;
+}
+
+/* Grupo de Favoritos */
+.ms_filter_group:nth-child(4) {
+  margin-left: auto;
 }
 
 /* Botones de rareza */
@@ -256,6 +265,46 @@
   color: var(--color-text-light);
   font-size: 15px;
 }
+/* Favorites filter button */
+.ms_favorites_filter {
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: black;
+}
+
+.ms_favorites_filter:hover {
+  border-color: var(--color-gold);
+  transform: translateY(-10%);
+  box-shadow: 0 0 8px rgba(247, 183, 49, 0.4);
+}
+
+.ms_favorites_filter.active {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  box-shadow: 0 0 10px rgba(247, 183, 49, 0.6);
+}
+
+.ms_favorites_filter.active i::before {
+  content: "\f005"; /* Solid star */
+}
+
+.ms_favorites_filter.inactive {
+  color: black;
+}
+
+.ms_favorites_filter.inactive i::before {
+  content: "\f005"; /* Solid star */
+}
+
 #ms-filter-button:hover {
   cursor: pointer;
   border-color: var(--color-gold);

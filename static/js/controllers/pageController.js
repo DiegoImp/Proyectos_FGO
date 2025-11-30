@@ -1,6 +1,6 @@
 
 import { getCurrentPage } from '../utils/routing.js';
-import { fetchAllServants, fetchUserServants } from '../services/data.js';
+import { fetchAllServants, fetchUserServants, updateServantData } from '../services/data.js';
 import { renderServants, renderMessage } from '../modules/uiRenderer.js';
 import { generarHTMLmis_servants, aplicarScrollDinamicoPorColumna } from '../ui/cards.js';
 import { populateAddServantModal } from '../ui/modals.js';
@@ -87,11 +87,18 @@ export async function cargarDatosDePagina(session) {
                 ...userSvt
             }));
 
-            servantsContainer.innerHTML = misServantsCompletos
-                .map(s => generarHTMLmis_servants(s))
-                .join('');
+            // Generate HTML for all servants (async)
+            const htmlPromises = misServantsCompletos.map(s => generarHTMLmis_servants(s));
+            const htmlArray = await Promise.all(htmlPromises);
+            servantsContainer.innerHTML = htmlArray.join('');
 
             inicializarControladoresDeModo();
+            inicializarFavoritosListeners();
+
+            // Apply initial sort by level after servants are loaded
+            if (window.servantFilterManager) {
+                window.servantFilterManager.applyFiltersAndSort();
+            }
         }
 
         inicializarComponentesDinamicos();
@@ -101,6 +108,49 @@ export async function cargarDatosDePagina(session) {
             renderMessage(servantsContainer, 'Error al cargar datos. Intenta recargar la página.', 'error');
         }
     }
+}
+
+/**
+ * Initialize favorite toggle listeners using event delegation
+ */
+function inicializarFavoritosListeners() {
+    const servantsContainer = document.getElementById("servants-container");
+    if (!servantsContainer) return;
+
+    servantsContainer.addEventListener('click', async (e) => {
+        const favoriteIcon = e.target.closest('.favorite_icon');
+        if (!favoriteIcon) return;
+
+        e.stopPropagation();
+
+        const servantId = parseInt(favoriteIcon.dataset.servantId);
+        const container = favoriteIcon.closest('.servant_box_container');
+        if (!container) return;
+
+        const currentFavoriteState = container.dataset.favorite === 'true';
+        const newFavoriteState = !currentFavoriteState;
+
+        // Optimistic UI update
+        favoriteIcon.classList.toggle('active', newFavoriteState);
+        container.dataset.favorite = newFavoriteState;
+
+        // Update in Supabase
+        const { error } = await updateServantData(servantId, { is_favorite: newFavoriteState });
+
+        if (error) {
+            console.error('❌ Error updating favorite status:', error);
+            // Revert UI on error
+            favoriteIcon.classList.toggle('active', !newFavoriteState);
+            container.dataset.favorite = !newFavoriteState;
+        } else {
+            console.log(`✅ Favorite status updated for servant ${servantId}: ${newFavoriteState}`);
+
+            // Reapply filters and sorting to move favorites to top
+            if (window.servantFilterManager) {
+                window.servantFilterManager.applyFiltersAndSort();
+            }
+        }
+    });
 }
 
 export function getCurrentAddButton() {

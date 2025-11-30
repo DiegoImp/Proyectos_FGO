@@ -1,6 +1,7 @@
 
 import { getStaticPath, getCurrentPage } from '../utils/routing.js';
 import { capitalizeWords } from '../utils/format.js';
+import { loadExpData, calculateServantStats } from '../utils/stats.js';
 
 const staticPath = getStaticPath();
 
@@ -40,7 +41,15 @@ export function getScrollClass(textWidth, containerWidth) {
   return "scroll_extreme";
 }
 
-export function generarHTMLmis_servants(servant) {
+export async function generarHTMLmis_servants(servant) {
+  // Load exp data if not already loaded
+  await loadExpData();
+
+  // Calculate current stats based on level and growth curve
+  const stats = calculateServantStats(servant, servant.level);
+  const currentAtk = stats ? stats.atk : servant.atkMin;
+  const currentHp = stats ? stats.hp : servant.hpMin;
+
   let estrellasHTML = '';
   if (servant.rarity === 0 && servant.type !== 'enemyCollectionDetail') {
     estrellasHTML = '<span class="rarity-0">★</span>';
@@ -84,6 +93,9 @@ export function generarHTMLmis_servants(servant) {
   const bondIconHTML = `<img src="${staticPath}/static/icons/mis-servants/img_bondsgage_${bondIconNumber}.png" alt="Bond ${bondLevel}" class="bond_level_icon">`;
   const bondMaxLevel = bondLevel > 10 ? 15 : 10;
 
+  // Favorite icon classes
+  const favoriteClass = servant.is_favorite ? 'active' : '';
+
   return `
     <div class="servant_box_container" data-np-type="${servant.np.type}"
     data-class="${(servant.className || 'unknown').toLowerCase()}" 
@@ -100,14 +112,18 @@ export function generarHTMLmis_servants(servant) {
          data-skill-1="${servant.skill_1 || 1}"
          data-skill-2="${servant.skill_2 || 1}"
          data-skill-3="${servant.skill_3 || 1}"
-         data-atk="${servant.atk}"
-          data-hp="${servant.hp}">
+         data-atk="${currentAtk}"
+         data-hp="${currentHp}"
+         data-favorite="${!!servant.is_favorite}">
       <div class="servant_box">
+      <div class="favorite_icon ${favoriteClass}" data-servant-id="${servant.id}" title="Toggle Favorite">
+        <i class="fas fa-star"></i>
+      </div>
       <div class="box_name">
         <span>${servant.name}</span>
         <div class="box_stats">
-          <span>ATK: 1200</span>
-          <span>HP: 1200</span>
+          <span>ATK: ${currentAtk}</span>
+          <span>HP: ${currentHp}</span>
         </div>
       </div>
       <img src="${staticPath}/static/classes/${(servant.className || 'unknown').toLowerCase()}.png" class="box_class_icon">
