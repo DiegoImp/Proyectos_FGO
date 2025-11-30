@@ -156,6 +156,12 @@
 
   display: block;
 }
+
+/* Ensure .hidden class overrides display for modals */
+#auth-modal.hidden,
+#welcome-message.hidden {
+  display: none !important;
+}
 #welcome-message {
   display: flex;
   flex-direction: column;

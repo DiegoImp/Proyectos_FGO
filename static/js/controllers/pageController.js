@@ -117,6 +117,10 @@ function inicializarFavoritosListeners() {
     const servantsContainer = document.getElementById("servants-container");
     if (!servantsContainer) return;
 
+    // Prevent duplicate listeners
+    if (servantsContainer.dataset.favoritesListenerAttached) return;
+    servantsContainer.dataset.favoritesListenerAttached = "true";
+
     servantsContainer.addEventListener('click', async (e) => {
         const favoriteIcon = e.target.closest('.favorite_icon');
         if (!favoriteIcon) return;
