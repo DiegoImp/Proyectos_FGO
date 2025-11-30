@@ -35,8 +35,12 @@ export function initAuthUI() {
                 authError.textContent = "Usuario o contraseña incorrectos.";
                 authError.classList.remove('hidden');
             } else {
-                if (welcomeMessage) welcomeMessage.classList.remove('hidden');
-                if (AuthModal) AuthModal.classList.add('hidden');
+                // Re-query elements to ensure we have current DOM references
+                const currentAuthModal = document.getElementById("auth-modal");
+                const currentWelcomeMessage = document.getElementById("welcome-message");
+
+                if (currentWelcomeMessage) currentWelcomeMessage.classList.remove('hidden');
+                if (currentAuthModal) currentAuthModal.classList.add('hidden');
             }
         });
     }
